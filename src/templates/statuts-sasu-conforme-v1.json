@@ -1,0 +1,324 @@
+{
+  "formeJuridique": "SASU",
+  "titre": "STATUTS CONSTITUTIFS",
+  "enTete": {
+    "variants": [
+      {
+        "condition": "true",
+        "texte": "{{denomination}}\nSociété par actions simplifiée\nAu capital de {{capitalSocialChiffres}} euros\nSiège social : {{siegeSocial}}\nSociété en cours de constitution\n\nStatuts constitutifs"
+      }
+    ]
+  },
+  "preambule": {
+    "variants": [
+      {
+        "condition": "associeType === 'PERSONNE_PHYSIQUE'",
+        "texte": "Le soussigné :\n\n{{associePrenom}} {{associeNom}}, demeurant au {{associeAdresse}}, né(e) le {{associeDateNaissance}} à {{associeLieuNaissance}}, {{associeNationalite}},\n\nA établi ainsi qu'il suit les statuts d'une société par actions simplifiée qu'il a décidé d'instituer :"
+      },
+      {
+        "condition": "associeType === 'PERSONNE_MORALE'",
+        "texte": "Le soussigné :\n\n{{associeSocieteNom}}, société {{associeSocieteFormeJuridique}} au capital de {{associeSocieteCapital}} euros, dont le siège social est situé {{associeSocieteSiege}}, immatriculée au Registre du commerce et des sociétés sous le numéro {{associeSocieteNumeroRCS}} RCS {{associeSocieteRCS}}, représentée par {{associeRepresentantPrenom}} {{associeRepresentantNom}}, agissant en sa qualité de {{associeRepresentantQualite}},\n\nA établi ainsi qu'il suit les statuts d'une société par actions simplifiée qu'il a décidé d'instituer :"
+      }
+    ]
+  },
+  "articles": [
+    {
+      "numero": 1,
+      "titre": "Forme",
+      "contenu": "La société est une société par actions simplifiée régie par les dispositions légales et réglementaires en vigueur applicables à cette forme sociale ainsi que par les présents statuts.\nElle fonctionne indifféremment sous la même forme avec un ou plusieurs associés.\nElle ne peut procéder à une offre au public de titres financiers ou à l'admission aux négociations sur un marché réglementé de ses actions.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 2,
+      "titre": "Objet",
+      "contenu": "La société a pour objet, en France et dans tous pays :\n{{objetSocial}},\nEt, d'une façon générale, toutes opérations commerciales, industrielles, immobilières, mobilières ou financières se rapportant directement ou indirectement ou pouvant être utiles à cet objet ou à tous objets similaires ou connexes, ou susceptibles d'en faciliter la réalisation.\nLa société peut prendre toutes participations et tous intérêts dans toutes sociétés et entreprises dont l'activité serait de nature à faciliter la réalisation de son objet social.\nElle peut agir directement ou indirectement, soit seule, soit en association, participation, groupement ou société, avec toutes autres personnes ou sociétés et réaliser sous quelque forme que ce soit les opérations entrant dans son objet.",
+      "variables": ["objetSocial"],
+      "obligatoire": true
+    },
+    {
+      "numero": 3,
+      "titre": "Dénomination sociale",
+      "contenu": "La société a pour dénomination sociale : {{denomination}}{{#if sigle}} ({{sigle}}){{/if}}.\nTous actes et documents émanant de la société et destinés aux tiers doivent indiquer la dénomination sociale, précédée ou suivie immédiatement et lisiblement des mots « société par actions simplifiée » ou des initiales « SAS » et de l'énonciation du capital social.",
+      "variables": ["denomination", "sigle"],
+      "obligatoire": true
+    },
+    {
+      "numero": 4,
+      "titre": "Siège social",
+      "contenu": "Le siège social est fixé : {{siegeSocial}}.\nIl peut être transféré en tous lieux en France par décision de l'associé unique.\nSi la société vient à comporter plusieurs associés, le transfert du siège social dans le même département ou dans un département limitrophe peut être décidé par le Président. Dans tous les autres cas, le transfert du siège social résulte d'une décision collective des associés.",
+      "variables": ["siegeSocial"],
+      "obligatoire": true
+    },
+    {
+      "numero": 5,
+      "titre": "Durée",
+      "contenu": "La durée de la société est fixée à {{duree}} ans à compter de son immatriculation au Registre du commerce et des sociétés, sauf prorogation ou dissolution anticipée.\nLa décision de prorogation de la durée de la société est prise par décision de l'associé unique ou par décision collective des associés.",
+      "variables": ["duree"],
+      "obligatoire": true,
+      "observations": "Durée maximale : 99 ans."
+    },
+    {
+      "numero": 6,
+      "titre": "Apports",
+      "contenu": "",
+      "variants": [
+        {
+          "condition": "typeApport === 'NUMERAIRE_TOTAL'",
+          "contenu": "6.1 Apport en numéraire\n\nA la constitution de la société, l'associé unique, soussigné, a apporté une somme en numéraire de {{montantApportNumeraire}} euros correspondant à {{nombreActionsNumeraire}} actions, d'une valeur nominale de {{valeurNominale}} euros chacune, souscrites en totalité et intégralement libérées, ainsi que l'atteste le certificat établi le {{dateDepotFonds}} par la banque {{etablissementDepot}}, certifiant que la somme de {{montantApportNumeraire}} euros a été déposée pour le compte de la société en formation auprès de la banque susvisée.\n\n6.3 Récapitulation des apports\n\nL'ensemble des apports effectués à la société s'élève à la somme de {{montantApportNumeraire}} € représentant :\n1. Les apports en numéraire pour un montant total de {{montantApportNumeraire}} €.\n\nTotal égal au montant du capital social {{montantApportNumeraire}} €.",
+          "variables": ["montantApportNumeraire", "nombreActionsNumeraire", "valeurNominale", "dateDepotFonds", "etablissementDepot"]
+        },
+        {
+          "condition": "typeApport === 'NUMERAIRE_PARTIEL'",
+          "contenu": "6.1 Apport en numéraire\n\nA la constitution de la société, l'associé unique, soussigné, a apporté une somme en numéraire de {{montantApportNumeraire}} euros correspondant à {{nombreActionsNumeraire}} actions, d'une valeur nominale de {{valeurNominale}} euros chacune, souscrites en totalité et libérées à concurrence de {{pourcentageLibere}}%, ainsi que l'atteste le certificat établi le {{dateDepotFonds}} par la banque {{etablissementDepot}}, certifiant que la somme de {{montantLibere}} euros a été déposée pour le compte de la société en formation auprès de la banque susvisée.\n\n6.3 Récapitulation des apports\n\nL'ensemble des apports effectués à la société s'élève à la somme de {{montantApportNumeraire}} € représentant :\n1. Les apports en numéraire pour un montant total de {{montantApportNumeraire}} €.\n\nTotal égal au montant du capital social {{montantApportNumeraire}} €.",
+          "variables": ["montantApportNumeraire", "nombreActionsNumeraire", "valeurNominale", "pourcentageLibere", "montantLibere", "dateDepotFonds", "etablissementDepot"]
+        },
+        {
+          "condition": "typeApport === 'NATURE_SEUL'",
+          "contenu": "6.2 Apport en nature\n\nA la constitution de la société, l'associé unique, soussigné, a apporté à la société sous les garanties ordinaires et de droit en pareille matière :\n\nDésignation : {{descriptionBiensNature}}.\n\nÉvaluation : l'évaluation des biens ci-avant désignés a été {{#if commissaireAuxApports}}réalisée au vu du rapport de {{commissaireAuxApportsNom}}, commissaire aux apports, établi sous sa responsabilité le {{dateRapportCAA}} et déposé, conformément à la loi, à l'adresse du siège social 3 jours au moins avant la signature des statuts{{else}}réalisée sous la seule responsabilité de l'associé fondateur, qui se dispense de recourir à un commissaire aux apports, conformément à la faculté offerte par l'article L. 227-1 du code de commerce et aux conditions posées par ce même article ainsi que par l'article D. 227-3 du code de commerce{{/if}}.\n\n6.3 Récapitulation des apports\n\nL'ensemble des apports effectués à la société s'élève à la somme de {{valeurApportNature}} € représentant :\n1. Les apports en nature évalués pour un montant total de {{valeurApportNature}} €.\n\nTotal égal au montant du capital social {{valeurApportNature}} €.",
+          "variables": ["descriptionBiensNature", "valeurApportNature", "commissaireAuxApports", "commissaireAuxApportsNom", "dateRapportCAA"]
+        },
+        {
+          "condition": "typeApport === 'MIXTE_NUMERAIRE_NATURE'",
+          "contenu": "6.1 Apport en numéraire\n\nA la constitution de la société, l'associé unique, soussigné, a apporté une somme en numéraire de {{montantApportNumeraire}} euros correspondant à {{nombreActionsNumeraire}} actions, d'une valeur nominale de {{valeurNominale}} euros chacune, souscrites en totalité et intégralement libérées, ainsi que l'atteste le certificat établi le {{dateDepotFonds}} par la banque {{etablissementDepot}}, certifiant que la somme de {{montantApportNumeraire}} euros a été déposée pour le compte de la société en formation auprès de la banque susvisée.\n\n6.2 Apport en nature\n\nA la constitution de la société, l'associé unique, soussigné, a apporté à la société sous les garanties ordinaires et de droit en pareille matière :\n\nDésignation : {{descriptionBiensNature}}.\n\nÉvaluation : l'évaluation des biens ci-avant désignés a été {{#if commissaireAuxApports}}réalisée au vu du rapport de {{commissaireAuxApportsNom}}, commissaire aux apports, établi sous sa responsabilité le {{dateRapportCAA}} et déposé, conformément à la loi, à l'adresse du siège social 3 jours au moins avant la signature des statuts{{else}}réalisée sous la seule responsabilité de l'associé fondateur, qui se dispense de recourir à un commissaire aux apports, conformément à la faculté offerte par l'article L. 227-1 du code de commerce et aux conditions posées par ce même article ainsi que par l'article D. 227-3 du code de commerce{{/if}}.\n\n6.3 Récapitulation des apports\n\nL'ensemble des apports effectués à la société s'élève à la somme de {{montantTotalApports}} € représentant :\n1. Les apports en numéraire pour un montant total de {{montantApportNumeraire}} €.\n2. Les apports en nature évalués pour un montant total de {{valeurApportNature}} €.\n\nTotal égal au montant du capital social {{montantTotalApports}} €.",
+          "variables": ["montantApportNumeraire", "nombreActionsNumeraire", "valeurNominale", "dateDepotFonds", "etablissementDepot", "descriptionBiensNature", "valeurApportNature", "commissaireAuxApports", "commissaireAuxApportsNom", "dateRapportCAA", "montantTotalApports"]
+        }
+      ],
+      "obligatoire": true
+    },
+    {
+      "numero": 7,
+      "titre": "Capital social",
+      "contenu": "Le capital social est fixé à {{capitalSocial}} euros divisé en {{nombreActions}} actions de {{valeurNominale}} euros de valeur nominale chacune, {{#if liberationPartielle}}libérées à concurrence de {{pourcentageLibere}}%{{else}}intégralement libérées{{/if}} de même catégorie.",
+      "variables": ["capitalSocial", "nombreActions", "valeurNominale", "liberationPartielle", "pourcentageLibere"],
+      "obligatoire": true
+    },
+    {
+      "numero": 8,
+      "titre": "Modifications du capital",
+      "contenu": "Le capital social peut être augmenté ou réduit dans les conditions prévues par la loi, par décision de l'associé unique ou, le cas échéant, la collectivité des associés.\nL'associé unique ou, le cas échéant, la collectivité des associés peut déléguer au Président les pouvoirs nécessaires à l'effet de réaliser, dans les conditions fixées par les dispositions légales et réglementaires en vigueur, une augmentation ou une réduction du capital.\nEn cas d'augmentation de capital par émission d'actions à souscrire en numéraire, un droit de préférence à la souscription de ces actions est réservé aux propriétaires des actions existantes au prorata de leur participation dans le capital de la société. Toutefois, les associés peuvent renoncer à ce droit préférentiel de souscription, à titre individuel ou en tout ou partie par une décision collective des associés, dans les conditions fixées par les dispositions légales et réglementaires en vigueur.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 9,
+      "titre": "Forme des actions",
+      "contenu": "Les actions sont obligatoirement nominatives.\nLa propriété des actions résulte de leur inscription au nom du ou des titulaires sur des comptes et registres tenus à cet effet par la société.\nUne attestation d'inscription en compte est délivrée par la société à tout associé qui en fait la demande.\nLes actions sont indivisibles à l'égard de la société.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 10,
+      "titre": "Droits et obligations attachés aux actions",
+      "contenu": "Chaque action donne droit, dans les bénéfices, l'actif social et le boni de liquidation, à une part proportionnelle à la quotité du capital qu'elle représente.\nL'associé unique ou les associés ne supportent le passif social qu'à concurrence du montant de leurs apports.\nLes droits et obligations attachés à l'action suivent le titre dans quelque main qu'il passe.\nLa propriété d'une action emporte de plein droit adhésion aux statuts et aux décisions de l'associé unique ou de la collectivité des associés.\nChaque action donne droit au vote et à la représentation lors des décisions collectives, ainsi que d'être informé sur la marche de la société et d'obtenir communication des documents sociaux expressément prévus par la loi et par les statuts. Chaque fois qu'il sera nécessaire de posséder plusieurs actions pour exercer un droit quelconque, le ou les propriétaires d'actions isolées ou en nombre inférieur à celui requis ne pourront exercer ce droit qu'à la condition de faire leur affaire personnelle du groupement et, éventuellement, de l'achat ou de la vente d'actions nécessaires.\nSauf convention contraire notifiée à la société, le droit de vote appartient au nu-propriétaire, sauf pour les décisions concernant l'affectation des résultats où il est réservé à l'usufruitier. Le nu-propriétaire et l'usufruitier ont le droit de participer à toutes les décisions collectives.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 11,
+      "titre": "Transmission des actions",
+      "variants": [
+        {
+          "condition": "regimeCessionActions === 'LIBRE'",
+          "contenu": "Toute cession d'actions est libre et le demeurera même si la société perd son caractère unipersonnel.\n\nLe transfert de propriété des actions résulte de leur inscription au compte du cessionnaire. Leur transmission s'opère à l'égard de la société et des tiers par un virement du compte du cédant au compte du cessionnaire, sur production d'un ordre de mouvement. Ce mouvement est inscrit sur un registre coté et paraphé, tenu chronologiquement, dénommé « registre des mouvements de titres ».\nLa société est tenue de procéder à cette inscription et à ce virement dès réception de l'ordre de mouvement.\nL'ordre de mouvement, établi sur un formulaire fourni ou agréé par la société, est signé par le cédant ou son mandataire.\nLes actions peuvent être données à bail au profit d'une personne physique dans le respect des dispositions légales et réglementaires en vigueur."
+        },
+        {
+          "condition": "regimeCessionActions === 'AGREMENT_PLURIPERSONNELLE'",
+          "contenu": "La cession d'actions est libre tant que la société demeure unipersonnelle. Si la société perd son caractère unipersonnel, toute cession d'actions sera soumise à la procédure d'agrément prévue à l'article 12 des présents statuts.\n\nLe transfert de propriété des actions résulte de leur inscription au compte du cessionnaire. Leur transmission s'opère à l'égard de la société et des tiers par un virement du compte du cédant au compte du cessionnaire, sur production d'un ordre de mouvement. Ce mouvement est inscrit sur un registre coté et paraphé, tenu chronologiquement, dénommé « registre des mouvements de titres ».\nLa société est tenue de procéder à cette inscription et à ce virement dès réception de l'ordre de mouvement.\nL'ordre de mouvement, établi sur un formulaire fourni ou agréé par la société, est signé par le cédant ou son mandataire.\nLes actions peuvent être données à bail au profit d'une personne physique dans le respect des dispositions légales et réglementaires en vigueur."
+        }
+      ],
+      "obligatoire": true
+    },
+    {
+      "numero": 12,
+      "titre": "Agrément",
+      "contenu": "12.1 Champ d'application\n\nEn cas de pluralité d'associés, les actions de la société ne peuvent être cédées, directement ou indirectement, à quelque titre que ce soit, y compris entre associés, qu'après obtention de l'agrément des associés, donné par décision collective adoptée à {{majoriteAgrement}}.\n\n12.2 Procédure\n\nLa demande d'agrément doit être notifiée au Président par lettre recommandée avec demande d'accusé de réception. Elle indique le nombre d'actions dont la cession est envisagée, le prix de cession, les conditions de la vente, les nom, prénoms et adresse de l'acquéreur s'il s'agit d'une personne physique, ou les informations suivantes s'il s'agit d'une personne morale : dénomination, forme, siège social, numéro d'immatriculation au Registre du commerce et des sociétés, identité des dirigeants, montant et répartition du capital.\n\nLe Président notifie cette demande d'agrément aux associés.\n\nLa décision des associés sur l'agrément doit intervenir dans un délai de trois (3) mois à compter de la notification au Président de la demande d'agrément visée ci-dessus. Elle est notifiée au cédant par lettre recommandée avec demande d'accusé de réception.\n\nSi aucune réponse n'est intervenue à l'expiration du délai ci-dessus, l'agrément est réputé acquis.\n\nLes décisions d'agrément ou de refus d'agrément n'ont pas à être motivées.\n\nEn cas d'agrément, la cession projetée est réalisée par l'associé cédant aux conditions notifiées dans sa demande d'agrément. Le transfert des actions au profit du cessionnaire agréé doit être réalisé dans les trente (30) jours de la notification de la décision d'agrément ; à défaut de réalisation du transfert des actions dans ce délai, l'agrément sera caduc.\n\n12.3 Refus d'agrément\n\nEn cas de refus d'agrément, la société doit dans un délai de trois (3) mois à compter de la décision de refus d'agrément, acquérir ou faire acquérir les actions de l'associé cédant soit par des associés, soit par des tiers.\n\nLorsque la société procède au rachat des actions de l'associé, elle est tenue dans les six (6) mois de ce rachat de les céder ou de les annuler.\n\nLe prix de rachat des actions est ainsi déterminé : {{modalitesPrixRachat}}. A défaut d'accord sur le prix de rachat, celui-ci est fixé par un expert désigné soit par les parties, soit, à défaut d'accord entre elles, conformément à l'article 1843-4 du code civil, sur simple requête de la partie la plus diligente. Cet expert est tenu de respecter les règles de détermination du prix de rachat énoncées ci-dessus.",
+      "variables": ["majoriteAgrement", "modalitesPrixRachat"],
+      "obligatoire": false,
+      "observations": "Cet article doit être supprimé si l'article 11 prévoit que la cession d'actions demeurera libre en cas de pluralité d'associés."
+    },
+    {
+      "numero": 13,
+      "titre": "Président de la société",
+      "contenu": "La société est représentée, dirigée et administrée par un Président, personne morale ou physique, associé ou non de la société.\n\nLe Président personne morale est représenté par ses dirigeants sociaux ou toute autre personne physique spécialement habilitée à le représenter. Lorsqu'une personne morale est nommée Président, ses dirigeants sont soumis aux mêmes conditions et obligations et encourent les mêmes responsabilités civile et pénale que s'ils étaient Président en leur nom propre, sans préjudice de la responsabilité solidaire de la personne morale qu'ils dirigent.\n\nLe Président est nommé par l'associé unique ou par décision collective des associés.\n\n{{#if presidentDansStatuts}}Le premier Président est {{presidentPrenom}} {{presidentNom}}, né(e) le {{presidentDateNaissance}} à {{presidentLieuNaissance}}, de nationalité {{presidentNationalite}}, demeurant au {{presidentAdresse}}, {{#if presidentEstAssocie}}associé unique{{else}}désigné par l'associé unique{{/if}}.{{/if}}\n\nLe Président est nommé sans limitation de durée. Il peut démissionner de ses fonctions à charge pour lui d'en prévenir l'associé unique ou les associés {{delaiPreavisPresident}} mois au moins à l'avance.\n\nLe Président est révocable {{modeRevocationPresident}}, sans préavis, par décision de l'associé unique ou, le cas échéant, par décision de la collectivité des associés. Ses fonctions peuvent également prendre fin par sa démission, son interdiction de gérer, son incapacité ou sa révocation, son décès s'il est une personne physique, sa dissolution s'il est une personne morale, ou par la transformation ou la dissolution de la société. La fin des fonctions du Président, pour quelque motif que ce soit, ne donnera droit à aucune indemnité.\n\nLa rémunération du Président est fixée par décision de l'associé unique ou par décision collective des associés.\n\nLe Président dirige la société et la représente à l'égard des tiers. A ce titre, il est investi de tous les pouvoirs nécessaires pour agir en toutes circonstances au nom de la société, dans la limite de l'objet social et des pouvoirs expressément dévolus par la loi et les présents statuts à l'associé unique ou aux décisions collectives des associés.\n\nLa société est engagée même par les actes du Président qui ne relèvent pas de l'objet social, à moins qu'elle ne prouve que le tiers savait que l'acte dépassait cet objet ou qu'il ne pouvait l'ignorer compte tenu des circonstances, la seule publication des statuts ne suffisant pas à constituer cette preuve.\n\nLe Président est autorisé à déléguer à toute personne de son choix, avec ou sans faculté de subdéléguer, certains de ses pouvoirs pour l'exercice de fonctions spécifiques ou pour l'accomplissement d'une ou plusieurs opérations ou catégories d'opérations déterminées.",
+      "variables": ["presidentDansStatuts", "presidentPrenom", "presidentNom", "presidentDateNaissance", "presidentLieuNaissance", "presidentNationalite", "presidentAdresse", "presidentEstAssocie", "delaiPreavisPresident", "modeRevocationPresident"],
+      "obligatoire": true
+    },
+    {
+      "numero": 14,
+      "titre": "Comité social et économique",
+      "contenu": "Si un comité social et économique est institué, les délégués de ce comité exercent les droits qui leur sont attribués par la loi auprès du Président.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 15,
+      "titre": "Commissaires aux comptes",
+      "contenu": "L'associé unique ou, le cas échéant, la collectivité des associés est tenu(e) de désigner un ou plusieurs commissaires aux comptes dès lors qu'une telle nomination s'avère obligatoire en vertu des dispositions légales et réglementaires.{{#if commissairesDesignes}}\n\nSont désignés en qualité de premiers commissaires aux comptes de la société, pour une durée de {{dureeCommissaires}} exercices, leurs fonctions expirant à l'issue de la décision d'approbation des comptes de l'exercice clos le {{dateFinMandatCAC}} :\n- {{commissaireTitulaireNom}}, {{commissaireTitulaireAdresse}}, commissaire aux comptes titulaire, et\n{{#if commissaireSuppleantNom}}- {{commissaireSuppléantNom}}, {{commissaireSuppléantAdresse}}, commissaire aux comptes suppléant,{{/if}}\n\nLesquels ont, chacun en ce qui le concerne, accepté par avance lesdites fonctions et déclaré n'être dans aucune situation d'incompatibilité ou d'interdiction prévues par la loi.{{/if}}",
+      "variables": ["commissairesDesignes", "dureeCommissaires", "dateFinMandatCAC", "commissaireTitulaireNom", "commissaireTitulaireAdresse", "commissaireSuppléantNom", "commissaireSuppléantAdresse"],
+      "obligatoire": true
+    },
+    {
+      "numero": 16,
+      "titre": "Conventions entre la société et les dirigeants",
+      "contenu": "Lorsque la société ne compte qu'un associé unique, les conventions intervenues directement ou par personnes interposées entre la société et son dirigeant, son associé unique ou, s'il s'agit d'une société associée, la société la contrôlant au sens de l'article L. 233-3 du code de commerce, doivent être mentionnées au registre des décisions de l'associé unique.\n\nLorsque la société comporte plusieurs associés, la procédure de contrôle est celle prévue par l'article L. 227-10, alinéas 1 et 2 du code de commerce.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 17,
+      "titre": "Décisions de l'associé unique ou des associés",
+      "contenu": "17.1 Décisions de l'associé unique\n\nL'associé unique exerce les pouvoirs qui sont dévolus par la loi à la collectivité des associés lorsque la société comporte plusieurs associés.\n\nL'associé unique prend les décisions concernant les opérations suivantes :\n- approbation des comptes annuels et affectation des résultats ;\n- nomination, rémunération et révocation du Président ;\n- nomination des commissaires aux comptes ;\n- dissolution de la société ;\n- augmentation du capital ;\n- réduction du capital ;\n- fusion, scission et apport partiel d'actif ;\n- toutes autres modifications statutaires.\n\nToutes les autres décisions sont de la compétence du Président.\n\nLes décisions de l'associé unique sont constatées dans un registre côté et paraphé.\n\n17.2 Décisions collectives des associés\n\nSi la société comporte plusieurs associés, les seules décisions qui relèvent de leur compétence sont celles visées à l'article 17.1 ci-dessus et celles pour lesquelles la loi et les présents statuts imposent une décision collective des associés. Toutes les autres décisions relèvent de la compétence du Président.\n\nLes décisions collectives ne peuvent être adoptées que si les associés présents, représentés ou prenant part au vote par tout autre moyen possèdent au moins {{quorumDecisions}} des droits de vote.\n\nSous réserve des décisions requérant l'unanimité en application de dispositions légales particulières ou des dispositions des présents statuts requérant une majorité spécifique, les décisions collectives sont adoptées à la majorité des voix dont disposent les associés présents, représentés ou prenant part au vote par tout autre moyen.",
+      "variables": ["quorumDecisions"],
+      "obligatoire": true
+    },
+    {
+      "numero": 18,
+      "titre": "Modalités de consultation des associés",
+      "contenu": "18.1 Auteur de la consultation\n\nLes décisions collectives des associés sont prises aussi souvent que l'intérêt de la société l'exige à l'initiative du Président ou de tout associé.\n\nDans le cas où la société ne comprend qu'un seul associé, celui-ci peut, à tout moment, prendre toute décision de sa compétence, sous réserve d'en avertir préalablement le Président et le commissaire aux comptes, avec le cas échéant un préavis suffisant pour permettre la préparation et la communication des rapports, avis, observations ou informations requis par la loi ou par les statuts.\n\nAu choix de l'initiateur de la consultation, les décisions des associés sont prises en assemblée générale, par consultation écrite ou par un acte sous seing privé signé par tous les associés.\n\nTous moyens de communication, en ce compris la conférence téléphonique ou la visioconférence, peuvent être utilisés pour l'expression des décisions.\n\n18.2 Consultation en assemblée\n\nL'assemblée est réunie en France ou à l'étranger, à l'endroit indiqué dans la convocation. La convocation est faite par tous moyens écrits {{delaiConvocationAssemblee}} jours au moins avant la date de la réunion.\n\nLorsque tous les associés sont présents ou représentés, l'assemblée peut valablement se réunir sans délai. Dans ce cas, le commissaire aux comptes doit être présent ou avoir indiqué qu'il a été dûment informé de ladite assemblée mais qu'il n'est pas en mesure d'y participer.\n\nL'assemblée est présidée par le Président. A défaut, l'assemblée élit son Président de séance.\n\n18.3 Consultation écrite\n\nEn cas de consultation écrite, l'auteur de la consultation communique par tous moyens écrits à tous les associés, au commissaire aux comptes titulaire, et au Président s'il n'est pas l'auteur, l'ordre du jour de la consultation et le texte des résolutions proposées.\n\nLes associés disposent d'un délai de {{delaiConsultationEcrite}} jours à compter de la communication de l'ordre du jour pour émettre leur vote et l'adresser par tous moyens écrits au Président.\n\n18.4 Décisions par acte sous seing privé\n\nLorsque les décisions collectives des associés résultent du consentement unanime de tous les associés exprimé dans un acte écrit, celui-ci devra être signé par l'ensemble des associés et il en sera fait mention dans le registre des procès-verbaux des décisions des associés.\n\n18.5 Vote\n\nChaque associé a le droit de participer aux décisions collectives par lui-même ou par mandataire. Chaque action donne droit à une voix, de sorte que le droit de vote attaché aux actions est proportionnel à la quotité de capital qu'elles représentent.\n\nLe vote transmis par chacun des associés est définitif. Tout associé qui s'abstient d'émettre un vote sur une résolution ou ne transmet pas son vote dans le délai indiqué ci-dessus en cas de consultation écrite est réputé avoir émis un vote négatif sur la résolution proposée.\n\n18.6 Constatation des décisions collectives\n\nLes décisions collectives d'associés sont constatées par un procès-verbal établi et signé par {{signatairePV}}, lequel mentionne la communication préalable de l'ensemble des informations et documents permettant aux associés de se prononcer en connaissance de cause.\n\nEn cas de consultation organisée autrement qu'en assemblée, le Président doit informer chacun des associés du résultat de cette consultation, par tous moyens écrits, au plus tard dans les {{delaiInformationResultat}} jours de la date de la décision collective.\n\nDoivent être annexés aux procès-verbaux les pouvoirs des associés dans le cas où ils ne seraient pas représentés par leur représentant légal.\n\nCes procès-verbaux sont consignés dans un registre spécial tenu au siège social.",
+      "variables": ["delaiConvocationAssemblee", "delaiConsultationEcrite", "signatairePV", "delaiInformationResultat"],
+      "obligatoire": true
+    },
+    {
+      "numero": 19,
+      "titre": "Exercice social",
+      "contenu": "L'exercice social commence le {{exerciceDebut}} et se termine le {{exerciceFin}} de chaque année.\nPar exception, le premier exercice social débutera à la date d'immatriculation de la société au Registre du commerce et des sociétés et prendra fin le {{premierExerciceFin}}.",
+      "variables": ["exerciceDebut", "exerciceFin", "premierExerciceFin"],
+      "obligatoire": true
+    },
+    {
+      "numero": 20,
+      "titre": "Comptes sociaux",
+      "contenu": "Il est tenu une comptabilité régulière des opérations sociales, conformément à la loi et aux usages du commerce.\n\nLe Président établit les comptes annuels de l'exercice conformément aux dispositions légales et réglementaires en vigueur.\n\nLe Président n'établit le rapport de gestion visé à l'article L. 232-1, I du code de commerce que si la société est tenue d'établir ce rapport en vertu des dispositions légales et réglementaires.\n\nL'associé unique ou, le cas échéant, la collectivité des associés approuve les comptes annuels sur la base, le cas échéant, du rapport du commissaire aux comptes, dans un délai de six (6) mois à compter de la clôture de chaque exercice.\n\nLorsque l'associé unique, personne physique, est également le Président de la société, le dépôt au Registre du commerce et des sociétés, dans le même délai, de l'inventaire et des comptes annuels, dûment signés, vaut approbation des comptes.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 21,
+      "titre": "Affectation et répartition des résultats",
+      "contenu": "Si les comptes de l'exercice approuvés par l'associé unique ou, le cas échéant, la collectivité des associés, font apparaître un bénéfice distribuable, tel qu'il est défini par la loi, l'associé unique ou la collectivité des associés décide de l'inscrire à un ou plusieurs postes de réserves dont elle règle l'affectation ou l'emploi, de le reporter à nouveau ou de le distribuer.\n\nL'associé unique ou la collectivité des associés peut également décider la distribution des sommes prélevées sur les réserves disponibles en indiquant expressément les postes de réserves sur lesquels ces prélèvements sont effectués. Toutefois, les dividendes sont prélevés par priorité sur le bénéfice distribuable de l'exercice.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 22,
+      "titre": "Dissolution - Liquidation",
+      "contenu": "La société est dissoute à l'arrivée du terme statutaire, sauf prorogation régulière, ou en cas de survenance d'une cause légale de dissolution.\n\nLorsque la société ne comporte qu'un seul associé personne morale, la dissolution, pour quelque cause que ce soit, entraîne, dans les conditions prévues par l'article 1844-5 du code civil, la transmission universelle du patrimoine social à l'associé unique, sans qu'il y ait lieu à liquidation.\n\nLorsque la société comporte plusieurs associés ou un associé unique personne physique, la dissolution entraîne sa liquidation qui est effectuée conformément aux dispositions légales.\n\nLe boni de liquidation est réparti entre les associés proportionnellement au nombre de leurs actions.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 23,
+      "titre": "Contestations",
+      "contenu": "Toutes les contestations relatives aux affaires sociales susceptibles de surgir pendant la durée de la société ou de sa liquidation, seront jugées conformément à la loi et soumises à la juridiction des tribunaux compétents dans les conditions du droit commun.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 24,
+      "titre": "Nomination des premiers commissaires aux comptes (le cas échéant)",
+      "contenu": "{{#if commissairesDesignes}}Sont désignés en qualité de premiers commissaires aux comptes de la société, pour une durée de {{dureeCommissaires}} exercices, leurs fonctions expirant à l'issue de la décision d'approbation des comptes de l'exercice clos le {{dateFinMandatCAC}} :\n- {{commissaireTitulaireNom}}, {{commissaireTitulaireAdresse}}, commissaire aux comptes titulaire, et\n{{#if commissaireSuppléantNom}}- {{commissaireSuppléantNom}}, {{commissaireSuppléantAdresse}}, commissaire aux comptes suppléant,{{/if}}\n\nLesquels ont, chacun en ce qui le concerne, accepté par avance lesdites fonctions et déclaré n'être dans aucune situation d'incompatibilité ou d'interdiction prévues par la loi.{{/if}}",
+      "variables": ["commissairesDesignes", "dureeCommissaires", "dateFinMandatCAC", "commissaireTitulaireNom", "commissaireTitulaireAdresse", "commissaireSuppléantNom", "commissaireSuppléantAdresse"],
+      "obligatoire": false
+    },
+    {
+      "numero": 25,
+      "titre": "Engagements pour le compte de la société en formation",
+      "contenu": "{{#if actesFormation}}Un état des actes accomplis pour le compte de la société en formation, avec l'indication pour chacun de ces actes de l'engagement qui en résulterait pour la société, a été établi par l'associé unique. Cet état est annexé aux présents statuts. L'immatriculation de la société au Registre du commerce et des sociétés emportera de plein droit reprise par la société desdits actes et engagements.{{/if}}",
+      "variables": ["actesFormation"],
+      "obligatoire": true
+    },
+    {
+      "numero": 26,
+      "titre": "Publicité",
+      "contenu": "Tous pouvoirs sont donnés au porteur d'un original, d'une copie ou d'un extrait des présentes pour effectuer les formalités de publicité, de dépôt et toute autre formalité requise pour l'immatriculation de la société au Registre du commerce et des sociétés et au Registre national des entreprises.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 27,
+      "titre": "Suppression des articles relatifs à la formation de la société",
+      "contenu": "Il est expressément convenu que seront, purement et simplement, supprimés les Articles 24, 25, 26 et 27 des statuts lors de la prochaine mise à jour des statuts, sans qu'il ne soit nécessaire que l'associé unique ou, le cas échéant, les associés se prononce(nt) à cet effet.",
+      "variables": [],
+      "obligatoire": true
+    }
+  ],
+  "conclusion": {
+    "texte": "Fait à {{lieuSignature}}, le {{dateSignature}}\nen {{nombreExemplaires}} originaux\n\n{{nomSignataire}}\nAssocié unique\nSignature\n\n{{#if presidentDansStatuts}}{{presidentPrenom}} {{presidentNom}}\nPrésident\nSignature\n(Bon pour acceptation des fonctions de Président){{/if}}",
+    "variables": ["lieuSignature", "dateSignature", "nombreExemplaires", "nomSignataire", "presidentDansStatuts", "presidentPrenom", "presidentNom"]
+  },
+  "variablesGlobales": [
+    "denomination",
+    "sigle",
+    "capitalSocial",
+    "capitalSocialChiffres",
+    "siegeSocial",
+    "objetSocial",
+    "duree",
+    "associeType",
+    "associePrenom",
+    "associeNom",
+    "associeAdresse",
+    "associeDateNaissance",
+    "associeLieuNaissance",
+    "associeNationalite",
+    "associeSocieteNom",
+    "associeSocieteFormeJuridique",
+    "associeSocieteCapital",
+    "associeSocieteRCS",
+    "associeSocieteNumeroRCS",
+    "associeSocieteSiege",
+    "associeRepresentantPrenom",
+    "associeRepresentantNom",
+    "associeRepresentantQualite",
+    "typeApport",
+    "montantApportNumeraire",
+    "nombreActionsNumeraire",
+    "valeurNominale",
+    "dateDepotFonds",
+    "etablissementDepot",
+    "pourcentageLibere",
+    "montantLibere",
+    "descriptionBiensNature",
+    "valeurApportNature",
+    "commissaireAuxApports",
+    "commissaireAuxApportsNom",
+    "dateRapportCAA",
+    "montantTotalApports",
+    "nombreActions",
+    "liberationPartielle",
+    "regimeCessionActions",
+    "majoriteAgrement",
+    "modalitesPrixRachat",
+    "presidentDansStatuts",
+    "presidentPrenom",
+    "presidentNom",
+    "presidentDateNaissance",
+    "presidentLieuNaissance",
+    "presidentNationalite",
+    "presidentAdresse",
+    "presidentEstAssocie",
+    "delaiPreavisPresident",
+    "modeRevocationPresident",
+    "commissairesDesignes",
+    "dureeCommissaires",
+    "dateFinMandatCAC",
+    "commissaireTitulaireNom",
+    "commissaireTitulaireAdresse",
+    "commissaireSuppléantNom",
+    "commissaireSuppléantAdresse",
+    "quorumDecisions",
+    "delaiConvocationAssemblee",
+    "delaiConsultationEcrite",
+    "signatairePV",
+    "delaiInformationResultat",
+    "exerciceDebut",
+    "exerciceFin",
+    "premierExerciceFin",
+    "actesFormation",
+    "lieuSignature",
+    "dateSignature",
+    "nombreExemplaires",
+    "nomSignataire"
+  ]
+}

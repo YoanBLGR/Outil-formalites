@@ -1,0 +1,121 @@
+{
+  "formeJuridique": "EURL",
+  "titre": "STATUTS D'UNE ENTREPRISE UNIPERSONNELLE À RESPONSABILITÉ LIMITÉE (EURL)",
+  "preambule": "Les présents statuts sont établis par l'associé unique soussigné",
+  "articles": [
+    {
+      "numero": 1,
+      "titre": "FORME ET DÉNOMINATION",
+      "contenu": "Il est formé entre l'associé soussigné une Entreprise Unipersonnelle à Responsabilité Limitée (EURL), régie notamment par les dispositions des articles L.223-1 à L.223-43 du Code de commerce et par les présents statuts.\n\nLa société a pour dénomination sociale : {{denomination}}",
+      "variables": ["denomination"],
+      "obligatoire": true
+    },
+    {
+      "numero": 2,
+      "titre": "OBJET SOCIAL",
+      "contenu": "La société a pour objet social :\n\n{{objetSocial}}\n\nEt, plus généralement, toutes opérations commerciales, industrielles, financières, mobilières ou immobilières, pouvant se rattacher directement ou indirectement à l'objet social ou à tout objet similaire ou connexe.",
+      "variables": ["objetSocial"],
+      "obligatoire": true
+    },
+    {
+      "numero": 3,
+      "titre": "SIÈGE SOCIAL",
+      "contenu": "Le siège social est fixé à :\n\n{{siegeSocial}}\n\nIl pourra être transféré en tout autre endroit de la même ville ou dans un autre lieu par simple décision du gérant, à charge pour celui-ci de respecter les formalités de publicité prévues par la loi. Dans tous les autres cas, le transfert sera décidé par l'associé unique dans les conditions prévues par la loi.",
+      "variables": ["siegeSocial"],
+      "obligatoire": true
+    },
+    {
+      "numero": 4,
+      "titre": "DURÉE",
+      "contenu": "La durée de la société est fixée à {{duree}} années à compter de son immatriculation au Registre du Commerce et des Sociétés, sauf dissolution anticipée ou prorogation décidée par l'associé unique.",
+      "variables": ["duree"],
+      "obligatoire": true
+    },
+    {
+      "numero": 5,
+      "titre": "APPORTS - CAPITAL SOCIAL",
+      "contenu": "Le capital social est fixé à la somme de {{capitalSocial}} euros.\n\nIl est divisé en {{nombreParts}} parts sociales de {{valeurNominale}} euros chacune, numérotées de 1 à {{nombreParts}}, toutes intégralement souscrites et libérées.\n\n{{detailsApports}}",
+      "variables": ["capitalSocial", "nombreParts", "valeurNominale", "detailsApports"],
+      "obligatoire": true
+    },
+    {
+      "numero": 6,
+      "titre": "RÉPARTITION DES PARTS SOCIALES",
+      "contenu": "Les {{nombreParts}} parts sociales, formant l'intégralité du capital social, sont réparties comme suit :\n\n{{associe}} : {{nombreParts}} parts sociales\n\nLa propriété des parts sociales résulte de leur inscription sur le registre des associés tenu au siège social.",
+      "variables": ["nombreParts", "associe"],
+      "obligatoire": true
+    },
+    {
+      "numero": 7,
+      "titre": "TRANSMISSION DES PARTS SOCIALES",
+      "contenu": "Les parts sociales sont librement cessibles ou transmissibles pour cause de mort au profit de l'associé unique.\n\nElles ne peuvent être cédées à des tiers qu'avec le consentement de l'associé unique.\n\nLa cession de parts sociales doit être constatée par un acte écrit. Elle est rendue opposable à la société après accomplissement des formalités de publicité prévues par la loi.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 8,
+      "titre": "GÉRANCE",
+      "contenu": "{{gerance}}",
+      "variables": ["gerance"],
+      "obligatoire": true
+    },
+    {
+      "numero": 9,
+      "titre": "POUVOIRS DU GÉRANT",
+      "contenu": "Le gérant est investi des pouvoirs les plus étendus pour agir en toutes circonstances au nom de la société, dans la limite de l'objet social et sous réserve des pouvoirs que la loi attribue expressément à l'associé unique.\n\nLe gérant peut, sous sa responsabilité, déléguer tels de ses pouvoirs qu'il juge convenable pour un ou plusieurs objets déterminés.\n\nDans les rapports avec les tiers, la société est engagée même par les actes du gérant qui ne relèvent pas de l'objet social, à moins qu'elle ne prouve que le tiers savait que l'acte dépassait cet objet ou qu'il ne pouvait l'ignorer compte tenu des circonstances.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 10,
+      "titre": "RÉMUNÉRATION DU GÉRANT",
+      "contenu": "{{remunerationGerant}}",
+      "variables": ["remunerationGerant"],
+      "obligatoire": false
+    },
+    {
+      "numero": 11,
+      "titre": "DÉCISIONS DE L'ASSOCIÉ UNIQUE",
+      "contenu": "L'associé unique exerce les pouvoirs dévolus à l'assemblée des associés des sociétés à responsabilité limitée.\n\nLes décisions de l'associé unique sont répertoriées dans un registre tenu au siège social.\n\nL'associé unique prend les décisions relevant de la compétence de l'assemblée par la tenue de délibérations qui sont consignées dans un registre.\n\nIl peut également consulter tous documents sociaux et se faire communiquer tous renseignements sur la marche de la société.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 12,
+      "titre": "EXERCICE SOCIAL",
+      "contenu": "L'exercice social commence le {{dateDebutExercice}} et se termine le {{dateFinExercice}} de chaque année.\n\n{{premierExercice}}",
+      "variables": ["dateDebutExercice", "dateFinExercice", "premierExercice"],
+      "obligatoire": true
+    },
+    {
+      "numero": 13,
+      "titre": "COMPTES ANNUELS",
+      "contenu": "À la clôture de chaque exercice social, le gérant établit les comptes annuels conformément aux dispositions légales et réglementaires en vigueur.\n\nLes comptes annuels comprennent le bilan, le compte de résultat et l'annexe. Ils forment un tout indissociable.\n\nLe gérant établit également le rapport de gestion de la société.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 14,
+      "titre": "AFFECTATION DES RÉSULTATS",
+      "contenu": "Le bénéfice de l'exercice, diminué le cas échéant des pertes antérieures, est affecté comme suit :\n\n- En premier lieu, il est prélevé {{reserveLegale}}% pour constituer le fonds de réserve légale ; ce prélèvement cesse d'être obligatoire lorsque le fonds de réserve atteint le dixième du capital social.\n\n- Le solde, augmenté le cas échéant des reports bénéficiaires antérieurs, constitue le bénéfice distribuable. L'associé unique décide de l'affectation du bénéfice distribuable.\n\n{{affectationResultats}}",
+      "variables": ["reserveLegale", "affectationResultats"],
+      "obligatoire": true
+    },
+    {
+      "numero": 15,
+      "titre": "DISSOLUTION - LIQUIDATION",
+      "contenu": "À l'expiration de la société ou en cas de dissolution anticipée, l'associé unique règle le mode de liquidation et nomme le ou les liquidateurs dont il détermine les pouvoirs.\n\nLa nomination du liquidateur met fin aux fonctions du gérant.\n\nLe liquidateur a pour mission de réaliser l'actif et d'apurer le passif.\n\nL'actif net subsistant, après remboursement du nominal des parts sociales, est attribué à l'associé unique.\n\n{{dissolutionModalites}}",
+      "variables": ["dissolutionModalites"],
+      "obligatoire": true
+    },
+    {
+      "numero": 16,
+      "titre": "FORMALITÉS",
+      "contenu": "Pour l'accomplissement des formalités de publicité, tous pouvoirs sont donnés au porteur d'un original ou d'une copie certifiée conforme des présentes.\n\n{{formalites}}",
+      "variables": ["formalites"],
+      "obligatoire": true
+    }
+  ],
+  "conclusion": "Fait à {{lieuSignature}}, le {{dateSignature}}\n\nL'associé unique\n\n{{nomAssocieSignature}}\n\nSignature précédée de la mention « Lu et approuvé » :",
+  "variablesConcl": ["lieuSignature", "dateSignature", "nomAssocieSignature"]
+}

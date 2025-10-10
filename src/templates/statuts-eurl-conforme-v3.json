@@ -1,0 +1,418 @@
+{
+  "formeJuridique": "EURL",
+  "titre": "STATUTS",
+  "enTete": {
+    "variants": [
+      {
+        "condition": "true",
+        "texte": "{{denomination}}\nSociété à responsabilité limitée\nAu capital de {{capitalSocialChiffres}} euros\nSiège social : {{siegeSocial}}\nRCS en cours d'attribution\n\nCi-après désignée « la Société »"
+      }
+    ]
+  },
+  "preambule": {
+    "variants": [
+      {
+        "condition": "associeType === 'PERSONNE_PHYSIQUE'",
+        "texte": "Le soussigné\n\n{{associePrenom}} {{associeNom}}, né(e) le {{associeDateNaissance}} à {{associeLieuNaissance}}, de nationalité {{associeNationalite}}, demeurant {{associeAdresse}},\n\nci-après dénommé(e) l'« associé unique »,\na établi ainsi qu'il suit les statuts d'une société à responsabilité limitée qu'il a décidé d'instituer."
+      },
+      {
+        "condition": "associeType === 'PERSONNE_MORALE'",
+        "texte": "Le soussigné\n\n{{associeSocieteNom}}, {{associeSocieteFormeJuridique}} au capital de {{associeSocieteCapital}} €, immatriculée au RCS de {{associeSocieteRCS}}, sous le numéro {{associeSocieteNumeroRCS}} dont le siège social est situé {{associeSocieteSiege}}, représentée par {{associeRepresentantPrenom}} {{associeRepresentantNom}}, en sa qualité de {{associeRepresentantQualite}},\n\nci-après dénommé(e) l'« associé unique »,\na établi ainsi qu'il suit les statuts d'une société à responsabilité limitée qu'il a décidé d'instituer."
+      }
+    ]
+  },
+  "articles": [
+    {
+      "numero": 1,
+      "titre": "Forme",
+      "contenu": "La société est une société à responsabilité limitée régie par les dispositions législatives et réglementaires en vigueur et à venir ainsi que par les présents statuts.\nElle fonctionne indifféremment sous la forme de société à responsabilité limitée avec un ou plusieurs associés.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 2,
+      "titre": "Objet",
+      "contenu": "La société a pour objet tant en France qu'à l'étranger : {{objetSocial}}.\nEt, plus généralement, toutes opérations, de quelque nature qu'elles soient, financières, commerciales, industrielles, mobilières ou immobilières, pouvant se rattacher directement ou indirectement à l'objet ci-dessus ou à tous objets similaires ou connexes, de nature à favoriser son extension ou son développement.",
+      "variables": ["objetSocial"],
+      "obligatoire": true
+    },
+    {
+      "numero": 3,
+      "titre": "Dénomination sociale",
+      "contenu": "La société a pour dénomination sociale : {{denomination}}{{#if sigle}} ({{sigle}}){{/if}}.\nDans tous les actes et documents émanant de la société, cette dénomination doit être précédée ou suivie immédiatement des mots « société à responsabilité limitée » ou des initiales « SARL », de l'énonciation du capital social ainsi que du numéro d'immatriculation de la société au RCS.",
+      "variables": ["denomination", "sigle"],
+      "obligatoire": true,
+      "observations": "Ne pas indiquer « Entreprise unipersonnelle à responsabilité limitée » ou « EURL »."
+    },
+    {
+      "numero": 4,
+      "titre": "Siège social",
+      "contenu": "Le siège social est situé à : {{siegeSocial}}.\nIl peut être transféré en tout lieu par décision de la gérance, sous réserve de ratification par l'associé unique ou par décision collective extraordinaire des associés.\nIl peut également être transféré en tout lieu soit par décision de l'associé unique, soit, en cas de pluralité d'associés, par décision collective extraordinaire des associés.",
+      "variables": ["siegeSocial"],
+      "obligatoire": true
+    },
+    {
+      "numero": 5,
+      "titre": "Durée",
+      "contenu": "La société a une durée de {{duree}} années, sauf dissolution anticipée ou prorogation.",
+      "variables": ["duree"],
+      "obligatoire": true,
+      "observations": "Durée maximale : 99 ans."
+    },
+    {
+      "numero": 6,
+      "titre": "Apports",
+      "contenu": "",
+      "variants": [
+        {
+          "condition": "typeApport === 'NUMERAIRE_TOTAL'",
+          "contenu": "A la constitution de la société, {{associeDesignation}}, associé unique, a apporté et versé à la société une somme totale de {{montantApportNumeraire}} correspondant à {{nombrePartsNumeraire}} ({{nombrePartsNumeraireLettres}}) parts au nominal de {{valeurNominale}} ({{valeurNominaleLettres}}) euros chacune, souscrites en totalité et intégralement libérées.\n\nLa somme totale versée, soit {{montantApportNumeraire}}, a été déposée le {{dateDepotFonds}} au crédit d'un compte ouvert au nom de la société en formation, auprès de la banque {{etablissementDepot}}.",
+          "variables": ["associeDesignation", "montantApportNumeraire", "nombrePartsNumeraire", "nombrePartsNumeraireLettres", "valeurNominale", "valeurNominaleLettres", "dateDepotFonds", "etablissementDepot"],
+          "observations": "Le dépôt des fonds représentatifs des apports en numéraire doit être effectué préalablement à la signature des statuts, dans les 8 jours de la réception des fonds à la Caisse des dépôts et consignations, chez un notaire ou dans une banque qui constate les versements dans un certificat."
+        },
+        {
+          "condition": "typeApport === 'NUMERAIRE_PARTIEL'",
+          "contenu": "A la constitution de la société, {{associeDesignation}}, associé unique, a apporté et versé à la société une somme totale de {{montantApportNumeraire}} correspondant à {{nombrePartsNumeraire}} ({{nombrePartsNumeraireLettres}}) parts au nominal de {{valeurNominale}} ({{valeurNominaleLettres}}) euros chacune, souscrites en totalité et libérées chacune à concurrence du {{fractionLiberation}}, étant précisé que la libération du surplus, à laquelle il s'oblige, interviendra en une ou plusieurs fois sur décision du gérant.\n\nLa somme totale versée, soit {{montantLibere}}, a été déposée le {{dateDepotFonds}} au crédit d'un compte ouvert au nom de la société en formation, auprès de la banque {{etablissementDepot}}.",
+          "variables": ["associeDesignation", "montantApportNumeraire", "nombrePartsNumeraire", "nombrePartsNumeraireLettres", "valeurNominale", "valeurNominaleLettres", "fractionLiberation", "montantLibere", "dateDepotFonds", "etablissementDepot"],
+          "observations": "Le dépôt des fonds représentatifs des apports en numéraire doit être effectué préalablement à la signature des statuts, dans les 8 jours de la réception des fonds à la Caisse des dépôts et consignations, chez un notaire ou dans une banque qui constate les versements dans un certificat."
+        },
+        {
+          "condition": "typeApport === 'NATURE_SEUL'",
+          "contenu": "L'associé unique en s'obligeant à toutes les garanties ordinaires et de droit, a apporté à la société, dans les conditions fixées par un contrat d'apport en date du {{dateContratApport}}, annexé aux présents statuts, les biens suivants : {{descriptionBiensNature}}.\n\nCet apport est évalué à la somme de : {{valeurApportNature}} euros.{{#if commissaireAuxApports}}\n\nIl a été procédé à l'évaluation desdits apports en nature au vu d'un rapport annexé aux présents statuts, établi par {{commissaireAuxApportsNom}}, commissaire aux apports désigné par l'associé unique.{{/if}}",
+          "variables": ["dateContratApport", "descriptionBiensNature", "valeurApportNature", "commissaireAuxApports", "commissaireAuxApportsNom"],
+          "observations": "Pour ne pas alourdir les statuts, il est fréquent de se référer à un acte annexé aux statuts. En l'absence de contrat d'apport, il est nécessaire de décrire avec précisions les apports (origine, titre de propriété, etc.)."
+        },
+        {
+          "condition": "typeApport === 'FONDS_COMMERCE'",
+          "contenu": "L'associé unique en s'obligeant à toutes les garanties ordinaires et de droit, a apporté à la société un fonds de commerce de {{natureFondsCommerce}}, exploité à {{adresseFondsCommerce}}, pour lequel l'apporteur a le numéro unique d'identification {{numeroIdentificationFonds}}, et comprenant :\n\n- le nom commercial, l'enseigne, la clientèle ainsi que le droit au bail des locaux où ledit fonds est exploité, le tout évalué à la somme de {{valeurElementsIncorporels}} euros ;\n- le mobilier, les agencements et installations, le matériel d'exploitation, décrits dans un état annexé aux présents statuts et estimés à la somme de {{valeurMateriel}} euros.\n\nSoit un apport d'un montant total de : {{valeurFondsCommerce}} euros.{{#if commissaireAuxApports}}\n\nIl a été procédé à l'évaluation desdits apports en nature au vu d'un rapport annexé aux présents statuts, établi par {{commissaireAuxApportsNom}}, commissaire aux apports désigné par l'associé unique.{{/if}}",
+          "variables": ["natureFondsCommerce", "adresseFondsCommerce", "numeroIdentificationFonds", "valeurElementsIncorporels", "valeurMateriel", "valeurFondsCommerce", "commissaireAuxApports", "commissaireAuxApportsNom"],
+          "observations": "En cas de recours à un commissaire aux apports (obligatoire si l'apport en nature excède 30 000 euros)."
+        },
+        {
+          "condition": "typeApport === 'MIXTE_NUMERAIRE_NATURE'",
+          "contenu": "A la constitution de la société, {{associeDesignation}}, associé unique, a apporté :\n\n1° En numéraire : une somme de {{montantApportNumeraire}} euros, intégralement libérée et déposée le {{dateDepotFonds}} au crédit d'un compte ouvert au nom de la société en formation, auprès de la banque {{etablissementDepot}}.\n\n2° En nature : les biens suivants, dans les conditions fixées par un contrat d'apport en date du {{dateContratApport}}, annexé aux présents statuts : {{descriptionBiensNature}}, évalués à la somme de {{valeurApportNature}} euros.{{#if commissaireAuxApports}}\n\nIl a été procédé à l'évaluation desdits apports en nature au vu d'un rapport annexé aux présents statuts, établi par {{commissaireAuxApportsNom}}, commissaire aux apports désigné par l'associé unique.{{/if}}\n\nApports en numéraire : {{montantApportNumeraire}} euros.\n\nApports en nature : {{valeurApportNature}} euros.\n\nMontant total des apports : {{montantTotalApports}} euros.",
+          "variables": ["associeDesignation", "montantApportNumeraire", "dateDepotFonds", "etablissementDepot", "dateContratApport", "descriptionBiensNature", "valeurApportNature", "commissaireAuxApports", "commissaireAuxApportsNom", "montantTotalApports"]
+        },
+        {
+          "condition": "typeApport === 'BIEN_COMMUN'",
+          "contenu": "{{apportPrincipal}}\n\nL'apport de {{associePrenom}} {{associeNom}}, associé unique, provient de la communauté de biens existant entre l'apporteur et {{conjointCivilite}} {{conjointPrenom}} {{conjointNom}}, qui a été préalablement averti(e) de cet apport par lettre recommandée avec avis de réception reçue le {{dateAvertissementConjoint}}, comportant toutes précisions utiles quant aux finalités et modalités de l'opération d'apport.{{#if conjointInterventionStatuts}}\n\n{{conjointPrenom}} {{conjointNom}}, conjoint(e) de {{associePrenom}} {{associeNom}}, associé unique, intervient au présent acte et reconnaît avoir été averti(e) de l'apport de biens provenant de la communauté fait par son/sa conjoint(e), dans les termes de l'article 1832-2 du code civil.{{#if consentementArticle1424}}\n\n{{conjointPrenom}} {{conjointNom}}, et déclare, d'une part, donner son consentement audit apport conformément aux dispositions de l'article 1424 du code civil, d'autre part, renoncer expressément à la faculté d'être personnellement associé(e) pour la moitié des parts souscrites.{{else}}\n\n{{conjointPrenom}} {{conjointNom}}, et déclare renoncer expressément à la faculté d'être personnellement associé(e) pour la moitié des parts souscrites.{{/if}}{{/if}}{{#if conjointRenonciationCourrier}}\n\nPar lettre en date du {{dateRenonciationConjoint}}, {{conjointPrenom}} {{conjointNom}}, conjoint(e) de l'apporteur a{{#if consentementArticle1424}}, d'une part, donné son consentement audit apport conformément aux dispositions de l'article 1424 du code civil, d'autre part,{{/if}} renoncé expressément à la faculté d'être personnellement associé(e), pour la moitié des parts souscrites. L'original de cette lettre est annexé aux présents statuts.{{/if}}",
+          "variables": ["apportPrincipal", "associePrenom", "associeNom", "conjointCivilite", "conjointPrenom", "conjointNom", "dateAvertissementConjoint", "conjointInterventionStatuts", "consentementArticle1424", "conjointRenonciationCourrier", "dateRenonciationConjoint"],
+          "observations": "Le conjoint doit être averti de cet apport par lettre recommandée avec avis de réception (C. civ., art. 1832-2) ; si le conjoint manifeste son intention de devenir associé, la constitution de l'EURL doit être abandonnée pour permettre éventuellement la création d'une SARL entre époux. Pour créer une EURL à l'aide de biens communs, il est nécessaire d'obtenir la renonciation du conjoint."
+        },
+        {
+          "condition": "typeApport === 'PACS_INDIVISION'",
+          "contenu": "{{apportPrincipal}}\n\n{{associePrenom}} {{associeNom}}, associé unique, a réalisé le présent apport sur ses biens propres et pour son compte personnel, et est en conséquence seul propriétaire des parts sociales qui lui sont attribuées en rémunération de son apport.",
+          "variables": ["apportPrincipal", "associePrenom", "associeNom"],
+          "observations": "En cas d'apport par une personne ayant contracté un PACS."
+        }
+      ],
+      "obligatoire": true
+    },
+    {
+      "numero": 7,
+      "titre": "Capital social",
+      "contenu": "Le capital est fixé à la somme de {{capitalSocial}}, divisé en {{nombreParts}} ({{nombrePartsLettres}}) parts sociales d'un montant nominal de {{valeurNominale}} ({{valeurNominaleLettres}}) euros chacune, {{#if liberationPartielle}}libérées à concurrence de {{montantLibere}}{{else}}intégralement libérées{{/if}}, attribuées en totalité à l'associé unique.{{#if apportMixte}}\n\nA concurrence de {{nombrePartsNumeraire}} ({{nombrePartsNumeraireLettres}}) parts en rémunération de son apport en numéraire,\n\nA concurrence de {{nombrePartsNature}} ({{nombrePartsNatureLettres}}) parts en rémunération de son apport en nature.{{/if}}",
+      "variables": ["capitalSocial", "nombreParts", "nombrePartsLettres", "valeurNominale", "valeurNominaleLettres", "liberationPartielle", "montantLibere", "apportMixte", "nombrePartsNumeraire", "nombrePartsNumeraireLettres", "nombrePartsNature", "nombrePartsNatureLettres"],
+      "obligatoire": true
+    },
+    {
+      "numero": 8,
+      "titre": "Augmentation et réduction du capital social",
+      "contenu": "Le capital social peut être augmenté ou réduit de toutes les manières autorisées par la loi, en vertu d'une décision de l'associé unique ou par décision extraordinaire de la collectivité des associés qui fixe les conditions de l'opération.\nEn cas d'augmentation de capital par émission de parts à souscrire en numéraire, un droit de préférence à la souscription de ces parts est réservé aux propriétaires des parts existantes au prorata de leur participation dans le capital de la société. Toutefois, les associés peuvent renoncer à ce droit préférentiel de souscription, à titre individuel ou en tout ou partie par une décision collective des associés, dans les conditions fixées par les dispositions légales et réglementaires applicables aux sociétés par actions et sous réserve des transpositions utiles.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 9,
+      "titre": "Parts sociales",
+      "contenu": "Les parts sociales ne peuvent jamais être représentées par des titres négociables. Leur propriété résulte des présents statuts, des actes modificatifs et des cessions ou mutations ultérieures régulièrement consenties et publiées.\nChaque part sociale confère à son propriétaire dans les bénéfices de la société et dans tout l'actif social une part proportionnelle à la quotité du capital qu'elle représente.\nChaque part est indivisible. En cas de pluralité d'associés, les propriétaires indivis doivent se faire représenter par un mandataire unique choisi parmi eux. En cas de désaccord, le mandataire est désigné par le président du tribunal de commerce à la demande du plus diligent.\nSi des parts sont grevées d'usufruit, le droit de vote appartient à l'usufruitier pour les décisions concernant l'affectation des résultats, et au nu-propriétaire pour toutes les autres décisions.",
+      "variables": [],
+      "obligatoire": true,
+      "observations": "Cette répartition du droit de vote entre nu-propriétaire et usufruitier résulte de l'article 1844, alinéa 3 du code civil. Toutefois, ces dispositions n'étant pas d'ordre public, les statuts peuvent opter pour d'autres critères de répartition, sous la réserve de ne pas priver l'usufruitier du droit de voter l'affectation des bénéfices et le nu-propriétaire de son droit d'assister à toutes les assemblées, même s'il ne vote pas."
+    },
+    {
+      "numero": 10,
+      "titre": "Cession des parts sociales",
+      "contenu": "Toute cession de parts sociales doit être constatée par écrit. Elle ne devient opposable à la société qu'après accomplissement des formalités de l'article 1690 du code civil ou dépôt d'un original de l'acte de cession au siège social contre remise par la gérance d'une attestation de ce dépôt. Elle n'est opposable aux tiers qu'après accomplissement de cette formalité et du dépôt au greffe du tribunal de commerce compétent, en annexe au Registre du commerce et des sociétés, d'un exemplaire des statuts de la société modifiés.\nLes cessions de parts consenties par l'associé unique sont libres.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 11,
+      "titre": "Admission de nouveaux associés",
+      "variants": [
+        {
+          "condition": "regimeCession === 'LIBRE_FAMILIAL_AGREMENT_TIERS'",
+          "contenu": "Les parts sociales sont librement transmissibles par voie successorale ou testamentaire, ou en cas de liquidation de communauté de biens entre époux. Elles sont librement cessibles entre conjoints, entre ascendants et descendants, et entre associés.\nLes parts sociales ne peuvent en revanche être cédées à des tiers étrangers à la société qu'avec le consentement de la majorité des associés représentant au moins {{majoriteCessionTiers}} des parts sociales.",
+          "variables": ["majoriteCessionTiers"],
+          "observations": "Cette clause prévoit la liberté des cessions et transmissions familiales préconisée par la loi. Mais la loi ne permet pas d'instaurer la libre cessibilité des parts à des tiers étrangers à la société. Il est possible de prévoir pour l'agrément de telles cessions une majorité plus forte que la moitié."
+        },
+        {
+          "condition": "regimeCession === 'AGREMENT_TOUTES_MUTATIONS'",
+          "contenu": "Toute mutation de parts sociales nécessite le consentement de la majorité des associés représentant au moins {{majoriteMutation}} des parts sociales.\n\nCe consentement est sollicité dans les conditions prévues par la loi. En cas de refus d'agrément, et sauf si le cédant renonce à la cession de ses parts, les associés sont tenus, dans un délai de trois mois à compter de ce refus, d'acquérir ou de faire acquérir les parts à un prix de rachat ainsi déterminé : {{modalitesPrixRachat}}. A défaut d'accord sur le prix de rachat, celui-ci est fixé par un expert désigné conformément à l'article 1843-4 du code civil. Cet expert est tenu de respecter les règles de détermination du prix de rachat énoncées ci-dessus.\nLa société peut également, avec le consentement de l'associé cédant, décider, dans le même délai, de réduire son capital du montant de la valeur nominale des parts de cet associé et de les lui racheter au prix déterminé dans les conditions prévues ci-dessus.\nSi, à l'expiration du délai imparti, aucune des solutions prévues aux paragraphes ci-dessus n'est intervenue, l'associé peut réaliser la cession initialement prévue.{{#if agrementDeces}}\n\nEn cas de décès de l'un des associés, la société continuera avec {{beneficiairesContinuation}}. Les ayants droit évincés ont droit à la valeur des droits sociaux de leur auteur, ainsi déterminée : {{modalitesValeurDroits}}. A défaut d'accord sur cette valeur, celle-ci sera fixée par un expert désigné conformément à l'article 1843-4 du code civil. Cet expert sera tenu de respecter les règles de détermination de la valeur des droits sociaux énoncées ci-dessus.{{/if}}",
+          "variables": ["majoriteMutation", "modalitesPrixRachat", "agrementDeces", "beneficiairesContinuation", "modalitesValeurDroits"],
+          "observations": "Il est possible de stipuler un agrément dans tous les cas de mutation de parts, entre vifs ou à cause de mort, mais l'agrément d'un conjoint, d'un héritier, d'un ascendant ou d'un descendant ne peut être soumis à des délais plus longs ou à une majorité plus forte que ceux prévus à l'article L. 223-14 du code de commerce (majorité de la moitié des parts sociales)."
+        }
+      ],
+      "obligatoire": true
+    },
+    {
+      "numero": 12,
+      "titre": "Revendication de la qualité d'associé par le conjoint commun en biens",
+      "contenu": "Lorsque le conjoint commun en biens d'un associé notifie son intention d'être associé postérieurement à un apport de biens communs fait par cet associé ou à une acquisition de parts sociales effectuée au moyen de biens communs, il ne peut devenir associé que s'il est agréé dans les conditions prévues à l'article 11.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 13,
+      "titre": "Nantissement des parts sociales",
+      "contenu": "Le nantissement des parts sociales doit être constaté par acte notarié ou sous seing privé, enregistré et signifié à la société ou accepté par elle dans un acte authentique.\nLorsque la société a donné son consentement à un nantissement de parts sociales dans les conditions prévues à l'article 11 des présents statuts relatif à l'agrément des cessions de parts au profit de tiers, ce consentement emportera agrément du cessionnaire en cas de réalisation forcée des parts nanties, sauf si la société ne préfère, postérieurement à la cession, racheter sans délai les parts sociales en vue d'une réduction de son capital.\nEn cas de défaut de notification à la société du projet de nantissement comme en cas de refus d'agrément, l'adjudicataire des parts faisant l'objet d'une réalisation forcée devra être soumis à l'agrément des associés.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 14,
+      "titre": "Nomination des gérants",
+      "contenu": "La société est administrée par un ou plusieurs gérants, personnes physiques, associés ou non, nommés avec ou sans limitation de durée. Le ou les gérants sont désignés par l'associé unique ou, en cas de pluralité d'associés, par décision des associés représentant plus de {{majoriteNominationGerant}} des parts sociales. Si cette majorité n'est pas obtenue, la décision est prise sur seconde consultation à la majorité des votes émis, quel que soit le nombre des votants.\nLe gérant doit consacrer le temps et les soins nécessaires aux affaires sociales.",
+      "variables": ["majoriteNominationGerant"],
+      "obligatoire": true
+    },
+    {
+      "numero": 15,
+      "titre": "Cessation des fonctions des gérants",
+      "contenu": "Le ou les gérants sont révocables par décision de l'associé unique ou, en cas de pluralité d'associés, par décision des associés représentant plus de {{majoriteRevocationGerant}} des parts sociales. Si la révocation est décidée sans juste motif, elle peut donner lieu à des dommages-intérêts.\nLe gérant peut résilier ses fonctions moyennant un préavis de {{delaiPreavisGerant}} mois notifié à chaque associé par lettre recommandée avec AR.",
+      "variables": ["majoriteRevocationGerant", "delaiPreavisGerant"],
+      "obligatoire": true
+    },
+    {
+      "numero": 16,
+      "titre": "Pouvoirs des gérants",
+      "contenu": "Dans les rapports avec les tiers, le gérant est investi des pouvoirs les plus étendus pour agir en toutes circonstances au nom de la société.{{#if limitationsPouvoirs}}\n\n{{descriptionLimitationsPouvoirs}}{{/if}}\nEn cas de pluralité de gérants, ceux-ci détiennent séparément les pouvoirs ci-dessus. L'opposition formée par un gérant aux actes d'un autre gérant est sans effet à l'égard des tiers, sauf s'il est établi qu'ils en avaient eu connaissance.",
+      "variables": ["limitationsPouvoirs", "descriptionLimitationsPouvoirs"],
+      "obligatoire": true,
+      "observations": "Il est possible de limiter les pouvoirs du gérant dans les rapports internes pour les opérations telles que les emprunts, les acquisitions ou cessions d'immeubles ou de fonds de commerce, les sûretés. Cette limitation de pouvoirs paraît indispensable lorsque le gérant est non associé."
+    },
+    {
+      "numero": 17,
+      "titre": "Rémunération des gérants",
+      "contenu": "La rémunération du gérant est fixée par la décision de nomination.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 18,
+      "titre": "Commissaires aux comptes",
+      "contenu": "Un ou plusieurs commissaires aux comptes titulaires et suppléants peuvent ou doivent être nommés lorsque la société atteint les seuils réglementaires. Ils exercent leur mission conformément à la loi et sont désignés pour six exercices.",
+      "variables": [],
+      "obligatoire": true,
+      "observations": "Les commissaires aux comptes peuvent être nommés dans un acte séparé des statuts et notamment dans le même acte que celui nommant le gérant."
+    },
+    {
+      "numero": 19,
+      "titre": "Conventions réglementées",
+      "contenu": "19.1 Dispositions applicables si la société devient une SARL pluripersonnelle\n\nToutes les conventions intervenant directement ou indirectement entre la société d'une part, et l'un de ses gérants ou associés disposant d'une fraction des droits de vote supérieure à 10 % d'autre part, doivent être soumises à l'autorisation préalable de la collectivité des associés.\n\nIl en est de même des conventions auxquelles une des personnes visées ci-dessus est indirectement intéressée et des conventions intervenant entre la société et une entreprise, si le gérant ou un associé de la société détenant plus de 10 % des droits de vote est propriétaire, associé indéfiniment responsable, gérant, administrateur, membre du conseil de surveillance ou, de façon générale, dirigeant de cette entreprise.\n\nLes conventions portant sur des opérations courantes et conclues à des conditions normales ne sont pas soumises à la procédure d'autorisation préalable.\n\nLe gérant est tenu de donner avis au commissaire aux comptes de toute convention soumise à autorisation, dans le délai d'un mois à compter de sa conclusion. Le commissaire aux comptes présente sur ces conventions un rapport spécial à la collectivité des associés qui statue sur ce rapport. L'associé intéressé ne peut pas prendre part au vote et ses parts ne sont pas prises en compte pour le calcul du quorum et de la majorité.\n\n19.2 Dispositions applicables tant que la société comporte un associé unique\n\nLes conventions conclues entre l'associé unique et la société font l'objet d'une mention au registre des décisions de l'associé unique. En outre, un rapport spécial doit être établi par le commissaire aux comptes, s'il en existe un, ou par le gérant non associé.\nS'il n'existe pas de commissaire aux comptes, les conventions conclues par un gérant non associé sont soumises à l'autorisation préalable de l'associé unique qui doit, le cas échéant, mentionner son approbation dans le registre des décisions.\nLes dispositions des deux alinéas qui précèdent ne sont pas applicables aux conventions portant sur des opérations courantes et conclues à des conditions normales.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 20,
+      "titre": "Conventions interdites",
+      "contenu": "A peine de nullité du contrat, il est interdit aux Gérants ou associés autres que les personnes morales de contracter, sous quelque forme que ce soit, des emprunts auprès de la Société, de se faire consentir par elle un découvert, en compte courant ou autrement, ainsi que de faire cautionner ou avaliser par elle leurs engagements envers les tiers.\nCette interdiction s'applique également aux représentants légaux des personnes morales associées, aux conjoint, ascendants et descendants des Gérants, associés ou des représentants légaux des personnes morales associées ainsi qu'à toute personne interposée.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 21,
+      "titre": "Comptes courants",
+      "contenu": "Les gérants de la société ainsi que tout associé détenant au minimum {{seuilCompteCourant}} % du capital social peuvent mettre à disposition de la société toutes sommes dont celle-ci peut avoir besoin. Les conditions de remboursement de ces sommes, ainsi que leur rémunération, sont déterminées soit par accord entre la gérance et l'associé intéressé, soit par décision collective des associés. Le cas échéant, les avances rémunérées consenties par les associés ou les gérants à la société sont soumises à la procédure de contrôle des conventions réglementées prévue par la loi.",
+      "variables": ["seuilCompteCourant"],
+      "obligatoire": true
+    },
+    {
+      "numero": 22,
+      "titre": "Décisions de l'associé unique ou décisions collectives des associés",
+      "contenu": "Lorsque la société est unipersonnelle, l'associé unique exerce les pouvoirs dévolus par la loi à la collectivité des associés. L'associé unique ne peut déléguer ses pouvoirs. Ses décisions sont répertoriées dans un registre coté et paraphé.\nLorsque la société comprend plusieurs associés, chaque associé a le droit de participer aux décisions collectives et dispose d'un nombre de voix égal à celui des parts sociales qu'il possède. Dans l'exercice de son droit de participer aux décisions collectives, chaque associé a le droit de se faire représenter par un autre associé, son conjoint ou toute autre personne de son choix. Il ne peut toutefois se faire représenter par un autre associé si les associés sont au nombre de deux, ou par son conjoint si la société ne comprend que les deux époux.\nLes décisions collectives des associés sont prises en assemblées, étant précisé que celles-ci sont convoquées et délibèrent conformément aux dispositions légales et réglementaires en vigueur.",
+      "variables": [],
+      "obligatoire": true,
+      "observations": "Les deux paragraphes ci-dessus, qui concernent les dispositions applicables aux décisions collectives dans les SARL pluripersonnelles peuvent être remplacés par les dispositions, plus détaillées, figurant dans l'article « Décisions collectives » de la formule développée des statuts de SARL."
+    },
+    {
+      "numero": 23,
+      "titre": "Exercice social",
+      "contenu": "Chaque exercice social a une durée qui commence le {{exerciceDebut}} et finit le {{exerciceFin}}. Par exception, le premier exercice sera clos le {{premierExerciceFin}}.",
+      "variables": ["exerciceDebut", "exerciceFin", "premierExerciceFin"],
+      "obligatoire": true
+    },
+    {
+      "numero": 24,
+      "titre": "Comptes sociaux",
+      "contenu": "La gérance établit le rapport de gestion, l'inventaire et les comptes annuels. L'associé unique ou, en cas de pluralité d'associés, l'assemblée générale doit approuver les comptes annuels dans les 6 mois de la clôture de l'exercice.\nLorsque l'associé unique est seul gérant de la société, le dépôt au Registre du commerce et des sociétés, dans le même délai, de l'inventaire et des comptes annuels, dûment signés, vaut approbation des comptes.\nEn outre, lorsque la société, dont l'associé unique personne physique est seul gérant, ne dépasse pas deux des trois seuils réglementaires relatifs au total du bilan, au montant du chiffre d'affaires hors taxes et au nombre de salariés, elle est dispensée de l'obligation d'établir un rapport de gestion.\nPar ailleurs, lorsque la société est une micro-entreprise au sens des articles L. 123-16-1 et D. 123-200 du code de commerce, elle est dispensée de l'obligation d'établir l'annexe comptable.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 25,
+      "titre": "Affectation des résultats",
+      "contenu": "Après approbation des comptes et constatation d'un bénéfice distribuable, conformément à la loi, l'associé unique ou l'assemblée générale des associés détermine la part attribuée à l'associé unique ou aux associés à titre de dividende.\nL'associé unique ou l'assemblée générale peuvent constituer tous postes de réserves.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 26,
+      "titre": "Capitaux propres inférieurs à la moitié du capital",
+      "contenu": "Si du fait des pertes constatées dans les documents comptables, les capitaux propres de la société deviennent inférieurs à la moitié du capital social, l'associé unique - ou si la société est devenue pluripersonnelle, la collectivité des associés statuant à la majorité requise pour les modifications des statuts - décide dans les 4 mois qui suivent l'approbation des comptes annuels ayant fait apparaître cette perte, s'il y a lieu à dissolution anticipée de la société.\nSi la dissolution de la société n'est pas prononcée, la société est tenue, au plus tard à la clôture du deuxième exercice suivant celui au cours duquel la constatation des pertes est intervenue et sous réserve de maintenir le capital minimum légal, de réduire son capital d'un montant au moins égal à celui des pertes qui n'ont pu être imputées sur les réserves, si, dans ce délai, les capitaux propres n'ont pas été reconstitués à concurrence d'une valeur au moins égale à la moitié du capital social.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 27,
+      "titre": "Liquidation",
+      "contenu": "La liquidation de la société est effectuée conformément aux dispositions légales.\nLorsque toutes les parts sociales sont réunies entre les mains d'un seul associé personne morale, la dissolution de la société, pour quelque cause que ce soit, entraîne la transmission universelle du patrimoine social à l'associé unique, sans qu'il y ait lieu à liquidation, sous réserve des oppositions des créanciers sociaux, conformément aux dispositions de l'article 1844-5 du code civil.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": "27 bis",
+      "titre": "Contestations",
+      "variants": [
+        {
+          "condition": "clauseCompromissoire === false",
+          "contenu": "Les contestations relatives aux affaires sociales survenant pendant la durée de la société ou au cours de sa liquidation, entre les associés, ou entre la société et les associés, seront soumises au tribunal de commerce compétent.",
+          "variables": []
+        },
+        {
+          "condition": "clauseCompromissoire === true",
+          "contenu": "Toutes les contestations qui pourraient s'élever pendant la durée de la société ou au cours de sa liquidation entre les associés, ou entre un associé et la société, concernant l'interprétation ou l'exécution des présents statuts ou plus généralement au sujet des affaires sociales, sont soumises à arbitrage.\nA défaut d'accord entre les parties sur le choix d'un arbitre unique, chacune des parties désignera un arbitre, dans les 15 jours de la constatation du désaccord sur ce choix, notifiée par lettre recommandée avec accusé de réception par la partie la plus diligente à l'autre.\nLes deux arbitres seront chargés de désigner un troisième arbitre dans le délai de 15 jours suivant la nomination du dernier arbitre nommé.\nDans le cas où l'une des parties refuserait de désigner un arbitre ou à défaut d'accord sur le choix du troisième, l'arbitre sera désigné par le président du tribunal de commerce du siège social, saisi par la partie la plus diligente.\nLes arbitres doivent statuer dans un délai de {{delaiArbitrage}} mois à compter de la désignation du tribunal arbitral. Ils statueront en amiables compositeurs et en dernier ressort, les parties renonçant à la voie de l'appel à l'encontre de la sentence à intervenir.\nLes frais d'arbitrage seront partagés entre les parties.",
+          "variables": ["delaiArbitrage"]
+        }
+      ],
+      "obligatoire": false
+    },
+    {
+      "numero": 28,
+      "titre": "Actes accomplis pour le compte de la société en formation",
+      "contenu": "{{#if actesFormation}}L'état des actes accomplis pour le compte de la société en formation a été annexé aux statuts. La signature de ceux-ci emportera reprise de ces engagements par la société, lorsque celle-ci aura été immatriculée au Registre du commerce et des sociétés.{{/if}}\nL'associé unique soussigné passera également les actes et les engagements suivants pour le compte de la société :\n{{listeActesFormation}}\nIls seront repris par la société du seul fait de son immatriculation.",
+      "variables": ["actesFormation", "listeActesFormation"],
+      "obligatoire": true,
+      "observations": "L'associé peut également donner mandat au gérant non associé désigné par lui de prendre des engagements au nom et pour le compte de la société."
+    },
+    {
+      "numero": 29,
+      "titre": "Frais - Pouvoirs",
+      "contenu": "Les frais, droits et honoraires des présents statuts et de leurs suites seront pris en charge par la société.\nTous pouvoirs sont donnés au porteur d'une copie des présentes à l'effet d'accomplir toutes les formalités légales de publicité.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 30,
+      "titre": "Nomination du premier gérant",
+      "variants": [
+        {
+          "condition": "gerantDansStatuts === true && gerantEstAssocie === true",
+          "contenu": "{{gerantPrenom}} {{gerantNom}} soussigné, est nommé gérant de la société.{{#if remunerationGerant}}\n\nLa rémunération du gérant est fixée comme suit : {{descriptionRemunerationGerant}}.{{/if}}{{#if optionImpotSocietes}}\n\nL'associé unique soussigné déclare opter pour le régime de l'impôt sur les sociétés.{{/if}}",
+          "variables": ["gerantPrenom", "gerantNom", "remunerationGerant", "descriptionRemunerationGerant", "optionImpotSocietes"],
+          "observations": "L'EURL relève, en principe, du régime fiscal des sociétés de personnes. Elle est passible de l'impôt sur les sociétés sur option. En l'absence de dispositions précises sur les formes de l'option, il semble prudent d'insérer dans les statuts la clause ci-dessus. Ce régime est appliqué de plein droit lorsque l'associé unique est une société soumise à l'impôt sur les sociétés."
+        },
+        {
+          "condition": "gerantDansStatuts === true && gerantEstAssocie === false",
+          "contenu": "Est nommé gérant de la société pour une durée indéterminée : {{gerantPrenom}} {{gerantNom}}, demeurant {{gerantAdresse}} lequel intervenant aux présents statuts déclare accepter ces fonctions.\nLa rémunération du gérant est fixée comme suit : {{descriptionRemunerationGerant}}.{{#if optionImpotSocietes}}\n\nL'associé unique soussigné déclare opter pour le régime de l'impôt sur les sociétés.{{/if}}",
+          "variables": ["gerantPrenom", "gerantNom", "gerantAdresse", "descriptionRemunerationGerant", "optionImpotSocietes"],
+          "observations": "L'EURL relève, en principe, du régime fiscal des sociétés de personnes. Elle est passible de l'impôt sur les sociétés sur option. En l'absence de dispositions précises sur les formes de l'option, il semble prudent d'insérer dans les statuts la clause ci-dessus. Ce régime est appliqué de plein droit lorsque l'associé unique est une société soumise à l'impôt sur les sociétés."
+        }
+      ],
+      "obligatoire": true
+    }
+  ],
+  "conclusion": {
+    "texte": "Fait à {{lieuSignature}}, le {{dateSignature}}\n\nEn {{nombreExemplaires}} exemplaires\n\nSignatures",
+    "variables": ["lieuSignature", "dateSignature", "nombreExemplaires"],
+    "observations": "Signature de l'associé unique et, le cas échéant, du conjoint commun en biens intervenant et du gérant non associé désigné dans les statuts."
+  },
+  "variablesGlobales": [
+    "denomination",
+    "sigle",
+    "capitalSocial",
+    "siegeSocial",
+    "objetSocial",
+    "duree",
+    "associeType",
+    "associePrenom",
+    "associeNom",
+    "associeAdresse",
+    "associeSocieteNom",
+    "associeSocieteFormeJuridique",
+    "associeSocieteCapital",
+    "associeSocieteRCS",
+    "associeSocieteNumeroRCS",
+    "associeSocieteSiege",
+    "associeRepresentantPrenom",
+    "associeRepresentantNom",
+    "associeRepresentantQualite",
+    "associeDesignation",
+    "typeApport",
+    "montantApportNumeraire",
+    "nombrePartsNumeraire",
+    "valeurNominale",
+    "dateDepotFonds",
+    "etablissementDepot",
+    "fractionLiberation",
+    "montantLibere",
+    "dateContratApport",
+    "descriptionBiensNature",
+    "valeurApportNature",
+    "commissaireAuxApports",
+    "commissaireAuxApportsNom",
+    "natureFondsCommerce",
+    "adresseFondsCommerce",
+    "numeroIdentificationFonds",
+    "valeurElementsIncorporels",
+    "valeurMateriel",
+    "valeurFondsCommerce",
+    "montantTotalApports",
+    "apportPrincipal",
+    "conjointCivilite",
+    "conjointPrenom",
+    "conjointNom",
+    "dateAvertissementConjoint",
+    "conjointInterventionStatuts",
+    "consentementArticle1424",
+    "conjointRenonciationCourrier",
+    "dateRenonciationConjoint",
+    "nombreParts",
+    "liberationPartielle",
+    "apportMixte",
+    "nombrePartsNature",
+    "regimeCession",
+    "majoriteCessionTiers",
+    "majoriteMutation",
+    "modalitesPrixRachat",
+    "agrementDeces",
+    "beneficiairesContinuation",
+    "modalitesValeurDroits",
+    "majoriteNominationGerant",
+    "majoriteRevocationGerant",
+    "delaiPreavisGerant",
+    "limitationsPouvoirs",
+    "descriptionLimitationsPouvoirs",
+    "seuilCompteCourant",
+    "exerciceDebut",
+    "exerciceFin",
+    "premierExerciceFin",
+    "clauseCompromissoire",
+    "delaiArbitrage",
+    "actesFormation",
+    "listeActesFormation",
+    "gerantDansStatuts",
+    "gerantEstAssocie",
+    "gerantPrenom",
+    "gerantNom",
+    "gerantAdresse",
+    "remunerationGerant",
+    "descriptionRemunerationGerant",
+    "optionImpotSocietes",
+    "lieuSignature",
+    "dateSignature",
+    "nombreExemplaires"
+  ]
+}
+
