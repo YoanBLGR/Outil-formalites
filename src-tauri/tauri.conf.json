@@ -1,0 +1,65 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Formalyse",
+  "version": "1.0.0",
+  "identifier": "com.formalyse.app",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:5173",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": ""
+    },
+    "longDescription": "Application de gestion et génération de statuts juridiques pour entreprises (EURL, SARL, SASU)",
+    "macOS": {
+      "entitlements": null,
+      "exceptionDomain": "",
+      "frameworks": [],
+      "providerShortName": null,
+      "signingIdentity": null
+    },
+    "resources": [],
+    "shortDescription": "Gestion de statuts juridiques",
+    "linux": {
+      "deb": {
+        "depends": []
+      }
+    },
+    "externalBin": []
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Formalyse",
+        "width": 1400,
+        "height": 900,
+        "resizable": true,
+        "fullscreen": false,
+        "decorations": true,
+        "transparent": false,
+        "fileDropEnabled": true
+      }
+    ],
+    "security": {
+      "csp": null
+    },
+    "trayIcon": null,
+    "macOSPrivateApi": false
+  },
+  "plugins": {}
+}
+
