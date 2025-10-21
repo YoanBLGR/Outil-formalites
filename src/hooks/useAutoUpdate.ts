@@ -59,8 +59,14 @@ export function useAutoUpdate() {
       }
 
       // Télécharger et installer la mise à jour
-      await update.downloadAndInstall((progress) => {
-        console.log(`Téléchargement: ${progress.downloaded} / ${progress.contentLength || '?'} octets`)
+      await update.downloadAndInstall((event) => {
+        if (event.event === 'Started') {
+          console.log(`Téléchargement démarré - Taille: ${event.data.contentLength || '?'} octets`)
+        } else if (event.event === 'Progress') {
+          console.log(`Téléchargement en cours: ${event.data.chunkLength} octets`)
+        } else if (event.event === 'Finished') {
+          console.log('Téléchargement terminé !')
+        }
       })
 
       setUpdateInfo(prev => ({
