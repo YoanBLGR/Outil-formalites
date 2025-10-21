@@ -43,6 +43,18 @@ async function createDatabase(): Promise<RxDatabase<DatabaseCollections>> {
           // Le champ statutsDraft est optionnel, pas besoin de l'initialiser
           return oldDoc
         },
+        // Migration de la version 1 à 2 : ajout du champ checklistDocumentsGU (optionnel)
+        2: function (oldDoc: any) {
+          // Le champ checklistDocumentsGU est optionnel, pas besoin de l'initialiser
+          // Il sera généré automatiquement lors de l'affichage si absent
+          return oldDoc
+        },
+        // Migration de la version 2 à 3 : ajout du champ guichetUnique (optionnel)
+        3: function (oldDoc: any) {
+          // Le champ guichetUnique est optionnel, pas besoin de l'initialiser
+          // Il sera ajouté lors de la création d'une formalité sur le GU
+          return oldDoc
+        },
       },
     },
   })

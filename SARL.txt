@@ -1,0 +1,889 @@
+SARL - Constitution
+
+
+
+
+15	 	Statuts de SARL (formule développée)
+
+
+Cette formule est à utiliser pour une société comportant deux ou plusieurs associés (v.  les études Statuts et Société en formation). Elle est à jour de la loi n° 2024-537 du 13 juin 2024 visant à accroître le financement des entreprises et l'attractivité de la France.
+
+..... (dénomination sociale)
+Société à responsabilité limitée au capital de ..... (capital) euros
+Siège social : ..... (siège social)
+Société en formation
+
+Statuts
+
+
+Les soussignés :
+Obs : 
+la mention de l'identité des premiers signataires des statuts peut être supprimée lors de la mise à jour de ces statuts, à condition toutefois que la société soit immatriculée depuis plus de 5 ans au RCS (  C. com., art. R. 210-10, al. 2).
+  * Si le fondateur est une personne physique :
+..... (prénom) ..... (nom), demeurant à ..... (adresse), ..... (né/née) le ..... (date de naissance) à ..... (lieu de naissance), ..... (situation et régime matrimonial),
+
+et/ou
+  * Si le fondateur est une personne morale :
+..... (dénomination sociale), ..... (forme) au capital de ..... (capital) euros, ayant son siège social à ..... (siège social), immatriculée au Registre du commerce et des sociétés de ..... (RCS), sous le numéro ..... (numéro SIREN), représentée par ..... (prénom) ..... (nom) ès qualité de ..... (qualité), dûment habilité aux fins des présentes,
+
+Ont établi ainsi qu'il suit : 
+Les statuts de la société à responsabilité limitée devant exister entre eux et toute autre personne qui viendrait ultérieurement à acquérir la qualité d'associé (la « Société »).
+
+I. - Forme - Objet - Dénomination - Siège social - Durée
+
+
+
+Article 1 - Forme
+
+La Société est une société à responsabilité limitée.
+Elle est régie par les dispositions législatives et réglementaires en vigueur ainsi que par les présents statuts.
+Elle fonctionne indifféremment sous la même forme avec un ou plusieurs associés.
+
+Article 2 - Objet
+
+La Société a pour objet, directement ou indirectement, en France ou à l'étranger :
+-  ..... (décrire en des termes généraux l'activité envisagée par la Société) ;
+-  la participation directe ou indirecte de la Société à toutes activités ou opérations industrielles, commerciales ou financières, mobilières ou immobilières, en France ou à l'étranger, sous quelque forme que ce soit, dès lors que ces activités ou opérations peuvent se rattacher directement ou indirectement à l'objet social ou à tous objets similaires, connexes ou complémentaires,
+Obs : 
+cette formule, large, permettra d'éviter des modifications statutaires pendant la vie de la Société si l'activité de la Société est étendue à d'autres domaines voisins de l'objet social initial.
+-  et plus généralement toutes opérations de quelque nature qu'elles soient, économiques ou juridiques, financières, civiles ou commerciales, pouvant se rattacher, directement ou indirectement, à cet objet social ou à tous objets similaires, connexes ou complémentaires.
+
+   S'il est prévu de doter la Société d'une raison d'être, ajouter :
+
+La Société a pour raison d'être ..... (décrire la raison d'être de la Société).
+
+Obs : 
+les statuts peuvent préciser une raison d'être, constituée des principes dont la société se dote et pour le respect desquels elle entend affecter des moyens dans la réalisation de son activité (  C. civ., art.  1835).
+
+Article 3 - Dénomination sociale
+
+La Société a pour dénomination sociale ..... (dénomination sociale).
+Obs : 
+il sera prudent de consulter l'INPI pour s'assurer que la dénomination choisie n'existe pas déjà au profit d'une autre société.
+
+   Si un sigle a été choisi, ajouter :
+
+Cette dénomination sociale peut être résumée par le sigle ..... (sigle).
+
+Dans tous les actes et documents émanant de la Société et destinés aux tiers, la dénomination sociale doit être précédée ou suivie immédiatement et lisiblement des mots « société à responsabilité limitée » ou des initiales « SARL » et de l'indicationdu montant de son capital social.
+
+Article 4 - Siège social
+
+Le siège social de la Société est fixé ..... (lieu du siège social).
+Le transfert du siège social en tout autre endroit du territoire français est décidé par un ou plusieurs associés représentant plus de la moitié des parts sociales.
+Il peut être également décidé par la Gérance, sous réserve de ratification de cette décision par décision collective ordinaire des associés. En cas de transfert du siège social décidé conformément à la loi par la Gérance, celle-ci est habilitée à modifier les statuts en conséquence.
+
+Article 5 - Durée
+
+La durée de la Société est de ..... (99 ans maximum) ans à compter de la date de son immatriculation au Registre du commerce et des sociétés, sauf prorogation ou dissolution anticipée.
+
+II. - Apports - Capital social - Parts sociales
+
+
+
+Article 6 - Apports
+
+6.1 Apports en numéraire
+
+
+  * Si toutes les parts sociales souscrites ont été libérées, indiquer :
+1° ..... (Identité de l'apporteur en numéraire) apporte à la Société une somme totale de ..... (somme) euros correspondant à ..... (nombre) parts sociales de ..... (montant) euro(s) de valeur nominale chacune, entièrement souscrites et intégralement libérées.
+
+  * Lorsque les sommes versées ont été reçues en dépôt par un notaire, indiquer :
+Laquelle somme de ..... (somme) euros a été régulièrement déposée à un compte ouvert au nom de la Société en formation, le ..... (date) dans la comptabilité de Me ..... (identité du notaire), notaire, ..... (adresse du notaire), sous le numéro de compte n° ..... (numéro du compte).
+  * Lorsque les sommes versées ont été reçues en dépôt par un établissement financier, remplacer par :
+Laquelle somme de ..... (somme) euros a été régulièrement déposée à un compte ouvert au nom de la Société en formation, le ..... (date) à la banque ..... (dénomination sociale), ..... (siège social), sous le numéro de compte n° ..... (numéro du compte).
+  * Lorsque les sommes versées ont été reçues en dépôt par la Caisse des dépôts et consignations, remplacer par :
+Laquelle somme de ..... (somme) euros a été régulièrement déposée à un compte ouvert au nom de la Société en formation, le ..... (date) à la Caisse des dépôts et consignations sous le numéro de compte n° ..... (numéro du compte).
+
+  * Si certaines des parts sociales souscrites n'ont pas été libérées, remplacer par :
+1° ..... (Identité de l'apporteur en numéraire) apporte à la Société une somme totale de ..... (somme) euros.
+La somme effectivement libérée au titre dudit apport en numéraire s'élève à ..... (somme) euros, correspondant à ..... (nombre) parts sociales de ..... (montant) euro(s) de valeur nominale chacune, souscrites et libérées à hauteur de ..... (indiquer la fraction du capital libéré, qui doit être au moins égale à 1/5 de la valeur nominale des parts sociales) % de leur valeur nominale.
+
+  * Lorsque les sommes versées ont été reçues en dépôt par un notaire, indiquer :
+Laquelle somme de ..... (somme) euros a été régulièrement déposée à un compte ouvert au nom de la Société en formation, le ..... (date) dans la comptabilité de Me ..... (identité du notaire), notaire, ..... (adresse du notaire), sous le numéro de compte n° ..... (numéro du compte).
+  * Lorsque les sommes versées ont été reçues en dépôt par un établissement financier, remplacer par :
+Laquelle somme de ..... (somme) euros a été régulièrement déposée à un compte ouvert au nom de la Société en formation, le ..... (date) à la banque ..... (dénomination sociale), ..... (siège social), sous le numéro de compte n° ..... (numéro du compte).
+  * Lorsque les sommes versées ont été reçues en dépôt par la Caisse des dépôts et consignations, remplacer par :
+Laquelle somme de ..... (somme) euros a été régulièrement déposée à un compte ouvert au nom de la Société en formation, le ..... (date) à la Caisse des dépôts et consignations sous le numéro de compte n° ..... (numéro du compte).
+
+La libération du surplus, soit la somme de ..... (somme) euros, devra intervenir dans les conditions fixées par la loi.
+
+
+   Si un autre associé fait également un apport en numéraire, ajouter :
+
+2° ..... (Identité de l'apporteur en numéraire) apporte à la Société une somme totale de ..... (somme) euros.
+
+Obs : 
+procéder comme au 1° ci-dessus.
+6.2 Apport en nature
+
+
+Obs : 
+les mentions relatives aux apports en nature doivent être maintenues dans les statuts au minimum 5 ans après l'immatriculation de la Société au RCS.
+1° ..... (Identité de l'apporteur en nature) apporte à la Société sous les garanties ordinaires et de droit en pareille matière :
+Désignation : ..... (désignation du bien apporté).
+Obs : 
+désigner succinctement le bien apporté en précisant sa nature : immeuble, fonds de commerce, ensemble mobilier, matériel, véhicule, etc., sa situation et tous autres éléments permettant son identification.
+
+  * Si le commissaire aux apports a été désigné à l'unanimité des fondateurs de la Société, indiquer :
+Évaluation : l'évaluation des biens ci-avant désignés a été faite au vu du rapport de ..... (identité et adresse ou dénomination sociale et siège social du commissaire aux apports), commissaire aux apports, établi sous sa responsabilité le ..... (date), ledit commissaire ayant été désigné par décision unanime des fondateurs en date du ..... (date). Un exemplaire de ce rapport demeure annexé aux présentes.
+  * Si le commissaire aux apports a été désigné par ordonnance du président du tribunal de commerce, remplacer par :
+Évaluation : l'évaluation des biens ci-avant désignés a été faite au vu du rapport de ..... (identité et adresse ou dénomination sociale et siège social du commissaire aux apports), commissaire aux apports, établi sous sa responsabilité le ..... (date), ledit commissaire ayant été désigné par ordonnance du président du tribunal de commerce de ..... (lieu) le ..... (date), sur requête de ..... (identité du requérant), agissant en qualité de fondateur. Un exemplaire de ce rapport demeure annexé aux présentes.
+  * En cas de dispense de désignation d'un commissaire aux apports par application de l'article L. 223-9 du code de commerce, remplacer par :
+
+Obs : 
+les fondateurs peuvent décider à l'unanimité que le recours à un commissaire aux apports ne sera pas obligatoire, lorsque la valeur d'aucun apport en nature n'excède 30 000 euros et si la valeur totale de l'ensemble des apports en nature n'excède pas la moitié du capital (  C. com., art. L. 223-9, al. 2 et D. 223-6-1).
+Évaluation : l'évaluation des biens ci-avant désignés a été réalisée sous la seule responsabilité des associés fondateurs, qui décident à l'unanimité de ne pas recourir à un commissaire aux apports, conformément à la faculté offerte par l'article L. 223-9 du code de commerce et aux conditions posées par ce même article ainsi que par l'article D. 223-6-1 du code de commerce.
+
+Rémunération de l'apport : en rémunération de l'apport en nature ci-dessus désigné et évalué à la somme totale de ..... (somme) euros, ..... (identité de l'apporteur en nature) s'est vu attribuer ..... (nombre) parts sociales de ..... (montant) euros de valeur nominale chacune, dont la valeur correspond au montant de l'évaluation de son apport.
+
+   Si un autre associé fait également un apport en nature, ajouter :
+
+2° ..... (Identité de l'apporteur en nature) fait apport à la Société :
+
+Obs : 
+procéder comme au 1° ci-dessus.
+6.3 Apports en industrie
+
+..... (Identité de l'apporteur), soussigné, apporte à la Société son industrie selon les modalités suivantes ..... (décrire les prestations de l'apporteur et leur durée). Il reçoit en contrepartie ..... (nombre) parts sociales ouvrant droit au partage des bénéfices et de l'actif net à hauteur de ..... (pourcentage) %, à charge de contribuer aux pertes à hauteur de ..... (pourcentage) %.
+6.4 Récapitulation des apports formant le capital
+
+L'ensemble des apports effectués à la Société qui forment le capital de la Société s'élève à la somme de ..... (montant en lettres) euros [..... (montant en chiffres) euros], représentant :
+
+1° Les apports en numéraire pour un montant total de :	
+..... (à compléter) euros
+
+2° Les apports en nature évalués pour un montant total de :	
+..... (à compléter) euros
+
+Total égal au montant du capital social	
+..... (à compléter) euros
+
+
+
+   En présence d'apporteurs mariés sous le régime de la communauté de biens ou pacsés, ajouter :
+6.5 Dispositions pour les apporteurs mariés sous le régime de la communauté de biens ou pacsés
+
+
+   En cas d'apports de biens communs par l'un des époux, ajouter :
+
+Conformément aux dispositions de l'article  1832-2 du code civil, ..... (prénom et nom de l'époux/de l'épouse) a été ..... (averti/avertie), par lettre recommandée avec demande d'avis de réception reçue le ..... (date), de l'apport envisagé et de la faculté de revendiquer la qualité d'associé pour la moitié des parts souscrites par ..... (son conjoint/sa conjointe).
+
+Obs : 
+préciser le nom de jeune fille pour la femme.
+
+Un délai de 3 semaines paraît raisonnable entre l'avertissement donné au conjoint et l'opération d'apport en numéraire, étant précisé qu'aucun délai n'est prévu par la loi. Le défaut d'information du conjoint entraîne, sauf ratification, la nullité de l'apport.
+
+  *  En cas d'intervention du conjoint à l'acte, avec revendication de la qualité d'associé, indiquer :
+En application des dispositions de l'article  1832-2 du code civil, ..... (prénom et nom), ..... (conjoint/conjointe) de ..... (prénom et nom), intervenant aux présentes, reconnaissant avoir été régulièrement ..... (averti/avertie) de l'apport envisagé, déclare vouloir être personnellement associé de la Société pour la moitié des parts sociales souscrites par ..... (son conjoint/sa conjointe). En conséquence, chacun des époux sera associé pour la moitié des parts souscrites.
+  *  En cas d'intervention du conjoint à l'acte, avec renonciation définitive à la qualité d'associé, remplacer par :
+En application des dispositions de l'article  1832-2 du code civil, ..... (prénom et nom), ..... (conjoint/conjointe) de ..... (prénom et nom), intervenant aux présentes, reconnaissant avoir été régulièrement ..... (averti/avertie) de l'apport envisagé, déclare renoncer définitivement à son droit de revendiquer la qualité d'associé, reconnaissant exclusivement cette qualité à ..... (son conjoint/sa conjointe) pour la totalité des parts sociales souscrites.
+  *  En cas d'intervention du conjoint à l'acte, avec renonciation provisoire à la qualité d'associé, remplacer par :
+En application des dispositions de l'article  1832-2 du code civil, ..... (prénom et nom), ..... (conjoint/conjointe) de ..... (prénom et nom), intervenant aux présentes, reconnaissant avoir été régulièrement ..... (averti/avertie) de l'apport envisagé, déclare ne pas vouloir revendiquer à ce jour la qualité d'associé mais se réserver le droit de notifier à la Société son intention de se voir reconnaître la qualité d'associé pour la moitié des parts sociales souscrites par ..... (son conjoint/sa conjointe) dans les conditions prévues par la loi et les présents statuts.
+  *  Si le conjoint n'intervient pas à l'acte et n'a adressé aucune notification, remplacer par :
+..... (prénom et nom), ..... (conjoint/conjointe) de ..... (prénom et nom), régulièrement ..... (averti/avertie) de l'apport envisagé, n'a pas notifié son intention de devenir personnellement associé pour la moitié des parts sociales souscrites par ..... (son conjoint/sa conjointe). En conséquence, les parts sociales souscrites sont attribuées en totalité à ..... (ce dernier/cette dernière).
+  *  Si le conjoint n'intervient pas à l'acte et a notifié son intention de devenir associé, remplacer par :
+..... (prénom et nom), ..... (conjoint/conjointe) de ..... (prénom et nom), régulièrement ..... (averti/avertie) de l'apport envisagé, a notifié, par lettre recommandée avec demande d'avis de réception reçue le ..... (date), son intention de devenir personnellement associé pour la moitié des parts sociales souscrites par ..... (son conjoint/sa conjointe). En conséquence, chacun des époux sera associé pour la moitié des parts souscrites.
+  *  Si le conjoint n'intervient pas à l'acte et a notifié son intention de renoncer définitivement à la qualité d'associé, remplacer par :
+..... (prénom et nom), ..... (conjoint/conjointe) de ..... (prénom et nom), régulièrement ..... (averti/avertie) de l'apport envisagé, a notifié, par lettre recommandée avec demande d'avis de réception reçue le ..... (date), sa décision de renoncer définitivement à son droit de revendiquer la qualité d'associé, reconnaissant exclusivement cette qualité à ..... (son conjoint/sa conjointe) pour la totalité des parts sociales souscrites.
+  *  Si le conjoint n'intervient pas à l'acte et a notifié son intention de renoncer provisoirement à la qualité d'associé, remplacer par :
+..... (prénom et nom), ..... (conjoint/conjointe) de ..... (prénom et nom), régulièrement ..... (averti/avertie) de l'apport envisagé, a notifié, par lettre recommandée avec demande d'avis de réception reçue le ..... (date), sa décision de ne pas vouloir revendiquer à ce jour la qualité d'associé mais de se réserver le droit de notifier à la Société son intention de se voir reconnaître la qualité d'associé pour la moitié des parts sociales souscrites par ..... (son conjoint/sa conjointe) dans les conditions prévues par la loi et les présents statuts.
+
+
+   En cas d'apports de biens soumis à l'accord du conjoint (C. civ., art. 1424), ajouter :
+
+Obs : 
+il s'agit des apports de droits réels, immeubles, fonds de commerce et exploitations dépendant de la communauté, droits sociaux non négociables, meubles corporels dont l'aliénation est soumise à publicité (  C. civ., art.  1424).
+
+En application des dispositions de l'article  1424 du code civil, ..... (prénom et nom), ..... (conjoint/conjointe) de ..... (prénom et nom), régulièrement ..... (averti/avertie) de l'apport envisagé ..... (déclare consentir expressément/a expressément consenti par courrier en date du.....(date)) à l'apport en nature effectué par son conjoint.
+
+
+   En cas d'apport par une personne ayant contracté un PACS, ajouter :
+
+  * En cas de partenaires coassociés, indiquer :
+..... (prénom et nom) déclare réaliser le présent apport en indivision par moitié avec ..... (prénom et nom), avec ..... (lequel/laquelle) ..... (il/elle) a contracté un pacte civil de solidarité en date du ..... (date), et que l'indivision sera représentée auprès de la Société par un mandataire commun désigné d'un commun accord.
+  * Ou bien en cas de partenaire réalisant l'apport pour son compte personnel, remplacer par :
+..... (prénom et nom) déclare se soumettre au régime patrimonial de la séparation des patrimoines et qu'en conséquence, les parts souscrites en rémunération de son apport resteront sa propriété exclusive.
+
+
+Article 7 - Capital social 
+
+Le capital social est fixé à la somme de ..... (montant en lettre) euros [..... (montant en chiffres) euros]. Il est divisé en ..... (nombre en lettres) [..... (nombre en chiffres)] parts sociales de ..... (montant en lettres) euros [..... (montant en chiffres) euros] de valeur nominale chacune, ..... (intégralement/partiellement) libérées et attribuées de la manière suivante :
+-  à ..... (identité de l'associé) ..... (nombre) parts sociales numérotées de ..... (numéro) à ..... (numéro) ;
+-  à ..... (identité de l'associé) ..... (nombre) parts sociales numérotées de ..... (numéro) à ..... (numéro).
+Total égal au nombre de parts composant le capital social : ..... (nombre) parts.
+Les soussignés déclarent que toutes les parts représentant le capital social de la Société leur appartiennent et sont réparties entre eux dans les proportions indiquées ci-dessus.
+
+Article 8 - Modification du capital social
+
+1. Le capital social peut être augmenté par tous procédés et selon toutes modalités prévues par la loi en vertu d'une décision extraordinaire des associés.
+Le capital social peut être augmenté soit par création de parts sociales nouvelles, soit par majoration du montant nominal des parts existantes.
+Les parts sociales nouvelles sont émises soit à leur montant nominal, soit à ce montant majoré d'une prime d'émission.
+Elles sont libérées soit par apport en numéraire y compris par compensation avec des créances liquides et exigibles sur la Société, soit par apport en nature, soit par incorporation de réserves, bénéfices ou primes d'émission, soit en conséquence d'une fusion ou d'une scission. Le capital social doit être intégralement libéré avant toute souscription de nouvelles parts à libérer en numéraire.
+En cas de souscription de parts sociales au moyen de fonds ou de biens communs, la qualité d'associé est reconnue à celui des époux qui souscrit. Cette qualité est également reconnue, pour la moitié des parts souscrites, à ..... (son conjoint/sa conjointe) qui notifie à la Société, conformément aux dispositions de l'article  1832-2 du code civil, son intention d'être personnellement associé. 
+
+  * Si les cessions entre conjoints, ascendants ou descendants sont libres, indiquer :
+Aucun agrément n'est requis à cet effet.
+  * Si les cessions entre conjoints, ascendants ou descendants sont soumises à agrément, remplacer par :
+Si cette notification a lieu lors de la souscription, l'agrément des associés vaut pour les deux époux. Si cette notification est postérieure à la souscription, ..... (le conjoint/la conjointe) devra être ..... (agréé/agréée) par les autres associés conformément aux stipulations de l'article ..... (numéro de l'article des statuts prévoyant l'agrément). Lors de la délibération sur l'agrément, ..... (l'époux associé/l'épouse associée) ne participe pas au vote et ses parts ne sont pas prises en compte pour le calcul de la majorité. Si ..... (le conjoint/la conjointe) n'est pas ..... (agréé/agréée) par les autres associés, ..... (l'époux/l'épouse) demeure ..... (associé/associée) pour la totalité des parts sociales concernées.
+
+
+   En cas d'institution d'un droit préférentiel de souscription, ajouter :
+
+En cas d'augmentation de capital en numéraire, chaque associé bénéficie, proportionnellement au nombre des parts qu'il possède, d'un droit préférentiel à la souscription des parts sociales nouvelles.
+
+
+Les associés peuvent renoncer à titre individuel à leur droit préférentiel de souscription en en avisant la Société par lettre recommandée avec demande d'avis de réception. Par ailleurs, les associés peuvent, par décision collective extraordinaire, supprimer ce droit préférentiel de souscription.
+
+
+Le droit préférentiel de souscription peut être cédé, sous réserve, le cas échéant, de l'agrément du cessionnaire dans les conditions prévues par les stipulations de l'article ..... (numéro de l'article des statuts prévoyant l'agrément).
+
+
+Les modalités de ce droit préférentiel de souscription seront fixées par la collectivité des associés.
+
+2. Le capital social peut également être réduit, soit par réduction du nombre de parts sociales, soit par réduction de la valeur nominale des parts sociales existantes.
+La réduction de capital est décidée en vertu d'une décision collective extraordinaire des associés et ne peut en aucun cas porter atteinte à l'égalité des associés.
+
+Article 9 - Libération des parts sociales
+
+Les parts sociales doivent être intégralement libérées lorsqu'elles représentent des apports en nature.
+Les parts représentant des apports en numéraire sont obligatoirement libérées, lors de la souscription, du cinquième (1/5) au moins de leur valeur nominale en ce qui concerne la souscription au capital initial lors de la constitution, ou, en cas d'augmentation de capital, du quart (1/4) au moins de leur valeur nominale. La libération du surplus intervient en une ou plusieurs fois sur décision de la Gérance, dans le délai de cinq (5) ans à compter de la date de l'immatriculation de la Société au Registre du commerce et des sociétés en ce qui concerne le capital initial, et dans le délai de cinq (5) ans à compter de la date où l'opération est devenue définitive en cas d'augmentation de capital.
+L'associé qui n'effectue pas à leur échéance les versements exigibles au titre des parts sociales dont il est titulaire est, de plein droit et sans aucune mise en demeure, redevable à la Société d'un intérêt de retard calculé jour après jour, à partir de la date d'exigibilité, au taux de l'intérêt légal, sans préjudice de l'action personnelle que la Société peut exercer contre l'associé défaillant et des mesures d'exécution forcée prévues par la loi.
+
+Article 10 - Représentation des parts sociales
+
+Les parts sociales ne peuvent pas être représentées par des titres négociables.
+Leur propriété résulte seulement des statuts de la Société, des actes qui pourraient modifier ceux-ci et des cessions et mutations ultérieures de parts sociales qui seraient régulièrement consenties, constatées et publiées.
+Chaque associé peut se faire délivrer, à ses frais, des copies ou extraits des statuts et actes modificatifs, ainsi qu'il sera dit ci-après.
+La Société peut émettre des parts sociales en rémunération d'apports en industrie. Ces parts sont émises sans valeur nominale et ne sont pas prises en compte pour la formation du capital social. Elles sont attribuées à titre personnel et ne peuvent pas être cédées. En cas de décès de leur titulaire ou en cas de cessation par celui-ci de ses prestations, elles sont annulées.
+
+Article 11 - Droits et obligations attachés aux parts sociales
+
+Chaque part sociale donne droit dans la propriété de l'actif social, dans le partage des bénéfices et dans le boni de liquidation, à une fraction proportionnelle au nombre de parts sociales existantes. Elle donne également le droit de participer aux décisions collectives des associés. Chaque part donne droit à une voix.
+Sauf disposition contraire de l'acte d'apport, les droits attachés aux parts d'industrie sont égaux à ceux de l'associé ayant le moins apporté.
+Les associés ne sont tenus à l'égard des tiers qu'à concurrence du montant de leur apport. Toutefois, lorsqu'il n'y a pas eu de commissaire aux apports ou lorsque la valeur retenue est différente de celle proposée par le commissaire aux apports, les associés sont solidairement responsables pendant cinq (5) ans, à l'égard des tiers, de la valeur attribuée aux apports en nature lors de la constitution de la Société ou de l'augmentation de capital.
+Les droits et obligations attachés aux parts les suivent, dans quelque main qu'elles passent. 
+La propriété d'une part sociale emporte de plein droit adhésion aux statuts et aux résolutions régulièrement prises par les associés.
+Les représentants, ayants droit, conjoint et héritiers d'un associé ne peuvent, sous quelque prétexte que ce soit, requérir l'apposition des scellés sur les biens et valeurs de la Société, ni en demander le partage ou la licitation.
+
+Article 12 - Indivisibilité des parts sociales
+
+Les parts sociales sont indivisibles à l'égard de la Société qui ne reconnaît qu'un seul propriétaire pour chacune d'elles. A cet égard, les indivisions successorales sont considérées comme un seul associé quel que soit le nombre des parts possédées par cette indivision.
+Les copropriétaires indivis de parts sociales sont tenus de se faire représenter auprès de la Société par un mandataire commun choisi parmi eux ou en dehors d'eux. A défaut d'entente, il sera pourvu à la désignation de ce mandataire à la demande de l'indivisaire le plus diligent, par ordonnance du président du tribunal de commerce statuant en référé.
+Lorsque les parts sociales sont grevées d'usufruit, le droit de vote est exercé ..... (par le nu-propriétaire, sauf pour les décisions concernant l'affectation des bénéfices où il est réservé à l'usufruitier/par l'usufruitier pour toutes les décisions collectives des associés, sauf pour les décisions pour lesquelles la loi exige l'accord unanime des associés où il est réservé au nu-propriétaire/par le nu-propriétaire pour les décisions collectives extraordinaires et par l'usufruitier pour les décisions collectives ordinaires), sauf convention contraire.
+Obs : 
+nous préconisons la 2e solution, qui est plus simple à gérer au plan pratique.
+Chaque fois qu'il est nécessaire de posséder plusieurs parts sociales pour exercer un droit quelconque, les parts isolées ou en nombre inférieur à celui requis ne donnent aucun droit à leurs propriétaires contre la Société, les associés ayant à faire, dans ce cas, leur affaire personnelle du groupement du nombre de parts sociales nécessaires.
+
+Article 13 - Cession et transmission des parts sociales
+
+13.1 Cessions
+
+13.1.1 Forme de la cession
+
+Toute cession des parts sociales doit être constatée par un acte écrit sous seing privé ou notarié. La cession n'est rendue opposable à la Société qu'après avoir été signifiée à cette dernière par exploit ..... (de commissaire/d'huissier) de justice ou acceptée par elle dans un acte authentique signé devant notaire. Toutefois, la signification peut être remplacée par le dépôt d'un original de l'acte de cession au siège social contre remise par le Gérant d'une attestation de ce dépôt.
+Elle n'est opposable aux tiers qu'après accomplissement de cette formalité et, en outre, qu'après publication des statuts modifiés au Registre du commerce et des sociétés.
+13.1.2 Agrément
+
+
+  * En cas de parts librement cessibles entre associés uniquement, indiquer :
+Les parts sociales sont librement cessibles entre associés.
+Les parts sociales ne sont cessibles entre conjoints, ascendants ou descendants qu'avec le consentement de la ..... (majorité/majorité plus forte sans pouvoir être plus forte que celle prévue pour l'agrément des cessions à des tiers étrangers à la Société) des associés représentant au moins ..... (la moitié/quotité plus forte sans pouvoir être plus forte que celle prévue pour l'agrément des cessions à des tiers étrangers à la Société) des parts sociales.
+Les parts sociales ne peuvent être cédées à des tiers étrangers à la Société qu'avec le consentement de la ..... (majorité/majorité plus forte) des associés représentant au moins ..... (la moitié/quotité plus forte) des parts sociales.
+  * En cas de parts librement cessibles entre conjoints, ascendants ou descendants uniquement, remplacer par :
+Les parts sociales sont librement cessibles entre conjoints, ascendants ou descendants.
+Les parts sociales ne sont cessibles entre associés qu'avec le consentement de la ..... (majorité/majorité plus forte sans pouvoir être plus forte que celle prévue pour l'agrément des cessions à des tiers étrangers à la Société) des associés représentant au moins ..... (la moitié/quotité plus forte sans pouvoir être plus forte que celle prévue pour l'agrément des cessions à des tiers étrangers à la Société) des parts sociales.
+Les parts sociales ne peuvent être cédées à des tiers étrangers à la Société qu'avec le consentement de la ..... (majorité/majorité plus forte) des associés représentant au moins ..... (la moitié/quotité plus forte) des parts sociales.
+  * En cas de parts librement cessibles entre associés et entre conjoints, ascendants ou descendants, indiquer :
+Les parts sociales sont librement cessibles entre associés ou entre conjoints, ascendants ou descendants.
+Les parts sociales ne peuvent être cédées à des tiers étrangers à la Société qu'avec le consentement de la ..... (majorité/majorité plus forte) des associés représentant au moins ..... (la moitié/quotité plus forte) des parts sociales.
+  * En cas d'agrément pour toutes les cessions (y compris entre associés et entre conjoints, ascendants ou descendants), remplacer par :
+Les parts sociales ne sont cessibles entre associés qu'avec le consentement de la ..... (majorité/majorité plus forte sans pouvoir être plus forte que celle prévue pour l'agrément des cessions à des tiers étrangers à la Société) des associés représentant au moins ..... (la moitié/quotité plus forte sans pouvoir être plus forte que celle prévue pour l'agrément des cessions à des tiers étrangers à la Société) des parts sociales.
+Les parts sociales ne sont cessibles entre conjoints, ascendants ou descendants qu'avec le consentement de la ..... (majorité/majorité plus forte sans pouvoir être plus forte que celle prévue pour l'agrément des cessions à des tiers étrangers à la Société) des associés représentant au moins ..... (la moitié/quotité plus forte sans pouvoir être plus forte que celle prévue pour l'agrément des cessions à des tiers étrangers à la Société) des parts sociales.
+Les parts sociales ne peuvent être cédées à des tiers étrangers à la Société qu'avec le consentement de la ..... (majorité/majorité plus forte) des associés représentant au moins ..... (la moitié/quotité plus forte) des parts sociales.
+
+Dans tous les cas où il y a lieu à agrément, le projet de cession est notifié à la Société et à chacun des associés par acte ..... (d'huissier/de commissaire) de justice ou par lettre recommandée avec demande d'avis de réception. Dans le délai de huit (8) jours à compter de cette notification, la Gérance doit convoquer l'assemblée générale des associés pour qu'elle délibère sur ledit projet ou consulter les associés par écrit sur ce projet. La décision de la Société est notifiée au cédant par lettre recommandée avec demande d'avis de réception. Si la Société n'a pas fait connaître sa décision dans le délai de trois (3) mois à compter de la dernière des notifications prévues au présent alinéa, le consentement à la cession est réputé acquis.
+Si la Société a refusé de consentir à la cession, les associés sont tenus, dans le délai de trois (3) mois à compter de ce refus, d'acquérir ou de faire acquérir les parts à un prix fixé d'un commun accord entre les parties ou, en cas de contestation, par un expert désigné conformément à l'article  1843-4 du code civil, sauf si le cédant renonce à la cession de ses parts. A la demande de la Gérance, ce délai peut être prolongé par décision du président du tribunal de commerce, statuant par ordonnance sur requête non susceptible de recours, sans que cette prolongation puisse excéder six (6) mois.
+La Société peut également, avec le consentement de l'associé cédant, décider, dans le même délai, de réduire son capital du montant de la valeur nominale des parts de l'associé cédant et de racheter lesdites parts au prix déterminé dans les conditions prévues ci-dessus. Un délai de paiement, qui ne saurait excéder deux (2) ans, peut, sur justification, être accordé à la Société par le président du tribunal de commerce, statuant par ordonnance de référé non susceptible de recours. Les sommes dues portent intérêt au taux légal en matière commerciale.
+L'associé cédant ne peut imposer à ses coassociés ou à la Société le rachat de ses parts sociales que s'il les détient depuis au moins deux (2) ans. Toutefois, cette durée minimale de détention ne s'impose pas s'il a recueilli les parts par succession, liquidation de communauté de biens entre époux, ou donation du conjoint, d'un ascendant ou d'un descendant.
+Si, à l'expiration du délai imparti, aucune des solutions prévues ci-dessus n'est intervenue, l'associé peut réaliser la cession initialement prévue.
+
+   Ajouter éventuellement :
+
+Les dispositions qui précèdent sont applicables à tous les cas de cessions, y compris par voie d'adjudication publique, en vertu d'une décision de justice ou autrement, ou par voie de fusion, d'apport ou de scission ou encore à titre d'attribution en nature à la liquidation d'une autre société.
+
+13.2 Revendication par le conjoint de la qualité d'associé
+
+La qualité d'associé est reconnue au conjoint commun en biens pour la moitié des parts souscrites ou acquises au moyen de fonds communs s'il notifie à la Société son intention d'être personnellement associé.
+
+  * Si les cessions entre conjoints, ascendants ou descendants sont libres, indiquer :
+Aucun agrément n'est requis à cet effet.
+  * Si les cessions entre conjoints, ascendants ou descendants sont soumises à agrément, remplacer par :
+Si la notification a été effectuée lors de la souscription ou de l'acquisition, l'agrément donné par les associés vaut pour les deux époux.
+Si le conjoint exerce son droit de revendication postérieurement à la réalisation de la souscription ou de l'acquisition, il devra être agréé selon les conditions prévues à l'article ..... (numéro de l'article des statuts prévoyant l'agrément) ci-dessus. L'époux associé sera alors exclu du vote et ses parts ne seront pas prises en compte pour le calcul de la majorité. Si le conjoint n'est pas agréé par les autres associés, l'époux demeure associé pour la totalité des parts sociales concernées.
+
+13.3 Transmission par décès ou par suite de dissolution ou de liquidation de communauté
+
+
+  * Si, en cas de décès d'un associé, la société continue entre les seuls associés survivants, indiquer :
+En cas de décès d'un associé, la Société continuera avec les seuls associés survivants. L'héritier a droit à la valeur des droits sociaux de son auteur.
+  * Si, en cas de décès d'un associé, la société continue entre les associés survivants et les héritiers, ayants droit et conjoint survivant, sous réserve de leur agrément préalable, remplacer par :
+En cas de décès d'un associé, la Société continuera entre les associés survivants et les héritiers ou ayants droit de l'associé décédé et éventuellement son conjoint survivant, sous réserve de leur agrément préalable par les associés survivants dans les conditions prévues à l'article ..... (numéro de l'article des statuts prévoyant l'agrément) ci-dessus. 
+  * Si, en cas de décès d'un associé, la société continue entre les associés survivants et les héritiers, ayants droit et conjoint survivant, sans agrément préalable, remplacer par :
+En cas de décès d'un associé, la Société continuera entre les associés survivants et les héritiers ou ayants droit de l'associé décédé et éventuellement son conjoint survivant, lesquels ne seront pas tenus d'obtenir l'agrément des associés survivants. 
+  * Si, en cas de décès d'un associé, la société continue entre les associés survivants et par les personnes désignées dans les statuts, remplacer par :
+En cas de décès d'un associé, la Société continuera entre les associés survivants et ..... (identité de la ou les personnes désignées), sans qu'il n'y ait lieu à agrément des associés survivants.
+
+
+  * Si l'agrément est nécessaire en cas de liquidation de communauté de biens entre époux, indiquer :
+En cas de liquidation de communauté légale ou conventionnelle de biens ayant existé entre un associé et son conjoint, l'attribution de parts communes au conjoint qui ne possédait pas la qualité d'associé est soumise à l'agrément dans les conditions prévues à l'article ..... (numéro de l'article des statuts prévoyant l'agrément) ci-dessus.
+  * Si l'agrément n'est pas nécessaire en cas de liquidation de communauté de biens entre époux, remplacer par :
+En cas de liquidation de communauté légale ou conventionnelle de biens ayant existé entre un associé et son conjoint, l'attribution de parts communes au conjoint qui ne possédait pas la qualité d'associé n'est pas soumise à agrément.
+
+13.4 Nantissement des parts sociales
+
+Si les associés ont donné leur consentement à un projet de nantissement de parts sociales dans les conditions prévues à l'article ..... (numéro de l'article des statuts prévoyant l'agrément) ci-dessus, ce consentement emportera agrément du cessionnaire en cas de réalisation forcée des parts nanties, à moins que la Société ne préfère, après la cession, racheter sans délai les parts, en vue de réduire son capital social.
+Si la Société n'a pas fait connaître sa décision dans le délai de trois (3) mois à compter de la notification du projet de nantissement, le consentement au nantissement, emportant agrément du cessionnaire en cas de réalisation forcée des parts nanties, est réputé acquis.
+Le défaut de notification du projet de nantissement à la Société comme le refus d'agrément de celui-ci par les associés, n'empêche pas le nantissement ; mais, en cas de réalisation forcée, l'adjudicataire devra être agréé comme en cas de cession de parts sociales.
+13.5 Location des parts sociales
+
+
+  * Si la location des parts est interdite, indiquer :
+La location de parts sociales est interdite.
+  * Si la location des parts sociales est autorisée, remplacer par :
+Les parts sociales de la Société peuvent être données à bail, au sens des dispositions de l'article  1709 du code civil, au profit d'une personne physique dans les conditions prévues par les articles L. 239-1 et suivants du code de commerce.
+Toute location de parts sociales doit être soumise, le cas échéant, à l'agrément des associés dans les conditions prévues à l'article ..... (numéro de l'article des statuts prévoyant la clause d'agrément) ci-avant.
+A peine de nullité, les parts sociales louées ne peuvent pas faire l'objet d'une sous-location ou d'un prêt de titres au sens des articles L. 211-22 à L. 211-26 du code monétaire et financier.
+Le contrat de bail est constaté par acte authentique ou sous seing privé soumis à la procédure de l'enregistrement. Il est rendu opposable à la Société par voie de signification par acte extrajudiciaire ou par voie d'acceptation par la Gérance dans un acte authentique.
+La délivrance des parts sociales louées est réalisée à la date à laquelle est inscrite, dans les présents statuts, à côté du nom de l'associé bailleur, la mention du bail et du nom du locataire. A compter de cette date, la Société doit adresser au locataire les informations dues aux associés et prévoir sa participation et son vote aux assemblées.
+Le droit de vote attaché à la part sociale louée appartient au bailleur dans les assemblées statuant sur les modifications statutaires ou le changement de nationalité de la Société et au locataire dans les autres assemblées. Pour l'exercice des autres droits attachés aux parts sociales louées, le bailleur est considéré comme le nu-propriétaire et le locataire comme l'usufruitier.
+Les parts sociales louées doivent faire l'objet d'une évaluation en début et en fin de contrat, ainsi qu'à la fin de chaque exercice comptable lorsque le bailleur est une personne morale. Cette évaluation est effectuée sur la base de critères tirés des comptes sociaux. Si la Société est dotée d'un commissaire aux comptes et n'a pas opté pour le régime d'audit légal allégé visé à l'article L. 821-57 du code de commerce, elle est certifiée par le commissaire aux comptes.
+Le bail est renouvelé dans les mêmes conditions que la conclusion du bail initial. En cas de non-renouvellement du contrat de bail ou de résiliation, la partie la plus diligente fait procéder à la radiation de la mention portée dans les statuts.
+
+
+Article 14 - Réunion de toutes les parts sociales en une seule main
+
+La réunion de toutes les parts sociales en une seule main n'entraîne pas la dissolution de la Société qui continue d'exister avec un associé unique. Dans ce cas, l'associé unique exerce tous les pouvoirs dévolus à la collectivité des associés.
+
+Article 15 - Décès, incapacité, interdiction, faillite d'un associé
+
+Le décès, l'incapacité, l'interdiction, la faillite de l'un quelconque des associés, personnes physiques ainsi que le redressement ou la liquidation judiciaire d'un associé personne morale n'entraînent pas la dissolution de la Société.
+
+Article 16 - Émission d'obligations
+
+Si la Société a désigné un commissaire aux comptes et que les comptes des trois (3) derniers exercices de douze (12) mois ont été régulièrement approuvés par les associés, elle peut émettre des obligations nominatives dans les conditions et sous les réserves prévues par l'article L. 223-11 du code de commerce.
+L'émission d'obligations nominatives est décidée par l'assemblée générale des associés, dans les conditions de majorité requises pour les décisions ordinaires. Ces titres sont soumis aux dispositions applicables aux obligations émises par les sociétés par actions, à l'exclusion de celles prévues par les articles L. 228-39 à L. 228-43 et L. 228-51 du code de commerce.
+Les obligataires sont groupés, dans les conditions fixées par la loi, en une masse jouissant de la personnalité morale.
+
+III. - Gérance de la Société
+
+
+
+Article 17 - Gérance
+
+La Société est administrée par un ou plusieurs Gérants, personnes physiques, associés ou non, nommés par les associés pour une durée ..... (indéterminée/déterminée de (nombre d'années à préciser)).
+
+   S'il est prévu une durée déterminée du mandat de Gérant, ajouter éventuellement :
+
+Les Gérants sont rééligibles.
+
+
+  * Si la nomination de la Gérance est décidée selon les règles de majorité légale, avec possibilité de seconde consultation, indiquer :
+En cours de vie sociale, le ou les Gérants sont nommés par décision adoptée par un ou plusieurs associés représentant plus de la moitié des parts sociales. Si cette majorité n'est pas obtenue, les associés sont, selon le cas, convoqués ou consultés une seconde fois, sur les mêmes questions figurant à l'ordre du jour de la première convocation ou consultation, et les décisions sont prises à la majorité des votes émis, quel que soit le nombre de votants.
+  * Si la nomination de la Gérance est décidée selon les règles de majorité légale, sans possibilité de seconde consultation, remplacer par :
+En cours de vie sociale, le ou les Gérants sont nommés par décision adoptée par un ou plusieurs associés représentant plus de la moitié des parts sociales. Si cette majorité n'est pas obtenue, une seconde consultation ne pourra pas avoir lieu.
+  * Si la nomination de la Gérance est décidée selon une règle de majorité renforcée, avec possibilité de seconde consultation, remplacer par :
+En cours de vie sociale, le ou les Gérants sont nommés par décision adoptée par un ou plusieurs associés représentant plus de ..... (indiquer le niveau de majorité renforcé) des parts sociales. Si cette majorité n'est pas obtenue, les associés sont, selon le cas, convoqués ou consultés une seconde fois, sur les mêmes questions figurant à l'ordre du jour de la première convocation ou consultation, et les décisions sont prises à la majorité de ..... (indiquer le niveau de majorité renforcé) des votes émis, quel que soit le nombre de votants.
+  * Si la nomination de la Gérance est décidée selon une règle de majorité renforcée, sans possibilité de seconde consultation, remplacer par :
+En cours de vie sociale, le ou les Gérants sont nommés par décision adoptée par un ou plusieurs associés représentant plus de ..... (indiquer le niveau de majorité renforcé) des parts sociales. Si cette majorité n'est pas obtenue, une seconde consultation ne pourra pas avoir lieu.
+
+
+Article 18 - Pouvoirs de la Gérance
+
+Dans les rapports avec les tiers, la Gérance est investie des pouvoirs les plus étendus pour agir en toute circonstance au nom de la Société, sous réserve des pouvoirs que la loi attribue expressément aux associés. La Société est engagée même par les actes de la Gérance qui ne relèvent pas de l'objet social, à moins qu'elle ne prouve que le tiers savait que l'acte dépassait cet objet ou qu'il ne pouvait l'ignorer compte tenu des circonstances, étant exclu que la seule publication des statuts suffise à constituer cette preuve.
+En cas de pluralité de Gérants, ceux-ci détiennent séparément les pouvoirs prévus à l'alinéa précédent, sauf le droit pour chacun de s'opposer à toute opération avant qu'elle ne soit conclue. L'opposition formée par un Gérant aux actes d'un autre Gérant est sans effet à l'égard des tiers, à moins qu'il ne soit établi qu'ils en ont eu connaissance.
+Dans les rapports entre associés, la Gérance peut faire tous actes de gestion dans l'intérêt de la Société.
+
+   En cas de limitation de pouvoirs statutaires du Gérant, ajouter :
+
+Toutefois, la Gérance ne peut pas prendre les décisions suivantes sans avoir obtenu au préalable l'autorisation de la collectivité des associés statuant à la majorité ..... (indiquer le niveau de majorité requis) :
+
+
+..... (Énumérer la ou les décisions relevant de la compétence de la Gérance mais soumises à l'autorisation préalable de l'assemblée générale des associés).
+
+Obs : 
+par exemple :
+-  toute cession d'actifs dont la valeur serait supérieure à (i) .....(montant) euros individuellement ou (ii) .....(montant) euros collectivement depuis le début de l'exercice social en cours ;
+-  tout investissement ou acquisition d'actifs qui représenterait une valeur supérieure à (i) .....(montant) euros individuellement ou (ii) .....(montant) euros collectivement depuis le début de l'exercice social en cours ;
+-  toute décision relative au recrutement de tout salarié dont la rémunération brute annuelle serait supérieure à.....(montant) euros ; 
+-  toute décision ou engagement afférent aux licences, permis ou autorisations détenus ou utilisés par la Société et/ou l'une quelconque de ses filiales ;
+-  conclusion, octroi, modification significative ou remboursement anticipé de tout prêt, avance, crédit-bail, crédit et, plus généralement, de tout engagement financier d'un montant supérieur à.....(montant) euros ;
+-  conclusion ou octroi, dans le cadre de tout prêt, avance, crédit-bail, crédit et, plus généralement, tout engagement financier, de toute caution, aval ou garantie, sûreté, privilège et autres droits quelconques d'un montant supérieur à.....(montant) euros ;
+-  conclusion de tout contrat qui représenterait individuellement un montant total de dépenses annuelles supérieur à.....(montant) euros ; 
+-  conclusion, modification significative ou résiliation de tout accord stratégique relatif à la constitution d'une joint-venture, d'un consortium ou d'un partenariat ;
+-  toute décision de prise de participation, adhésion à un groupement d'intérêt économique et à toute forme de société ou d'association pouvant entraîner une responsabilité solidaire ou indéfinie ;
+-  création, transformation, acquisition, cession ou liquidation de succursales, filiales, bureaux ou autres établissements distincts ;
+-  conclusion de tout accord transactionnel relatif à tout litige impliquant une réclamation supérieure à.....(montant) euros et l'introduction ou la conduite de toute procédure judiciaire, administrative ou arbitrale dont le montant excéderait.....(montant) euros.
+
+   En cas de cogérance, ajouter :
+
+Chaque Gérant ne peut agir séparément pour les actes suivants :
+
+
+..... (Énumérer la ou les décisions pour lesquelles un Gérant ne peut agir seul).
+
+Obs : 
+par exemple :
+-  toute cession d'actifs dont la valeur serait supérieure à (i) .....(montant) euros individuellement ou (ii) .....(montant) euros collectivement depuis le début de l'exercice social en cours ; 
+-  tout investissement ou acquisition d'actifs qui représenterait une valeur supérieure à (i) .....(montant) euros individuellement ou (ii) .....(montant) euros collectivement depuis le début de l'exercice social en cours ;
+-  toute décision relative au recrutement de tout salarié dont la rémunération brute annuelle serait supérieure à.....(montant) euros ; 
+-  toute décision ou engagement afférent aux licences, permis ou autorisations détenus ou utilisés par la Société et/ou l'une quelconque de ses filiales ;
+-  conclusion, octroi, modification significative ou remboursement anticipé de tout prêt, avance, crédit-bail, crédit et, plus généralement, de tout engagement financier d'un montant supérieur à.....(montant) euros ;
+-  conclusion ou octroi, dans le cadre de tout prêt, avance, crédit-bail, crédit et, plus généralement, tout engagement financier, de toute caution, aval ou garantie, sûreté, privilège et autres droits quelconques d'un montant supérieur à.....(montant) euros ;
+-  conclusion de tout contrat qui représenterait individuellement un montant total de dépenses annuelles supérieur à.....(montant) euros ; 
+-  conclusion, modification significative ou résiliation de tout accord stratégique relatif à la constitution d'une joint-venture, d'un consortium ou d'un partenariat ;
+-  toute décision de prise de participation, adhésion à un groupement d'intérêt économique et à toute forme de société ou d'association pouvant entraîner une responsabilité solidaire ou indéfinie ;
+-  création, transformation, acquisition, cession ou liquidation de succursales, filiales, bureaux ou autres établissements distincts ;
+-  conclusion de tout accord transactionnel relatif à tout litige impliquant une réclamation supérieure à.....(montant) euros et l'introduction ou la conduite de toute procédure judiciaire, administrative ou arbitrale dont le montant excéderait.....(montant) euros.
+Le ou les Gérants sont expressément habilités à mettre les statuts de la Société en harmonie avec les dispositions impératives de la loi et des règlements, sous réserve de ratification de ces modifications par décision collective ordinaire des associés.
+
+Article 19 - Rémunération de la Gérance
+
+En rémunération de ses fonctions, chacun des Gérants a droit à un traitement qui est fixé par décision collective ordinaire des associés.
+La Gérance a droit, en outre, au remboursement de ses frais de représentation et de déplacement.
+
+Article 20 - Cessation des fonctions
+
+
+  * Si la révocation de la Gérance est décidée selon les règles de majorité légale, avec possibilité de seconde consultation, indiquer :
+Tout Gérant, associé ou non, nommé ou non dans les statuts, est révocable par décision adoptée par un ou plusieurs associés représentant plus de la moitié des parts sociales. Si cette majorité n'est pas obtenue, les associés sont, selon le cas, convoqués ou consultés une seconde fois, sur les mêmes questions figurant à l'ordre du jour de la première convocation ou consultation, et les décisions sont prises à la majorité des votes émis, quel que soit le nombre de votants.
+  * Si la révocation de la Gérance est décidée selon les règles de majorité légale, sans possibilité de seconde consultation, remplacer par :
+Tout Gérant, associé ou non, nommé ou non dans les statuts, est révocable par décision adoptée par un ou plusieurs associés représentant plus de la moitié des parts sociales. Si cette majorité n'est pas obtenue, une seconde consultation ne pourra pas avoir lieu.
+  * Si la révocation de la Gérance est décidée selon une règle de majorité renforcée, avec possibilité de seconde consultation, remplacer par :
+Tout Gérant, associé ou non, nommé ou non dans les statuts, est révocable par décision adoptée par un ou plusieurs associés représentant plus de ..... (indiquer le niveau de majorité renforcé) des parts sociales. Si cette majorité n'est pas obtenue, les associés sont, selon le cas, convoqués ou consultés une seconde fois, sur les mêmes questions figurant à l'ordre du jour de la première convocation ou consultation, et les décisions sont prises à la majorité de ..... (indiquer le niveau de majorité renforcé) des votes émis, quel que soit le nombre de votants.
+  * Si la révocation de la Gérance est décidée selon une règle de majorité renforcée, sans possibilité de seconde consultation, remplacer par :
+Tout Gérant, associé ou non, nommé ou non dans les statuts, est révocable par décision adoptée par un ou plusieurs associés représentant plus de ..... (indiquer le niveau de majorité renforcé) des parts sociales. Si cette majorité n'est pas obtenue, une seconde consultation ne pourra pas avoir lieu.
+
+Si la révocation est décidée sans juste motif, elle peut donner lieu à des dommages et intérêts. En outre, tout Gérant est révocable par les tribunaux pour cause légitime à la demande de tout associé.
+Tout Gérant a le droit de démissionner de ses fonctions, à charge pour ce dernier d'informer les associés de sa décision au moins ..... (indiquer le délai de préavis) à l'avance, par lettre recommandée avec demande d'avis de réception.
+La cessation des fonctions du ou des Gérants n'entraîne pas la dissolution de la Société.
+En cas de cessation des fonctions du Gérant, pour quelque cause que ce soit, la collectivité des associés est habilitée à modifier les statuts en vue de supprimer le nom du Gérant, par décision collective ordinaire.
+
+Article 21 - Responsabilité de la Gérance
+
+Les Gérants sont responsables individuellement ou solidairement selon le cas, envers la Société ou envers les tiers des infractions aux dispositions législatives ou réglementaires applicables aux sociétés à responsabilité limitée, des violations des statuts, ainsi que des fautes commises dans leur gestion.
+Si plusieurs Gérants ont coopéré aux mêmes faits, le tribunal détermine la part contributive de chacun dans la réparation du dommage.
+Outre l'action en réparation du préjudice subi personnellement, les associés peuvent intenter l'action sociale en responsabilité contre les Gérants, soit individuellement, soit en se groupant dans les conditions fixées par les dispositions législatives et réglementaires en vigueur. Les demandeurs sont habilités à poursuivre la réparation de l'entier préjudice subi par la Société à laquelle, le cas échéant, les dommages-intérêts sont alloués.
+Aucune décision de l'assemblée générale des associés ne peut avoir pour effet d'éteindre une action en responsabilité contre les Gérants pour fautes commises dans l'accomplissement de leur mandat.
+
+Article 22 - Conventions conclues entre la Société et ses associés ou Gérants
+
+1. Si la Société est dotée d'un commissaire aux comptes et n'a pas opté pour le régime d'audit légal allégé visé à l'article L. 821-57 du code de commerce, le Gérant avise le commissaire aux comptes des conventions intervenues directement ou par personne interposée entre la Société et l'un de ses Gérants ou associés dans le délai d'un (1) mois à compter de la conclusion desdites conventions. Lorsque l'exécution de conventions conclues au cours d'exercices antérieurs a été poursuivie au cours du dernier exercice, le commissaire aux comptes est informé de cette situation dans le délai d'un (1) mois à compter de la clôture de l'exercice.
+Le Gérant ou, si la Société est dotée d'un commissaire aux comptes et n'a pas opté pour le régime d'audit légal allégé visé à l'article L. 821-57 du code de commerce, le commissaire aux comptes, présente à l'assemblée générale ordinaire annuelle des associés ou joint aux documents communiqués aux associés en cas de consultation écrite, un rapport sur les conventions intervenues directement ou par personne interposée entre la Société et l'un de ses Gérants ou associés.
+L'assemblée générale des associés statue sur ce rapport. Le Gérant ou l'associé intéressé ne peut pas prendre part au vote et ses parts ne sont pas prises en compte pour le calcul du quorum et de la majorité. Toutefois, s'il n'existe pas de commissaire aux comptes, les conventions conclues par un Gérant non associé sont soumises à l'approbation préalable de l'assemblée générale des associés.
+Les conventions non approuvées produisent néanmoins leurs effets, à charge, pour le Gérant, et, s'il y a lieu, pour l'associé contractant, de supporter individuellement ou solidairement, selon les cas, les conséquences dommageables de la convention pour la Société.
+Les dispositions du présent article s'étendent aux conventions passées avec une société dont un associé indéfiniment responsable, Gérant, administrateur, directeur général, membre du directoire ou membre du conseil de surveillance, est simultanément Gérant ou associé de la Société.
+Les dispositions du présent article ne sont toutefois pas applicables aux conventions portant sur des opérations courantes et conclues à des conditions normales.
+2. A peine de nullité du contrat, il est interdit aux Gérants ou associés autres que les personnes morales de contracter, sous quelque forme que ce soit, des emprunts auprès de la Société, de se faire consentir par elle un découvert, en compte courant ou autrement, ainsi que de faire cautionner ou avaliser par elle leurs engagements envers les tiers. Cette interdiction s'applique également aux représentants légaux des personnes morales associées, aux conjoint, ascendants et descendants des Gérants, associés ou des représentants légaux des personnes morales associées ainsi qu'à toute personne interposée.
+
+IV. - Contrôle des comptes de la Société
+
+
+
+Article 23 - Commissaires aux comptes
+
+
+  * En cas de désignation d'un commissaire aux comptes uniquement en application du régime légal, indiquer :
+La collectivité des associés est tenue de désigner, dans les conditions prévues à l'article L. 223-29 du code de commerce, un ou plusieurs commissaires aux comptes ayant notamment pour mission d'assurer le contrôle des comptes sociaux de la Société, dès lors qu'une telle nomination s'avère obligatoire en vertu des dispositions légales et réglementaires.
+
+Obs : 
+pour connaître les conditions de nomination obligatoire en vertu des dispositions légales et réglementaires, voir l'étude Commissaires aux comptes.
+En outre, la Société sera tenue de désigner un commissaire aux comptes pour trois (3) exercices si un ou plusieurs associés représentant au moins le tiers (1/3) du capital lui en font la demande motivée.
+
+Obs : 
+le commissaire aux comptes ainsi désigné exercera sa mission dans le cadre de l'audit légal allégé relevant de la NEP 911 et non dans le cadre d'un audit « classique » (  C. com., art. L. 223-35, al. 4).
+En toute hypothèse, la nomination d'un commissaire aux comptes peut être demandée en justice par un ou plusieurs associés représentant au moins le dixième (1/10) du capital social de la Société.
+
+Obs : 
+s'il est fait droit à cette demande par le juge, la société ainsi tenue de désigner un commissaire aux comptes doit le nommer pour une durée de 6 exercices et ne peut pas opter pour une limitation de son mandat à 3 exercices.
+Si la Société ne relève d'aucun des cas de désignation obligatoire prévus par la loi, la collectivité des associés dispose toujours de la faculté de désigner, sur une base volontaire, un ou plusieurs commissaires aux comptes dans les conditions prévues à l'article L. 223-29 du code de commerce.
+
+Obs : 
+rien n'interdit à une SARL qui n'est pas tenue de désigner un commissaire aux comptes en vertu de la loi d'en désigner un sur une base volontaire. Dans ce cas, la SARL concernée peut opter pour une limitation de la durée du mandat du commissaire aux comptes ainsi désigné à 3 exercices, ce qui implique que ce dernier exerce sa mission dans le cadre de l'audit légal allégé prévu par la NEP 911 et non dans le cadre d'un audit « classique » (  C. com., art. L. 821-46).
+  * Si les statuts imposent la désignation d'un commissaire aux comptes dans tous les cas, remplacer par :
+Nonobstant toute disposition légale ou réglementaire qui dispenserait la Société de le faire, la collectivité des associés désigne un ou plusieurs commissaires aux comptes dans les conditions prévues à l'article L. 223-29 du code de commerce.
+
+
+V. - Collectivité des associés
+
+
+
+Article 24 - Décisions collectives
+
+La volonté des associés s'exprime par des décisions collectives qui obligent tous les associés.
+24.1 Forme des décisions collectives
+
+
+  * Si les décisions collectives peuvent être prises selon des modalités diverses, indiquer :
+
+Obs : 
+pour pouvoir être utilisées par la Gérance, la consultation écrite et la signature d'un acte par les associés doivent obligatoirement être prévues par les statuts. Si elles ne sont pas mentionnées, il n'est pas possible d'y recourir. Il convient, dans cette hypothèse, de supprimer les articles 24.6 et 24.7 et toute référence à ces modes de consultation dans les statuts.
+  * Si les statuts permettent l'approbation des comptes annuels par voie de consultation écrite ou dans un acte constatant le consentement unanime des associés, indiquer :
+Les décisions collectives statuant sur les comptes sociaux peuvent être prises en assemblée ou par voie de consultation écrite ou dans un acte constatant le consentement unanime de tous les associés.
+  * Si les statuts ne permettent pas l'approbation des comptes annuels par voie de consultation écrite ou dans un acte constatant le consentement unanime des associés, remplacer par :
+Les décisions collectives statuant sur les comptes sociaux sont prises en assemblée.
+
+Les décisions collectives statuant sur l'émission d'obligations sont prises en assemblée générale.
+Sous réserve des cas prévus par la loi et nécessitant la réunion d'une assemblée générale, toutes les autres décisions collectives peuvent être prises par consultation écrite des associés ou peuvent résulter du consentement de tous les associés exprimé dans un acte.
+  * Si les décisions collectives ne peuvent être prises qu'en assemblée, remplacer par :
+Toutes les décisions collectives doivent être prises en assemblée générale.
+
+24.2 Décisions ordinaires
+
+Sont qualifiées d'ordinaires les décisions des associés autres que les décisions extraordinaires.
+
+  * Si les décisions collectives ordinaires sont prises selon les règles de majorité légale, avec possibilité de seconde consultation, indiquer :
+Sauf disposition expresse contraire des présents statuts, les décisions collectives ordinaires sont valablement adoptées par un ou plusieurs associés représentant plus de la moitié des parts sociales. Si cette majorité n'est pas obtenue, les associés sont, selon le cas, convoqués ou consultés une seconde fois, sur les mêmes questions figurant à l'ordre du jour de la première convocation ou consultation, et les décisions sont prises à la majorité des votes émis, quel que soit le nombre de votants.
+  * Si les décisions collectives ordinaires sont prises selon les règles de majorité légale, sans possibilité de seconde consultation, remplacer par :
+Sauf disposition expresse contraire des présents statuts, les décisions collectives ordinaires sont valablement adoptées par un ou plusieurs associés représentant plus de la moitié des parts sociales. Si cette majorité n'est pas obtenue, une seconde consultation ne pourra pas avoir lieu.
+  * Si les décisions collectives ordinaires sont prises selon une règle de majorité renforcée, avec possibilité de seconde consultation, remplacer par :
+Sauf disposition expresse contraire des présents statuts, les décisions collectives ordinaires sont valablement adoptées par un ou plusieurs associés représentant plus de ..... (indiquer le niveau de majorité renforcée) des parts sociales. Si cette majorité n'est pas obtenue, les associés sont, selon le cas, convoqués ou consultés une seconde fois, sur les mêmes questions figurant à l'ordre du jour de la première convocation ou consultation, et les décisions sont prises à la majorité de ..... (indiquer le niveau de majorité renforcée) des votes émis, quel que soit le nombre de votants.
+  * Si les décisions collectives ordinaires sont prises selon une règle de majorité renforcée, sans possibilité de seconde consultation, remplacer par :
+Sauf disposition expresse contraire des présents statuts, les décisions collectives ordinaires sont valablement adoptées par un ou plusieurs associés représentant plus de ..... (indiquer le niveau de majorité renforcée) des parts sociales. Si cette majorité n'est pas obtenue, une seconde consultation ne pourra pas avoir lieu.
+
+24.3 Décisions extraordinaires
+
+Sont qualifiées d'extraordinaires, les décisions des associés portant modification des statuts.
+Sauf stipulation contraire des présents statuts, l'assemblée générale des associés ne délibère valablement que si les associés présents ou représentés possèdent au moins, sur première convocation, ..... (au minimum le quart) des parts sociales et, sur deuxième convocation, ..... (au minimum le cinquième) de celles-ci. A défaut de ce quorum, la deuxième assemblée générale peut être prorogée à une date postérieure de deux (2) mois au plus à celle à laquelle elle avait été convoquée. Dans l'un ou l'autre de ces deux cas, les décisions collectives extraordinaires sont valablement adoptées à la majorité ..... (au minimum des deux tiers sans pouvoir exiger l'unanimité) des parts détenues par les associés présents ou représentés.
+Obs : 
+rappelons que pour les SARL constituées avant la publication de la loi n° 2005-882 du 2 août 2005 en faveur des petites et moyennes entreprises, les modifications des statuts devaient être décidées par les associés représentant au moins les trois quarts des parts sociales. Toute clause exigeant une majorité plus élevée était réputée non écrite. Ces sociétés peuvent, sur décision prise à l'unanimité des associés, être régies par la clause ci-dessus décrite (  C. com., art. L. 223-30).
+Par dérogation aux dispositions ci-dessus, la décision d'augmenter le capital social par incorporation de bénéfices ou de réserves est valablement décidée par les associés représentant au moins la moitié des parts sociales. Quant à la transformation de la Société, elle ne peut être décidée qu'aux conditions de majorité prévues à l'article L. 223-43 du code de commerce et qui diffèrent selon la forme nouvelle adoptée. Le changement de la nationalité de la Société ou l'augmentation des engagements des associés est décidé à l'unanimité des associés.
+24.4 Mode de consultation des associés en cas d'assemblée générale
+
+24.4.1 Convocation
+
+Les associés sont convoqués aux assemblées générales par la Gérance ou, s'il en existe, par le commissaire aux comptes. 
+Un ou plusieurs associé(s), détenant la moitié des parts sociales ou détenant, s'ils représentent au moins le dixième (1/10) des associés, le dixième (1/10) des parts sociales, peuvent demander la réunion d'une assemblée générale.
+Tout associé peut demander au président du tribunal de commerce statuant en référé de désigner un mandataire chargé de convoquer l'assemblée générale et de fixer son ordre du jour.
+Si, pour quelque cause que ce soit, la Société se trouve dépourvue de Gérant ou si le Gérant unique est placé en tutelle, le commissaire aux comptes, s'il en existe, ou tout associé convoque l'assemblée des associés à seule fin de procéder, le cas échéant, à la révocation du Gérant unique et, dans tous les cas, à la désignation d'un ou de plusieurs gérants.
+Les associés sont convoqués quinze (15) jours au moins avant la réunion de l'assemblée générale, par lettre recommandée avec demande d'avis de réception. Celle-ci indique l'ordre du jour. Ce délai est ramené à huit (8) jours en cas de convocation d'une assemblée générale par un associé ou le commissaire aux comptes, s'il en existe, aux fins de remplacer le Gérant unique décédé.
+
+   Si les statuts prévoient le recours à un envoi électronique pour la convocation et l'information des associés, ajouter :
+
+La Société peut également recourir à la communication électronique pour convoquer les associés et leur communiquer les documents d'information préalable aux assemblées en soumettant la proposition aux associés soit par voie postale, soit par voie électronique. Chaque associé peut donner son accord écrit par lettre recommandée avec demande d'avis de réception ou par voie électronique, au plus tard vingt (20) jours avant la date de la prochaine assemblée des associés. En cas d'accord, la convocation et les documents et renseignements sont transmis à l'adresse indiquée par l'associé. En l'absence d'accord de l'associé, la Société a recours à un envoi postal.
+
+
+Les associés qui ont consenti à l'utilisation de la voie électronique peuvent, par cette voie ou par lettre recommandée avec demande d'avis de réception, demander le retour à un envoi postal vingt (20) jours au moins avant la date de l'assemblée suivante.
+
+Toute assemblée générale des associés irrégulièrement convoquée peut être annulée. Toutefois, l'action en nullité n'est pas recevable lorsque tous les associés étaient présents ou représentés.
+24.4.2 Ordre du jour
+
+1. L'ordre du jour de l'assemblée générale des associés est arrêté par l'auteur de la convocation.
+2. Un ou plusieurs associés détenant le vingtième (1/20) des parts sociales ont la faculté de faire inscrire à l'ordre du jour de l'assemblée des points ou projets de résolution par lettre recommandée avec demande d'avis de réception ou courrier électronique avec accusé de réception adressé à la Société, vingt-cinq (25) jours au moins avant la date de l'assemblée.
+Lorsqu'un associé veut user de cette faculté de requérir l'inscription de points ou de projets de résolution à l'ordre du jour d'une assemblée, il peut demander par lettre simple ou recommandée avec demande d'avis de réception ou par courrier électronique à la Société de l'aviser selon l'une de ces modalités, de la date prévue pour la réunion de l'assemblée. La Société est tenue d'envoyer cet avis par lettre simple ou recommandée avec demande d'avis de réception, si l'associé lui a adressé le montant des frais d'envoi de cette lettre, ou par un courrier électronique à l'adresse qu'il a indiquée.
+La demande d'inscription d'un point à l'ordre du jour doit être motivée.
+La demande d'inscription de projets de résolution doit être accompagnée du texte de ces projets, lesquels peuvent être assortis d'un bref exposé des motifs.
+3. Sous réserve des questions diverses, qui ne doivent présenter qu'une minime importance, les questions inscrites à l'ordre du jour sont libellées de telle sorte que leur contenu et leur portée apparaissent clairement, sans qu'il y ait lieu de se reporter à d'autres documents.
+4. L'assemblée générale des associés ne peut délibérer sur une question qui n'est pas inscrite à l'ordre du jour.
+24.4.3 Réunion de l'assemblée générale
+
+L'assemblée générale des associés se réunit au siège social ou en tout autre endroit indiqué dans la lettre de convocation.
+Elle est présidée par le Gérant ou par l'un des Gérants. Si aucun des Gérants n'est associé, elle est présidée par l'associé présent et acceptant qui possède ou représente le plus grand nombre de parts sociales. Si deux associés qui possèdent ou représentent le même nombre de parts sociales sont acceptants, la présidence de l'assemblée générale est assurée par le plus âgé.
+24.4.4 Participation, vote, représentation
+
+Chaque associé a le droit de participer aux décisions et dispose d'un nombre de voix égal à celui des parts sociales qu'il possède.
+
+   Si les statuts autorisent le vote par correspondance, ajouter :
+
+Tout associé a le droit d'assister aux assemblées générales et de participer aux délibérations personnellement ou par mandataire ou en votant par correspondance, au moyen d'un formulaire de vote par correspondance conforme aux dispositions légales et réglementaires.
+
+
+Les règles prévues par les présents statuts pour les consultations écrites des associés sont intégralement applicables au vote par correspondance.
+
+
+   Si l'utilisation de moyens de télécommunication est admise, ajouter :
+
+  * Si l'utilisation de moyens de télécommunication est admise pour toute assemblée (autre que celles relatives à l'approbation des comptes sociaux et des comptes consolidés), indiquer :
+Les associés sont autorisés à participer aux assemblées par un moyen de télécommunication permettant leur identification, dans les conditions prévues par la loi et les règlements en vigueur.
+Les associés participant ainsi à distance aux assemblées sont réputés présents pour le calcul du quorum et de la majorité.
+Conformément à la loi, cette possibilité de participer à distance aux assemblées est exclue pour les assemblées approuvant les comptes annuels et les comptes consolidés.
+  * Si l'utilisation de moyens de télécommunication est admise pour certaines assemblées seulement, remplacer par :
+Les associés sont autorisés à participer aux assemblées par tout moyen de télécommunication permettant leur identification, dans les conditions prévues par la loi et les règlements en vigueur, pour les décisions suivantes uniquement :
+..... (Énumérer l'ensemble des décisions).
+Les associés participant ainsi à distance à ces assemblées sont réputés présents pour le calcul du quorum et de la majorité.
+
+
+   Si un droit d'opposition est prévu, ajouter :
+
+Toutefois, des associés représentant au moins ..... (pourcentage minimum) % du capital et des droits de vote de la Société peuvent s'opposer à l'utilisation de ces moyens par lettre recommandée avec demande d'avis de réception adressée à la Gérance dans les trois (3) jours de la réception des convocations à l'assemblée concernée.
+
+Chaque associé peut se faire représenter par toute personne de son choix. Toutefois, un associé ne peut se faire représenter par son conjoint que si la Société ne comprend pas que les deux époux et un associé ne peut se faire représenter par un autre associé que si la Société comprend plus de deux associés.
+Un associé ne peut constituer un mandataire pour voter du chef d'une partie de ses parts sociales et voter en personne du chef de l'autre partie de ses parts sociales.
+Le mandat de représentation d'un associé est donné pour une seule assemblée générale des associés. Il peut cependant être donné pour deux assemblées tenues le même jour ou dans un délai de sept (7) jours.
+Le mandat donné pour une assemblée générale des associés vaut pour les assemblées générales successives convoquées avec le même ordre du jour.
+24.4.5 Procès-verbaux
+
+Toute délibération de l'assemblée générale des associés est constatée par un procès-verbal qui indique la date et le lieu de la réunion, les nom, prénom et qualité du président, les noms et prénoms des associés présents ou représentés avec l'indication du nombre de parts sociales détenues par chacun, les documents et rapports soumis à l'assemblée, un résumé des débats, le texte des résolutions mises aux voix et le résultat des votes.
+
+   Si l'utilisation de moyens de télécommunication est admise, ajouter :
+
+En cas d'utilisation de moyens de télécommunication pour la participation aux assemblées générales, le procès-verbal doit en outre faire état de la survenance éventuelle d'un incident technique relatif à la visioconférence ou à la télécommunication électronique lorsque cet incident a perturbé le déroulement de l'assemblée. 
+
+Les procès-verbaux sont établis et signés par les Gérants et, le cas échéant, par le président de séance.
+Les procès-verbaux sont établis sur un registre spécial tenu au siège social, coté et paraphé, soit par un juge du tribunal de commerce, soit par un juge du tribunal judiciaire, soit par le maire de la commune ou un adjoint au maire.
+Toutefois, les procès-verbaux peuvent être établis sur des feuilles mobiles numérotées sans discontinuité, paraphées dans les conditions prévues à l'alinéa précédent et revêtues du sceau de l'autorité qui les a paraphées. Dès qu'une feuille est remplie, même partiellement, elle doit être jointe à celles précédemment utilisées. Toute addition, suppression, substitution ou interversion de feuilles est interdite.
+Le registre spécial peut être également tenu et les procès-verbaux établis sous forme électronique dans les conditions prévues par les dispositions législatives et réglementaires en vigueur.
+Les copies ou extraits des procès-verbaux des délibérations des associés sont valablement certifiées conformes par un seul Gérant.
+Au cours de la liquidation de la Société, leur certification est valablement effectuée par un seul liquidateur.
+La certification peut se faire au moyen d'une signature électronique dans les conditions prévues par les dispositions législatives et réglementaires en vigueur.
+24.4.6 Droit de communication et d'information des associés
+
+En cas de convocation d'une assemblée générale autre que celle qui doit statuer sur les comptes de l'exercice, le texte des résolutions proposées, le rapport des Gérants ainsi que, le cas échéant, celui du commissaire aux comptes, sont adressés aux associés quinze (15) jours au moins avant la date de l'assemblée.
+En outre, pendant le délai de quinze (15) jours qui précède l'assemblée générale, les mêmes documents sont tenus, au siège social, à la disposition des associés, qui peuvent en prendre connaissance ou copie.
+24.5 Assemblée statuant sur les comptes sociaux 
+
+24.5.1 Réunion de l'assemblée
+
+Dans le délai de six (6) mois qui suit la clôture de l'exercice, sous réserve de la prolongation de ce délai par décision de justice, les comptes annuels (bilan, compte de résultat et, le cas échéant, annexe), l'inventaire et, le cas échéant, le rapport de gestion établis par la Gérance sont soumis à l'approbation des associés réunis en assemblée générale.
+24.5.2 Droit de communication et d'information des associés
+
+Les comptes annuels (bilan, compte de résultat et, le cas échéant, annexe) ainsi que, le cas échéant, le rapport de gestion, les comptes consolidés et le rapport sur la gestion du groupe sont tenus au siège social à la disposition du commissaire aux comptes, s'il en existe, un (1) mois au moins avant la convocation de l'assemblée générale.
+Les comptes annuels (bilan, compte de résultat et, le cas échéant, annexe), le texte des résolutions proposées, et, le cas échéant, le rapport de gestion, les comptes consolidés, le rapport sur la gestion du groupe, les rapports du commissaire aux comptes sur les comptes annuels et les comptes consolidés sont adressés aux associés quinze (15) jours au moins avant la date de l'assemblée générale.
+A compter de la communication des documents prévue à l'alinéa précédent, tout associé a la faculté de poser par écrit des questions auxquelles la gérance sera tenue de répondre au cours de l'assemblée générale.
+L'inventaire doit être tenu au siège social à la disposition des associés pendant un délai de quinze (15) jours avant la date de l'assemblée générale. Les associés ne peuvent pas en prendre copie.
+24.6 Décisions prises par consultation écrite des associés
+
+24.6.1 Modalité de la consultation
+
+
+  * Si les statuts n'autorisent pas la consultation écrite par voie électronique, indiquer :
+En cas de consultation écrite, le texte des résolutions proposées ainsi que les documents nécessaires à l'information des associés sont adressés à chacun de ceux-ci par lettre recommandée avec demande d'avis de réception.
+Les associés disposent d'un délai de ..... (15 jours minimum) jours à compter de la date de réception des projets de résolution pour émettre leur vote par écrit.
+  * Si les statuts autorisent la consultation écrite par voie électronique, remplacer par :
+La consultation écrite des associés peut avoir lieu par voie électronique.
+A l'appui de la demande de consultation écrite, le texte des résolutions proposées ainsi que les documents nécessaires à l'information des associés sont adressés à chacun de ceux-ci par voie électronique.
+Les associés disposent d'un délai de ..... (15 jours minimum) jours à compter de la date de réception des projets de résolution pour émettre leur vote par voie électronique.
+
+Tout associé qui n'aura pas répondu dans ce délai sera considéré comme s'étant abstenu. Pour chaque résolution, le vote est exprimé par « OUI » ou par « NON ».
+Chaque associé dispose d'un nombre de voix égal à celui des parts sociales qu'il possède.
+24.6.2 Mention spéciale dans les procès-verbaux
+
+En cas de consultation écrite, les procès-verbaux sont tenus dans les mêmes conditions que celles prévues pour les décisions prises en assemblées générales. Toutefois, il y est mentionné que la consultation a été effectuée par écrit. La réponse de chaque associé est annexée à ces procès-verbaux.
+24.7 Décisions résultant du consentement de tous les associés 
+
+Les décisions collectives autres que celles pour lesquelles la tenue d'une assemblée est obligatoire peuvent valablement résulter d'un acte sous signature privée ou notarié signé par tous les associés.
+
+   Si les statuts permettent un acte unanime par voie électronique, ajouter :
+
+Le consentement unanime des associés dans un acte peut être recueilli par voie électronique selon les modalités et délais suivants : ..... (préciser les modalités et les délais du consentement unanime des associés par voie électronique).
+
+
+Article 25 - Droit de communication permanent, d'information et de contrôle des associés
+
+25.1 Droit de communication permanent
+
+Tout associé a le droit, à toute époque, d'obtenir, au siège social, la délivrance d'une copie certifiée des statuts en vigueur au jour de la demande. La Société doit annexer à ce document la liste des Gérants et, le cas échéant, des commissaires aux comptes en exercice.
+Tout associé a également le droit, à toute époque, de prendre par lui-même et au siège social, connaissance des documents suivants : comptes annuels (comptes de résultat, bilans et, le cas échéant, annexes), inventaires, rapports soumis aux assemblées générales et procès-verbaux de ces assemblées concernant les trois (3) derniers exercices. Sauf en ce qui concerne l'inventaire, le droit de prendre connaissance emporte celui de prendre copie. A cette fin, il peut se faire assister d'un expert inscrit sur une des listes établies par les cours et tribunaux.
+25.2 Expertise 
+
+Un ou plusieurs associés représentant au moins le dixième (1/10) du capital social peuvent demander soit individuellement, soit en se groupant sous quelque forme que ce soit, la désignation en justice d'un ou plusieurs experts chargés de présenter un rapport sur une ou plusieurs opérations de gestion.
+Le ministère public est habilité à agir aux mêmes fins.
+Le comité social et économique, s'il existe, est également habilité à agir aux mêmes fins.
+S'il est fait droit à la demande, la décision de justice détermine l'étendue de la mission et des pouvoirs des experts. Elle peut mettre les honoraires des experts à la charge de la Société.
+Le rapport est adressé au demandeur, au ministère public, au comité social économique (s'il en existe), au commissaire aux comptes (s'il en existe) ainsi qu'à la Gérance. Ce rapport doit en outre être annexé à celui établi par le commissaire aux comptes, s'il en existe, en vue de la prochaine assemblée générale des associés et recevoir la même publicité.
+25.3 Procédure d'alerte 
+
+Tout associé non Gérant peut, deux (2) fois par exercice, poser par écrit des questions à la Gérance sur tout fait de nature à compromettre la continuité de l'exploitation. La réponse écrite de la Gérance doit intervenir dans le délai d'un (1) mois et est communiquée au commissaire aux comptes, s'il en existe.
+
+VI. - Exercice social - Comptes annuels - Affectation et répartition des bénéfices - Paiement des dividendes
+
+
+
+Article 26 - Exercice social
+
+
+  * Si l'exercice social coïncide avec l'année civile, indiquer :
+L'exercice social commence le 1er janvier et se termine le 31 décembre de chaque année.
+  * Si l'exercice social ne coïncide pas avec l'année civile, remplacer par :
+L'exercice social commence le ..... (jour) de chaque année et se termine le ..... (jour) de l'année suivante.
+
+Par exception, le premier exercice social sera clos le ..... (date de clôture du premier exercice social).
+
+Article 27 - Comptes annuels
+
+La Gérance tient une comptabilité régulière des opérations sociales, conformément aux dispositions législatives et réglementaires en vigueur. A la clôture de chaque exercice, la Gérance dresse l'inventaire des divers éléments de l'actif et du passif existant à cette date.
+La Gérance dresse également le bilan décrivant les éléments actifs et passifs et faisant apparaître de façon distincte les capitaux propres, le compte de résultat récapitulant les produits et les charges de l'exercice, ainsi que, lorsque cela est obligatoire en vertu des dispositions légales et réglementaires en vigueur, l'annexe complétant et commentant l'information donnée par le bilan et le compte de résultat.
+Il est procédé, même en cas d'absence ou d'insuffisance du bénéfice, aux amortissements et provisions nécessaires. Le montant des engagements cautionnés, avalisés ou garantis est mentionné à la suite du bilan.
+
+  * En cas d'établissement du rapport de gestion uniquement si la loi l'impose, indiquer :
+La Gérance n'établit le rapport de gestion visé à l'article L. 232-1, I du code de commerce que si la Société est tenue d'établir ce rapport en vertu des dispositions légales et réglementaires.
+
+Obs : 
+le gérant est dispensé d'établir le rapport de gestion si la société ne dépasse pas, à la clôture de l'exercice, 2 des 3 seuils suivants : total du bilan de 7 500 000 euros, montant net du chiffre d'affaires de 15 000 000 euros et nombre moyen de salariés au cours de l'exercice de 50 (  C. com., art. L. 232-1, IV, L. 230-1, 2° et D. 230-1, 2°). Ces chiffres correspondent aux seuils rehaussés par le décret n° 2024-152 du 28 février 2024. Sur l'entrée en vigueur de ces nouveaux seuils, voir l'étude Rapport de gestion et autres rapports.
+    Si l'établissement d'un rapport d'activité est souhaité en cas de dispense d'établissement du rapport de gestion, ajouter :
+
+Lorsque lesdites dispositions dispensent la Société d'établir le rapport de gestion précité, la Gérance demeure tenue d'établir, chaque année, un rapport d'activité dans lequel elle rend compte des éléments suivants :
+
+
+..... (A compléter).
+
+Obs : 
+énumérer les informations devant figurer dans le rapport d'activité (situation de la société pendant l'exercice écoulé, événements importants, etc.). Cette option doit être privilégiée si la société bénéficie de la dispense d'établir le rapport de gestion mais souhaite imposer à la Gérance, pour la bonne information des associés, d'établir un rapport relatif à l'activité de la société, sans pour autant exiger que ce dernier comporte l'ensemble des informations requises par le code de commerce pour le rapport de gestion, qui sont sources de lourdeur. A ce titre, il est préférable, pour éviter toute confusion, d'adopter la dénomination « rapport d'activité » plutôt que celle de « rapport de gestion ».
+  * Si les statuts imposent l'établissement d'un rapport de gestion dans tous les cas (c'est-à-dire y compris si la société bénéficie d'une dispense d'établir le rapport de gestion), remplacer par :
+Nonobstant toute disposition légale ou réglementaire qui dispenserait la Société d'établir le rapport de gestion visé à l'article L. 232-1, I du code de commerce, la Gérance est tenue d'établir ce rapport.
+
+Obs : 
+dans ce cas, le contenu du rapport de gestion doit comporter l'ensemble des informations requises par le code de commerce.
+
+
+Article 28 - Affectation et répartition des bénéfices
+
+Si les comptes de l'exercice approuvés par l'assemblée générale font apparaître un bénéfice distribuable, tel qu'il est défini par la loi, l'assemblée générale décide de l'inscrire à un ou plusieurs postes de réserves dont elle règle l'affectation ou l'emploi, de le reporter à nouveau ou de le distribuer.
+Le compte de résultat qui récapitule les produits et charges de l'exercice fait apparaître par différence, après déduction des amortissements et des provisions, le bénéfice de l'exercice.
+Sur le bénéfice de l'exercice diminué, le cas échéant, des pertes antérieures, il est prélevé cinq pour cent (5 %) au moins pour doter le fonds de réserve légale. Ce prélèvement cesse d'être obligatoire lorsque la réserve légale atteint le dixième (1/10) du capital social.
+Le bénéfice distribuable est constitué par le bénéfice de l'exercice, diminué des pertes antérieures et des sommes à porter en réserve, en application de la loi et des statuts et augmenté du report bénéficiaire.
+Sur ce bénéfice, l'assemblée générale peut prélever toutes sommes qu'elle juge à propos d'affecter à la dotation de tous fonds de réserves facultatives, ordinaires ou extraordinaires, ou de reporter à nouveau.
+Le solde, s'il en existe, est réparti entre tous les associés proportionnellement au nombre de parts sociales appartenant à chacun d'eux. Par ailleurs, l'assemblée générale peut décider la mise en distribution de sommes prélevées sur les réserves dont elle a la disposition, en indiquant expressément les postes de réserves sur lesquels les prélèvements sont effectués. Toutefois les dividendes sont prélevés par priorité sur les bénéfices de l'exercice.
+Hors le cas de réduction du capital, aucune distribution ne peut être faite aux associés lorsque les capitaux propres sont ou deviendraient à la suite de celle-ci inférieurs au montant du capital augmenté des réserves que la loi ou les statuts ne permettent pas de distribuer. L'écart de réévaluation n'est pas distribuable. Il peut être incorporé en tout ou partie au capital.
+Les pertes, s'il en existe, sont, après l'approbation des comptes par l'assemblée générale, reportées à nouveau, pour être imputées sur les bénéfices des exercices ultérieurs jusqu'à extinction.
+
+Article 29 - Paiement des dividendes - Acomptes
+
+Lorsqu'un bilan établi au cours ou à la fin de l'exercice et certifié par un commissaire aux comptes fait apparaître que la Société, depuis la clôture de l'exercice précédent, après constitution des amortissements et provisions nécessaires et déduction faite s'il y a lieu des pertes antérieures ainsi que des sommes à porter en réserve, en application de la loi ou des statuts, a réalisé un bénéfice, il peut être distribué des acomptes sur dividende avant l'approbation des comptes de l'exercice. Le montant de ces acomptes ne peut excéder le montant du bénéfice ainsi défini.
+Les modalités de mise en paiement des dividendes sont fixées par l'assemblée générale, ou à défaut par la Gérance.
+La mise en paiement des dividendes doit avoir lieu dans un délai maximal de neuf (9) mois après la clôture de l'exercice, sauf prolongation de ce délai par autorisation de justice.
+Aucune répétition de dividende ne peut être exigée des associés, sauf lorsque la distribution a été effectuée en violation des dispositions légales et que la Société établit que les bénéficiaires avaient connaissance du caractère irrégulier de cette distribution au moment de celle-ci ou ne pouvaient l'ignorer compte tenu des circonstances.
+Les dividendes non réclamés dans les cinq (5) ans de leur mise en paiement sont prescrits.
+
+VII. - Transformation - Dissolution - Liquidation
+
+
+
+Article 30 - Transformation 
+
+La transformation de la Société en société en nom collectif, en société par actions simplifiée, en commandite simple ou en commandite par actions, exige l'accord unanime des associés.
+La transformation de la Société en société anonyme est décidée à la majorité requise pour la modification des statuts. Toutefois, elle peut être décidée par des associés représentant la majorité des parts sociales si le montant des capitaux propres figurant au dernier bilan excède 750 000 euros.
+Si la Société vient à comprendre plus de cent (100) associés, elle doit, dans le délai d'un an, être transformée en une société d'une autre forme. A défaut, elle est dissoute à moins que pendant ledit délai, le nombre des associés ne soit devenu égal ou inférieur à cent (100).
+
+Article 31 - Capitaux propres devenus inférieurs à la moitié du capital social
+
+Si, du fait des pertes constatées dans les documents comptables, les capitaux propres de la Société deviennent inférieurs à la moitié du capital social, la Gérance doit, dans les quatre (4) mois qui suivent l'approbation des comptes ayant fait apparaître cette perte, consulter les associés afin de décider s'il y a lieu à dissolution anticipée de la Société.
+Si la dissolution n'est pas prononcée, la Société est tenue, au plus tard à la clôture du deuxième (2e) exercice suivant celui au cours duquel la constatation des pertes est intervenue, de reconstituer ses capitaux propres à concurrence d'une valeur au moins égale à la moitié du capital social ou de réduire son capital social du montant nécessaire pour que la valeur des capitaux propres soit au moins égale à la moitié de son montant.
+Dans les deux cas, la résolution adoptée par les associés est publiée conformément aux dispositions législatives et réglementaires applicables.
+Si, avant l'échéance mentionnée au deuxième alinéa ci-dessus, les capitaux propres n'ont pas été reconstitués à concurrence d'une valeur au moins égale à la moitié du capital social alors que le capital social de la société est supérieur à un pourcent (1 %) du total de bilan de la société constaté lors de la clôture du dernier exercice, la société est tenue, au plus tard à la clôture du deuxième (2e) exercice suivant cette échéance, de réduire son capital pour le ramener à une valeur inférieure ou égale au seuil de 1 % du total de bilan susvisé.
+Lorsque la société a procédé à une réduction de capital en application des stipulations de l'alinéa précédent sans pour autant que ses fonds propres aient été reconstitués, et procède par la suite à une augmentation de capital, elle se remet en conformité avec les stipulations de l'alinéa précédent avant la clôture du deuxième (2e) exercice suivant celui au cours duquel a eu lieu cette augmentation du capital.
+En cas d'inobservation de ces dispositions, tout intéressé peut demander en justice la dissolution de la Société.
+Dans tous les cas, le tribunal peut accorder à la Société un délai maximal de six (6) mois pour régulariser la situation. Il ne peut prononcer la dissolution, si, au jour où il statue sur le fond, cette régularisation a eu lieu.
+
+Article 32 - Dissolution anticipée - Prorogation
+
+La collectivité des associés peut, à toute époque, prononcer la dissolution anticipée de la Société dans les conditions requises pour les décisions collectives extraordinaires.
+Un (1) an au moins avant la date d'expiration de la Société, la Gérance doit provoquer une réunion de la collectivité des associés à l'effet de décider, dans les conditions requises pour les décisions collectives extraordinaires, si la Société doit être prorogée.
+
+Article 33 - Dissolution - Liquidation
+
+1. A l'expiration de la Société ou en cas de dissolution anticipée, la collectivité des associés règle le mode de liquidation.
+2. Un ou plusieurs liquidateurs sont alors nommés par la collectivité des associés.
+Le liquidateur représente la Société. Il est investi des pouvoirs les plus étendus pour réaliser l'actif, même à l'amiable. Il est habilité à payer les créanciers et à répartir le solde disponible. Il ne peut continuer les affaires en cours ou en engager de nouvelles pour les besoins de la liquidation que s'il y a été autorisé par la collectivité des associés.
+3. En fin de liquidation, les associés sont réunis pour statuer sur le compte définitif, sur le quitus de la gestion des liquidateurs, la décharge de leur mandat et pour constater la clôture de la liquidation.
+4. Le partage des capitaux propres subsistant après remboursement du nominal des parts sociales est effectué entre les associés dans les mêmes proportions que leur participation au capital social.
+5. En cas de réunion de toutes les parts sociales en une seule main, la dissolution de la Société, soit par décision judiciaire à la demande d'un tiers, soit par déclaration au greffe du tribunal de commerce, entraîne, lorsque l'associé unique est une personne morale, la transmission universelle du patrimoine de la Société à ce dernier, sans qu'il y ait lieu à liquidation, conformément aux dispositions de l'article  1844-5, alinéa 3 du code civil.
+
+VIII. - Divers
+
+
+
+Article 34 - Contestations
+
+Toutes contestations et tous litiges relatifs à l'interprétation ou à l'exécution des présents statuts ou généralement relatifs aux affaires sociales, pendant la durée de la Société ou lors de sa liquidation, survenant soit entre les associés et la Société ou ses dirigeants, soit entre la Société et ses dirigeants, soit entre les associés eux-mêmes, seront soumis à la compétence exclusive du tribunal de commerce dans le ressort duquel est situé le siège social de la Société.
+
+Article 35 - Nomination du premier Gérant
+
+Est désigné comme premier Gérant de la Société pour une durée ..... (indiquer la durée) :
+Obs : 
+les mentions relatives au nom du premier gérant dans les statuts peuvent être supprimées des statuts par la suite, sans qu'il y ait lieu de les remplacer par l'indication de ses successeurs.
+..... (prénom) ..... (nom), demeurant ..... (adresse).
+Le Gérant ainsi nommé intervenant aux présentes, déclare, en ce qui le concerne, qu'il accepte sa nomination et qu'il n'existe aucune incompatibilité ni interdiction l'empêchant d'accepter et d'exercer la mission qui vient de lui être confiée.
+
+   En cas de nomination de commissaire(s) aux comptes, ajouter :
+
+Article 35 bis - Nomination des premiers commissaires aux comptes
+
+
+Sont désignés comme premiers commissaires aux comptes de la Société pour une durée de ..... (3 ou 6, selon le cas) exercices, qui se terminera à l'issue de la décision de l'associé unique ou de la réunion de la collectivité des associés qui sera appelée à délibérer sur les comptes de l'exercice clos le ..... (date) :
+
+-  ..... (identité et adresse ou dénomination sociale et siège social du commissaire aux comptes), titulaire ;
+Obs : 
+pour les sociétés à responsabilité limitée tenues de publier des comptes consolidés, le minimum est de 2 titulaires (  C. com., art. L. 821-41).
+-  ..... (identité et adresse ou dénomination sociale et siège social du commissaire aux comptes), suppléant.
+Obs : 
+la désignation d'un commissaire aux comptes suppléant est obligatoire uniquement si le titulaire est une personne physique ou une société unipersonnelle (  C. com., art. L. 821-40, I, al. 3). Il convient donc de supprimer, le cas échéant, les énonciations relatives au commissaire aux comptes suppléant si le titulaire est une société pluripersonnelle.
+
+Chacun des commissaires aux comptes ainsi nommés a accepté par avance lesdites fonctions et a déclaré, pour ce qui le concerne, n'être atteint d'aucune incompatibilité ni interdiction susceptible d'empêcher sa nomination.
+
+
+Article 36 - Reprise des engagements accomplis pour le compte de la Société 
+
+Conformément à la loi, la Société ne jouira de la personnalité morale qu'à compter du jour de son immatriculation au Registre du commerce et des sociétés.
+Cependant, il a été accompli dès avant la signature des présents statuts, pour le compte de la Société en formation, des actes énoncés dans un état annexé aux présents statuts, indiquant pour chacun d'eux l'engagement qui en résulterait pour la Société.
+La signature des présents statuts vaudra reprise par la Société de ces engagements qui seront réputés avoir été souscrits par elle dès l'origine, et ce, dès qu'elle aura été immatriculée au Registre du commerce et des sociétés.
+
+Article 37 - Mandat pour accomplir des actes pour le compte de la Société après la signature des statuts et avant l'immatriculation de la Société au Registre du commerce et des sociétés
+
+En attendant l'accomplissement de la formalité d'immatriculation de la Société au Registre du commerce et des sociétés, la collectivité des associés donne mandat à ..... (identité ou dénomination sociale de l'associé) ou à toute personne qui s'y substituera, à l'effet de passer et conclure au nom et pour le compte de la Société, les engagements qui sont décrits et dont les modalités sont précisées dans un état annexé aux présents statuts.
+Du seul fait de l'immatriculation de la Société au Registre du commerce et des sociétés, les engagements pris en application de ce mandat et résultant de ces actes seront repris, rétroactivement, dès leur naissance et de plein droit, par la Société. Toutefois, les engagements pris en vertu d'un mandat trop imprécis devront être ratifiés postérieurement à l'immatriculation de la Société par la collectivité des associés.
+
+Article 38 - Pouvoirs - Publicité
+
+Tous pouvoirs sont conférés au porteur d'un original ou d'une copie des présentes à l'effet d'accomplir les formalités de publicité, de dépôt et autres nécessaires pour parvenir à l'immatriculation de la Société au Registre du commerce et des sociétés et au Registre national des entreprises.
+
+Article 39 - Annexes
+
+Sont annexés aux statuts :
+-   le certificat du dépositaire des fonds (Annexe I) ;
+-   l'état des actes accomplis pour le compte de la Société avant la signature des statuts (Annexe II) ;
+-   l'état des actes accomplis pour le compte de la Société entre la signature des statuts et l'immatriculation de la Société au Registre du commerce et des sociétés (Annexe III) ;
+
+  * Si un commissaire aux apports a été désigné, indiquer :
+-   le rapport du commissaire aux apports.
+  * En cas de dispense d'un commissaire aux apports, remplacer par :
+-  la décision des fondateurs de ne pas recourir à la désignation d'un commissaire aux apports et le contrat d'apport.
+
+
+Fait à ..... (lieu), le ..... (date)
+
+en ..... (nombre) exemplaires
+Obs : 
+il convient de prévoir au minimum 1 original (exemplaire signé par tous les associés) pour le dépôt au siège social (  C. com., art. R. 223-1). Des copies certifiées conformes à l'original par le Gérant serviront pour les dépôts aux diverses administrations, banques...
+Signature
+Le Gérant devra faire précéder sa signature de la mention manuscrite « Bon pour acceptation des fonctions de Gérant ».
+Annexe I - Certificat du dépositaire des fonds
+
+
+..... (A insérer)
+
+Annexe II - État des actes accomplis pour le compte de la Société avant la signature des statuts
+
+
+-  ouverture d'un compte bancaire pour le dépôt des fonds constituant le capital social ;
+-  ..... (autres : attestation de mise à disposition des locaux pour l'établissement du siège social, contrats divers, etc.) ;
+-  toutes opérations entrant dans le cadre de la gestion courante de la Société jusqu'à la signature des statuts.
+Conformément à la loi, le présent état a été porté à la connaissance des associés préalablement à la signature des statuts auxquels il est annexé et permettra la reprise automatique des actes susmentionnés par la Société au moment de son immatriculation au Registre du commerce et des sociétés.
+
+Annexe III - État des actes accomplis pour le compte de la Société entre la signature des statuts et l'immatriculation de la Société au Registre du commerce et des sociétés
+
+
+Mandat est expressément donné à ..... (identité ou dénomination sociale de l'associé), avec faculté de délégation et de substitution, à l'effet de prendre pour le compte de la Société jusqu'à son immatriculation au Registre du commerce et des sociétés les engagements suivants :
+-  entreprendre, poursuivre et accomplir entièrement toute démarche nécessaire à la poursuite et à l'accomplissement des formalités d'inscription de la Société au Registre du commerce et des sociétés et à la déclaration d'existence de la Société auprès des diverses administrations ;
+-  ..... (autres : contrats divers, etc.) ;
+-  toutes opérations entrant dans le cadre de la gestion courante de la Société jusqu'à son immatriculation ; 
+-  signer tout contrat entrant dans l'objet social de la Société ou nécessaire au démarrage et au bon fonctionnement de la Société.
+Le présent état constitue un mandat donné par les associés de la Société à ..... (identité ou dénomination sociale de l'associé) de procéder à la signature des actes et à la réalisation des opérations susvisées, dans les conditions prévues par l'article R. 210-6, alinéa 3 du code de commerce.
+
+Annexe IV
+
+
+..... (A compléter, le cas échéant)
+
+Copyright 2025 - Editions Legislatives - Tous droits réservés.

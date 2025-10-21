@@ -2,7 +2,7 @@ import type { RxJsonSchema } from 'rxdb'
 import type { Dossier } from '../types'
 
 export const dossierSchema: RxJsonSchema<Dossier> = {
-  version: 1,
+  version: 3,
   primaryKey: 'id',
   type: 'object',
   properties: {
@@ -151,6 +151,54 @@ export const dossierSchema: RxJsonSchema<Dossier> = {
         },
       },
     },
+    checklistDocumentsGU: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          id: {
+            type: 'string',
+          },
+          documentType: {
+            type: 'string',
+          },
+          label: {
+            type: 'string',
+          },
+          description: {
+            type: 'string',
+          },
+          completed: {
+            type: 'boolean',
+          },
+          required: {
+            type: 'boolean',
+          },
+          icon: {
+            type: 'string',
+          },
+          formeJuridique: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+          },
+          linkedDocumentId: {
+            type: 'string',
+          },
+          completedAt: {
+            type: 'string',
+            format: 'date-time',
+          },
+          completedBy: {
+            type: 'string',
+          },
+          notes: {
+            type: 'string',
+          },
+        },
+      },
+    },
     timeline: {
       type: 'array',
       items: {
@@ -214,6 +262,32 @@ export const dossierSchema: RxJsonSchema<Dossier> = {
           type: 'string',
         },
       },
+    },
+    guichetUnique: {
+      type: 'object',
+      properties: {
+        formalityId: {
+          type: 'string',
+        },
+        status: {
+          type: 'string',
+        },
+        createdAt: {
+          type: 'string',
+          format: 'date-time',
+        },
+        url: {
+          type: 'string',
+        },
+        reference: {
+          type: 'string',
+        },
+        lastSyncAt: {
+          type: 'string',
+          format: 'date-time',
+        },
+      },
+      required: ['formalityId', 'status', 'createdAt'],
     },
   },
   required: ['id', 'numero', 'createdAt', 'updatedAt', 'client', 'societe', 'statut'],

@@ -8,9 +8,13 @@ import { Input } from '../components/ui/input'
 import { Label } from '../components/ui/label'
 import { Select } from '../components/ui/select'
 import { Progress } from '../components/ui/progress'
+import { CNIUpload } from '../components/cni/CNIUpload'
 import { getDatabase, generateDossierNumero } from '../db/database'
-import type { FormeJuridique, Client, Societe } from '../types'
+import type { FormeJuridique, Client, Societe, CNIData } from '../types'
 import { generateChecklist } from '../utils/checklist-templates'
+import { generateMandatCCITemplate } from '../utils/mandat-cci-generator'
+import { generateAvisConstitutionTemplate } from '../utils/avis-constitution-generator'
+import { encodeBase64 } from '../utils/encoding-helpers'
 import { v4 as uuidv4 } from 'uuid'
 
 export function DossierCreate() {
@@ -40,6 +44,18 @@ export function DossierCreate() {
 
   const handleSocieteChange = (field: keyof Societe, value: string | number) => {
     setSocieteData({ ...societeData, [field]: value })
+  }
+
+  const handleCNIDataExtracted = (cniData: CNIData) => {
+    setClientData({
+      ...clientData,
+      civilite: cniData.civilite || clientData.civilite,
+      nom: cniData.nom,
+      prenom: cniData.prenom,
+    })
+    toast.success('Données appliquées !', {
+      description: 'Les informations ont été pré-remplies depuis votre CNI'
+    })
   }
 
   const canProceedStep1 = () => {
@@ -80,6 +96,30 @@ export function DossierCreate() {
 
       const checklist = generateChecklist(societe.formeJuridique)
 
+      // Générer le mandat CCI template
+      const mandatTemplate = generateMandatCCITemplate()
+      const mandatDoc = {
+        id: uuidv4(),
+        nom: 'Mandat CCI (Personne morale).txt',
+        type: 'MANDAT' as const,
+        categorie: 'MANDAT',
+        fichier: encodeBase64(mandatTemplate), // Encoder en base64 UTF-8
+        uploadedAt: now,
+        uploadedBy: 'Système',
+      }
+
+      // Générer l'avis de constitution template
+      const avisTemplate = generateAvisConstitutionTemplate(societe.formeJuridique)
+      const avisDoc = {
+        id: uuidv4(),
+        nom: 'Avis de constitution.txt',
+        type: 'AVIS_CONSTITUTION' as const,
+        categorie: 'AVIS_CONSTITUTION',
+        fichier: encodeBase64(avisTemplate), // Encoder en base64 UTF-8
+        uploadedAt: now,
+        uploadedBy: 'Système',
+      }
+
       const newDossier = {
         id: uuidv4(),
         numero,
@@ -88,7 +128,7 @@ export function DossierCreate() {
         client: clientData,
         societe,
         statut: 'NOUVEAU' as const,
-        documents: [],
+        documents: [mandatDoc, avisDoc],
         checklist,
         timeline: [
           {
@@ -102,7 +142,17 @@ export function DossierCreate() {
       }
 
       await db.dossiers.insert(newDossier)
-      toast.success(`Dossier ${numero} créé avec succès !`)
+      
+      // Toast avec action pour rediriger vers la rédaction des statuts
+      toast.success(`Dossier ${numero} créé avec succès !`, {
+        description: 'Vous pouvez maintenant rédiger les statuts',
+        duration: 8000,
+        action: {
+          label: 'Rédiger les statuts',
+          onClick: () => navigate(`/dossiers/${newDossier.id}/redaction`),
+        },
+      })
+      
       navigate(`/dossiers/${newDossier.id}`)
     } catch (error) {
       toast.error('Une erreur est survenue lors de la création du dossier')
@@ -121,15 +171,31 @@ export function DossierCreate() {
         </div>
 
         {step === 1 && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Informations client</CardTitle>
-              <CardDescription>
-                Renseignez les informations du client
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
+          <>
+            <div className="mb-6">
+              <CNIUpload
+                onDataExtracted={handleCNIDataExtracted}
+                onError={(error) => console.error('Erreur OCR:', error)}
+              />
+            </div>
+
+            <div className="relative flex items-center justify-center my-6">
+              <div className="border-t border-gray-300 w-full"></div>
+              <span className="px-4 bg-background text-sm text-muted-foreground whitespace-nowrap">
+                ou remplissez manuellement
+              </span>
+              <div className="border-t border-gray-300 w-full"></div>
+            </div>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Informations client</CardTitle>
+                <CardDescription>
+                  Renseignez les informations du client
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
                 <Label htmlFor="civilite">Civilité</Label>
                 <Select
                   id="civilite"
@@ -192,6 +258,7 @@ export function DossierCreate() {
               </div>
             </CardContent>
           </Card>
+          </>
         )}
 
         {step === 2 && (

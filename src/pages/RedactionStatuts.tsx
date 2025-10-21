@@ -9,18 +9,23 @@ import { Select } from '../components/ui/select'
 import { FormSection } from '../components/redaction/FormSection'
 import { DocumentPreview, type DocumentPreviewRef } from '../components/redaction/DocumentPreview'
 import { WizardNavigation } from '../components/redaction/WizardNavigation'
+import { AssociesListForm } from '../components/redaction/AssociesListForm'
 import { StepperCompact } from '../components/ui/stepper-compact'
 import { ResizablePanels } from '../components/ui/resizable-panels'
 import { getDatabase } from '../db/database'
 import type { Dossier } from '../types'
-import type { StatutsData, TypeApport, AssociePersonnePhysique, AssociePersonneMorale, ApportNumeraire, ApportNature, ApportMixte, ApportFondsCommerce, ApportBienCommun, ApportBienIndivis } from '../types/statuts'
+import type { StatutsData, TypeApport, AssociePersonnePhysique, AssociePersonneMorale, ApportNumeraire, ApportNature, ApportMixte, ApportFondsCommerce, ApportBienCommun, ApportBienIndivis, RegimeCessionActions, RegimeCession, TransmissionDeces, LiquidationCommunaute, ExploitType } from '../types/statuts'
 import { TYPE_APPORT_LABELS, OPTION_FISCALE_LABELS } from '../types/statuts'
 import { generateStatuts, calculateProgression } from '../utils/template-engine'
+import { fillMandatCCI } from '../utils/mandat-cci-generator'
+import { fillAvisConstitution } from '../utils/avis-constitution-generator'
+import { encodeBase64 } from '../utils/encoding-helpers'
 import { ArrowLeft, Save, AlertCircle, Eye, EyeOff } from 'lucide-react'
 import { TrackedInput, TrackedTextarea } from '../components/ui/tracked-input'
 import { AIChat, AIChatButton } from '../components/ai/AIChat'
 import { ObjetSocialSuggestions, AIStatusIndicator } from '../components/ai/InlineSuggestions'
-import { REDACTION_STEPS, STEP_SECTIONS, isStepComplete, getStepValidationErrors } from '../config/redaction-steps'
+import { REDACTION_STEPS, STEP_SECTIONS, isStepComplete, getStepValidationErrors, getSectionTitle } from '../config/redaction-steps'
+import { GuichetUniqueButton } from '../components/guichet-unique/GuichetUniqueButton'
 
 export function RedactionStatuts() {
   const { id } = useParams<{ id: string }>()
@@ -38,6 +43,7 @@ export function RedactionStatuts() {
   const [activeField, setActiveField] = useState<{ name: string; value: string; context?: string } | undefined>()
   const [isAIChatOpen, setIsAIChatOpen] = useState(false)
   const previewRef = useRef<DocumentPreviewRef>(null)
+  const isInitialMount = useRef(true)
 
   // Charger le dossier
   useEffect(() => {
@@ -49,19 +55,28 @@ export function RedactionStatuts() {
   // Fonction pour obtenir les valeurs par défaut
   const getDefaultStatutsData = (dossierData: Dossier): Partial<StatutsData> => {
     const isSASU = dossierData.societe.formeJuridique === 'SASU' || dossierData.societe.formeJuridique === 'SAS'
+    const isSARL = dossierData.societe.formeJuridique === 'SARL' || dossierData.societe.formeJuridique === 'SAS'
 
     const baseDefaults: Partial<StatutsData> = {
-            // Section 0: Associé unique
-            associeUnique: {
-              type: 'PERSONNE_PHYSIQUE',
-              civilite: dossierData.client.civilite,
-              nom: dossierData.client.nom,
-              prenom: dossierData.client.prenom,
-              dateNaissance: '',
-              lieuNaissance: '',
-              nationalite: 'française',
-              adresse: '',
-            },
+            // Section 0: Associé unique (EURL/SASU) ou Associés (SARL/SAS)
+            ...(isSARL ? {
+              associes: {
+                liste: [],
+                nombreTotal: 0,
+              },
+            } : {
+              associeUnique: {
+                type: 'PERSONNE_PHYSIQUE',
+                civilite: dossierData.client.civilite,
+                nom: dossierData.client.nom,
+                prenom: dossierData.client.prenom,
+                dateNaissance: '',
+                lieuNaissance: '',
+                nationalite: 'française',
+                adresse: '',
+                pourcentageCapital: 100, // Associé unique détient 100% du capital
+              },
+            }),
 
             // Section 1: Identité
             formeJuridique: dossierData.societe.formeJuridique,
@@ -99,10 +114,11 @@ export function RedactionStatuts() {
               repartition: [],
             },
 
-            // Section 5: Nantissement
-            nantissement: {
-              agrementRequis: false,
-            },
+            // Section 5 supprimée (Nantissement) - aucun template actuel ne l'utilise
+
+            // Variables SARL spécifiques (Article 8, Article 12)
+            droitPreferentielSouscription: false, // Article 8: Droit préférentiel de souscription en cas d'augmentation de capital
+            repartitionVotesUsufruit: 'NU_PROPRIETAIRE', // Article 12: Répartition votes usufruit/nu-propriétaire
 
             // Section 7: Exercice social
             exerciceSocial: {
@@ -172,13 +188,16 @@ export function RedactionStatuts() {
         },
         optionFiscale: 'IMPOT_SOCIETES',
         delaiArbitrage: 6,
-        // Article 11: Admission de nouveaux associés
+        // Article 11 (EURL) / Article 13 (SARL): Admission de nouveaux associés / Cessions
         admissionAssocies: {
-          regimeCession: 'LIBRE_FAMILIAL_AGREMENT_TIERS',
+          regimeCession: 'LIBRE_ASSOCIES_FAMILIAL', // Libre entre associés et famille, agrément pour tiers
+          exploitType: 'HUISSIER',
           majoriteCessionTiers: 'la moitié',
           majoriteMutation: 'la moitié',
           modalitesPrixRachat: '',
-          agrementDeces: false,
+          transmissionDeces: 'HERITIERS_SANS_AGREMENT',
+          liquidationCommunaute: 'NON_APPLICABLE',
+          locationParts: 'INTERDITE', // Pour SARL uniquement (Article 13.5)
         },
         // Articles 14-15: Gérance (majorités et délais)
         majoriteNominationGerant: 'la moitié',
@@ -194,6 +213,13 @@ export function RedactionStatuts() {
           agrementRequis: true,
           droitPreemption: false,
         },
+        // Article 24: Décisions collectives (SARL uniquement)
+        formesDecisionsCollectives: 'DIVERSES',
+        decisionsOrdinaires: 'LEGALE_AVEC_SECONDE',
+        majoriteOrdinairesRenforcee: 'deux tiers',
+        quorumExtraordinaire1: 'le quart',
+        quorumExtraordinaire2: 'le cinquième',
+        majoriteExtraordinaire: 'des deux tiers',
       }
     }
 
@@ -360,6 +386,62 @@ export function RedactionStatuts() {
           statutsDraft: draft,
           updatedAt: new Date().toISOString(),
         })
+
+        // Mettre à jour automatiquement le mandat CCI avec les données des statuts
+        const mandatCCI = dossier.documents.find((d) => d.categorie === 'MANDAT')
+        
+        // Vérifier si on a les infos nécessaires pour remplir le mandat
+        const hasDirigeantInfo = 
+          (statutsData.gerant && (statutsData.gerant.isAssocieUnique || (statutsData.gerant.nom && statutsData.gerant.prenom))) ||
+          (statutsData.president && (statutsData.president.isAssocieUnique || (statutsData.president.nom && statutsData.president.prenom))) ||
+          (statutsData.associeUnique && statutsData.associeUnique.nom && statutsData.associeUnique.prenom)
+        
+        if (mandatCCI && hasDirigeantInfo) {
+          const updatedMandat = fillMandatCCI(dossier.societe, statutsData)
+          
+          const updatedDocuments = dossier.documents.map((d) =>
+            d.id === mandatCCI.id
+              ? {
+                  ...d,
+                  fichier: encodeBase64(updatedMandat), // Encoder en base64 UTF-8
+                  uploadedAt: new Date().toISOString(),
+                  uploadedBy: 'Système (Auto)',
+                }
+              : d
+          )
+
+          await doc.patch({
+            documents: updatedDocuments,
+          })
+          
+          // Notification discrète de mise à jour du mandat
+          console.log('✓ Mandat CCI mis à jour automatiquement')
+        }
+
+        // Mettre à jour automatiquement l'avis de constitution avec les données des statuts
+        const avisConstitution = dossier.documents.find((d) => d.categorie === 'AVIS_CONSTITUTION')
+        
+        if (avisConstitution && hasDirigeantInfo) {
+          const updatedAvis = fillAvisConstitution(dossier.societe, statutsData)
+          
+          const updatedDocuments = dossier.documents.map((d) =>
+            d.id === avisConstitution.id
+              ? {
+                  ...d,
+                  fichier: encodeBase64(updatedAvis), // Encoder en base64 UTF-8
+                  uploadedAt: new Date().toISOString(),
+                  uploadedBy: 'Système (Auto)',
+                }
+              : d
+          )
+
+          await doc.patch({
+            documents: updatedDocuments,
+          })
+          
+          // Notification discrète de mise à jour de l'avis
+          console.log('✓ Avis de constitution mis à jour automatiquement')
+        }
       }
     } catch (error) {
       console.error('Erreur sauvegarde draft:', error)
@@ -387,22 +469,22 @@ export function RedactionStatuts() {
     return () => clearTimeout(timer)
   }, [dossier, statutsData])
 
-  // Sauvegarde automatique DÉSACTIVÉE
-  // useEffect(() => {
-  //   if (!dossier || !id) return
-  //
-  //   // Ne pas sauvegarder au premier chargement
-  //   if (isInitialMount.current) {
-  //     isInitialMount.current = false
-  //     return
-  //   }
-  //
-  //   const timer = setTimeout(() => {
-  //     saveDraft()
-  //   }, 5000) // Sauvegarde après 5 secondes d'inactivité (au lieu de 2)
-  //
-  //   return () => clearTimeout(timer)
-  // }, [statutsData, dossier, id, saveDraft])
+  // Sauvegarde automatique (mise à jour mandat CCI incluse)
+  useEffect(() => {
+    if (!dossier || !id) return
+
+    // Ne pas sauvegarder au premier chargement
+    if (isInitialMount.current) {
+      isInitialMount.current = false
+      return
+    }
+
+    const timer = setTimeout(() => {
+      saveDraft()
+    }, 3000) // Sauvegarde après 3 secondes d'inactivité
+
+    return () => clearTimeout(timer)
+  }, [statutsData, dossier, id, saveDraft])
 
   const handleExport = async (format: 'docx' | 'pdf') => {
     if (!dossier) {
@@ -416,7 +498,7 @@ export function RedactionStatuts() {
       toast.loading(`Génération du fichier ${format.toUpperCase()}...`, { id: 'export' })
 
       const { exportStatuts } = await import('../utils/export-utils')
-      await exportStatuts(previewContent, format, filename, 'document-preview-content')
+      await exportStatuts(previewContent, format, filename)
 
       toast.success(`Document ${format.toUpperCase()} généré avec succès`, { id: 'export' })
     } catch (error) {
@@ -426,7 +508,38 @@ export function RedactionStatuts() {
   }
 
   const updateStatutsData = useCallback((updates: Partial<StatutsData>) => {
-    setStatutsData((prev) => ({ ...prev, ...updates }))
+    setStatutsData((prev) => {
+      const newData = { ...prev, ...updates }
+      
+      // Si le capital social ou le nombre de parts change, recalculer les parts des associés
+      // en conservant leurs pourcentages respectifs
+      const capitalChanged = updates.capitalSocial !== undefined && updates.capitalSocial !== prev.capitalSocial
+      const partsChanged = updates.nombreParts !== undefined && updates.nombreParts !== prev.nombreParts
+      const actionsChanged = updates.nombreActions !== undefined && updates.nombreActions !== prev.nombreActions
+      
+      if ((capitalChanged || partsChanged || actionsChanged) && newData.associes?.liste && newData.associes.liste.length > 0) {
+        const nouveauCapital = newData.capitalSocial || 0
+        const nouveauNombreTitres = newData.nombreParts || newData.nombreActions || 0
+        
+        // Recalculer les parts de chaque associé en conservant leur pourcentage
+        const nouvelleListeAssocies = newData.associes.liste.map(item => {
+          const pourcentage = item.associe.pourcentageCapital || 0
+          return {
+            ...item,
+            nombreParts: Math.round((pourcentage / 100) * nouveauNombreTitres),
+            montantApport: Math.round((pourcentage / 100) * nouveauCapital),
+            pourcentageCapital: pourcentage
+          }
+        })
+        
+        newData.associes = {
+          ...newData.associes,
+          liste: nouvelleListeAssocies
+        }
+      }
+      
+      return newData
+    })
   }, [])
 
   // Mapping des champs vers leurs contextes (articles/sections) pour une recherche précise
@@ -519,8 +632,10 @@ export function RedactionStatuts() {
       'section-6': 'article-12',
       'section-6bis': 'article-21',
       'section-7': 'article-22',
+      'section-7bis': 'article-17',
       'section-8': 'article-23',
-      'section-9': 'article-24',
+      'section-9': 'article-22', // Conventions réglementées (SARL)
+      'section-9bis': 'article-24', // Décisions collectives (SARL)
       'section-10': 'article-25',
       'section-11': 'article-29',
       'section-12': 'article-30',
@@ -688,6 +803,23 @@ export function RedactionStatuts() {
                 {showPreview ? <EyeOff className="h-4 w-4 mr-2" /> : <Eye className="h-4 w-4 mr-2" />}
                 {showPreview ? 'Masquer' : 'Afficher'} preview
               </Button>
+
+              {/* Bouton Guichet Unique - affiché si progression >= 70% */}
+              {progression >= 70 && (
+                <GuichetUniqueButton
+                  dossier={dossier}
+                  statutsData={statutsData}
+                  disabled={progression < 100}
+                  onSuccess={(formalityId, url) => {
+                    console.log('Formalité créée:', formalityId, url)
+                    // Recharger le dossier pour mettre à jour l'affichage
+                    if (id) {
+                      loadDossier(id)
+                    }
+                  }}
+                />
+              )}
+
               <div className="text-xs text-muted-foreground">
                 {progression}%
               </div>
@@ -715,17 +847,40 @@ export function RedactionStatuts() {
             <div className="h-full flex flex-col px-1">
 
           <div className="flex-1 overflow-y-auto space-y-4 px-2 py-4">
-            {/* Section 0: Type d'associé unique */}
+            {/* Section 0: Associé(s) */}
             {shouldShowSection('section-0') && (
               <FormSection
-                title="0. Associé unique (Préambule)"
-                subtitle="Type d'associé (personne physique ou morale)"
-                completed={!!statutsData.associeUnique}
-                defaultOpen={!statutsData.associeUnique}
+                title={`0. ${getSectionTitle('section-0', dossier?.societe.formeJuridique)} (Préambule)`}
+                subtitle={
+                  dossier?.societe.formeJuridique === 'SARL' || dossier?.societe.formeJuridique === 'SAS'
+                    ? "Liste des associés (minimum 2)"
+                    : "Type d'associé (personne physique ou morale)"
+                }
+                completed={
+                  dossier?.societe.formeJuridique === 'SARL' || dossier?.societe.formeJuridique === 'SAS'
+                    ? !!(statutsData.associes?.liste && statutsData.associes.liste.length >= 2)
+                    : !!statutsData.associeUnique
+                }
+                defaultOpen={
+                  dossier?.societe.formeJuridique === 'SARL' || dossier?.societe.formeJuridique === 'SAS'
+                    ? !(statutsData.associes?.liste && statutsData.associes.liste.length >= 2)
+                    : !statutsData.associeUnique
+                }
                 sectionId="section-0"
                 onSectionClick={handleSectionClick}
               >
               <div className="space-y-4">
+                {/* SARL/SAS : Formulaire multi-associés */}
+                {(dossier?.societe.formeJuridique === 'SARL' || dossier?.societe.formeJuridique === 'SAS') ? (
+                  <AssociesListForm
+                    associes={statutsData.associes || { liste: [], nombreTotal: 0 }}
+                    capitalSocial={statutsData.capitalSocial || 1000}
+                    nombreTotalParts={dossier?.societe.formeJuridique === 'SAS' ? (statutsData.nombreActions || 100) : (statutsData.nombreParts || 100)}
+                    onChange={(associes) => updateStatutsData({ associes })}
+                  />
+                ) : (
+                  // EURL/SASU : Formulaire associé unique
+                  <>
                 <div>
                   <Label>Type d'associé *</Label>
                   <Select
@@ -743,6 +898,7 @@ export function RedactionStatuts() {
                             lieuNaissance: '',
                             nationalite: 'française',
                             adresse: '',
+                            pourcentageCapital: 100, // Associé unique détient 100% du capital
                           },
                         })
                       } else {
@@ -758,6 +914,7 @@ export function RedactionStatuts() {
                             representantNom: '',
                             representantPrenom: '',
                             representantQualite: '',
+                            pourcentageCapital: 100, // Associé unique détient 100% du capital
                           },
                         })
                       }
@@ -1041,6 +1198,8 @@ export function RedactionStatuts() {
                         />
                       </div>
                     </div>
+                  </>
+                )}
                   </>
                 )}
               </div>
@@ -2256,6 +2415,27 @@ export function RedactionStatuts() {
                     </div>
                   </div>
                 )}
+
+                {/* Article 8: Droit préférentiel de souscription - uniquement pour SARL */}
+                {dossier?.societe.formeJuridique === 'SARL' && (
+                  <div className="border-t pt-4 mt-4">
+                    <Label className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        checked={statutsData.droitPreferentielSouscription || false}
+                        onChange={(e) =>
+                          updateStatutsData({
+                            droitPreferentielSouscription: e.target.checked,
+                          })
+                        }
+                      />
+                      Droit préférentiel de souscription en cas d'augmentation de capital (Article 8)
+                    </Label>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      Si coché, en cas d'augmentation de capital en numéraire, chaque associé bénéficiera d'un droit préférentiel à la souscription des parts nouvelles, proportionnellement au nombre de parts qu'il possède.
+                    </p>
+                  </div>
+                )}
               </div>
             </FormSection>
             )}
@@ -2317,45 +2497,12 @@ export function RedactionStatuts() {
 
             {/* Section 4 supprimée - doublon de section 3 */}
 
-            {/* Section 5: Nantissement */}
-            {shouldShowSection('section-5') && (
-              <FormSection
-                title="5. Nantissement (Article 13)"
-              subtitle="Règles de nantissement des parts"
-              completed={!!statutsData.nantissement}
-              sectionId="section-5"
-              onSectionClick={handleSectionClick}
-            >
-              <div className="space-y-4">
-                <div>
-                  <Label className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={statutsData.nantissement?.agrementRequis || false}
-                      onChange={(e) =>
-                        updateStatutsData({
-                          nantissement: {
-                            agrementRequis: e.target.checked,
-                          },
-                        })
-                      }
-                    />
-                    Nantissement soumis à agrément
-                  </Label>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    Si coché, le nantissement de parts sociales nécessitera l'agrément préalable de l'associé unique.
-                    <br />
-                    Si non coché, le nantissement sera libre.
-                  </p>
-                </div>
-              </div>
-            </FormSection>
-            )}
+            {/* Section 5 supprimée - Nantissement n'est plus paramétrable dans les templates actuels (contenu fixe) */}
 
             {/* Section 5bis: Admission/Transmission (Article 11) */}
             {shouldShowSection('section-5bis') && (
               <FormSection
-                title={isSASU ? "5bis. Transmission des actions (Articles 11-12)" : "5bis. Admission de nouveaux associés (Article 11)"}
+                title={isSASU ? "5bis. Transmission des actions (Article 11)" : "5bis. Admission de nouveaux associés (Article 11)"}
               subtitle={isSASU ? "Règles de transmission des actions" : "Règles de cession et transmission des parts"}
               completed={isSASU ? !!statutsData.transmissionActions : !!statutsData.admissionAssocies}
               sectionId="section-5bis"
@@ -2433,39 +2580,51 @@ export function RedactionStatuts() {
                 // EURL - Admission de nouveaux associés
                 <div className="space-y-4">
                   <div>
-                    <Label>Régime de cession *</Label>
+                    <Label>Régime de cession des parts (Article 13.1.2) *</Label>
                     <Select
-                      value={statutsData.admissionAssocies?.regimeCession || 'LIBRE_FAMILIAL_AGREMENT_TIERS'}
+                      value={statutsData.admissionAssocies?.regimeCession || 'LIBRE_ASSOCIES_FAMILIAL'}
                       onChange={(e) =>
                         updateStatutsData({
                           admissionAssocies: {
                             ...(statutsData.admissionAssocies || {
-                              regimeCession: 'LIBRE_FAMILIAL_AGREMENT_TIERS',
+                              regimeCession: 'LIBRE_ASSOCIES_FAMILIAL',
+                              exploitType: 'HUISSIER',
                               majoriteCessionTiers: 'la moitié',
+                              transmissionDeces: 'HERITIERS_SANS_AGREMENT',
+                              liquidationCommunaute: 'NON_APPLICABLE',
+                              locationParts: 'INTERDITE',
                             }),
-                            regimeCession: e.target.value as 'LIBRE_FAMILIAL_AGREMENT_TIERS' | 'AGREMENT_TOUTES_MUTATIONS',
+                            regimeCession: e.target.value as RegimeCession,
                           },
                         })
                       }
                     >
-                      <option value="LIBRE_FAMILIAL_AGREMENT_TIERS">
-                        Libre pour la famille, agrément pour les tiers (régime légal)
+                      <option value="LIBRE_ENTRE_ASSOCIES">
+                        Libre entre associés, agrément pour famille et tiers
                       </option>
-                      <option value="AGREMENT_TOUTES_MUTATIONS">
-                        Agrément pour toutes les mutations
+                      <option value="LIBRE_FAMILIAL">
+                        Libre pour la famille, agrément pour associés et tiers
+                      </option>
+                      <option value="LIBRE_ASSOCIES_FAMILIAL">
+                        Libre entre associés et famille, agrément pour tiers (régime légal)
+                      </option>
+                      <option value="AGREMENT_TOTAL">
+                        Agrément pour toutes les cessions
                       </option>
                     </Select>
                     <p className="text-xs text-muted-foreground mt-1">
-                      Le régime légal prévoit la liberté des cessions familiales et l'agrément pour les tiers
+                      Le régime légal (LIBRE_ASSOCIES_FAMILIAL) prévoit la liberté des cessions entre associés et famille, et l'agrément pour les tiers
                     </p>
                   </div>
 
-                  {statutsData.admissionAssocies?.regimeCession === 'LIBRE_FAMILIAL_AGREMENT_TIERS' && (
+                  {/* Majorité pour l'agrément - uniquement pour EURL (variable utilisée dans template EURL Article 11) */}
+                  {/* Pour SARL: la majorité est fixe dans le template ("la moitié") et n'est pas paramétrable */}
+                  {dossier?.societe.formeJuridique === 'EURL' && (
                     <div>
-                      <Label>Majorité pour cessions aux tiers *</Label>
+                      <Label>Majorité pour l'agrément *</Label>
                       <TrackedInput
                         fieldName="admissionAssocies"
-                        value={statutsData.admissionAssocies.majoriteCessionTiers || 'la moitié'}
+                        value={statutsData.admissionAssocies?.majoriteCessionTiers || 'la moitié'}
                         onChange={(e) =>
                           updateStatutsData({
                             admissionAssocies: {
@@ -2476,98 +2635,172 @@ export function RedactionStatuts() {
                         }
                         placeholder="Ex: la moitié, les deux tiers..."
                       />
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Majorité requise pour l'agrément d'un cessionnaire (Article 11)
+                      </p>
                     </div>
                   )}
 
-                  {statutsData.admissionAssocies?.regimeCession === 'AGREMENT_TOUTES_MUTATIONS' && (
-                    <>
-                      <div>
-                        <Label>Majorité pour toutes mutations *</Label>
+                  {/* Transmission par décès (Article 13.3) */}
+                  <div className="border-t pt-4 mt-4">
+                    <Label>Transmission par décès (Article 13.3) *</Label>
+                    <Select
+                      value={statutsData.admissionAssocies?.transmissionDeces || 'HERITIERS_SANS_AGREMENT'}
+                      onChange={(e) =>
+                        updateStatutsData({
+                          admissionAssocies: {
+                            ...statutsData.admissionAssocies!,
+                            transmissionDeces: e.target.value as TransmissionDeces,
+                          },
+                        })
+                      }
+                    >
+                      <option value="SURVIVANTS_SEULS">
+                        Société continue avec les seuls associés survivants
+                      </option>
+                      <option value="HERITIERS_AVEC_AGREMENT">
+                        Les héritiers deviennent associés après agrément
+                      </option>
+                      <option value="HERITIERS_SANS_AGREMENT">
+                        Les héritiers deviennent associés sans agrément
+                      </option>
+                      <option value="PERSONNES_DESIGNEES">
+                        Société continue avec certaines personnes désignées
+                      </option>
+                    </Select>
+                    {statutsData.admissionAssocies?.transmissionDeces === 'PERSONNES_DESIGNEES' && (
+                      <div className="mt-3">
+                        <Label>Personnes désignées</Label>
                         <TrackedInput
                           fieldName="admissionAssocies"
-                          value={statutsData.admissionAssocies.majoriteMutation || 'la moitié'}
+                          value={statutsData.admissionAssocies.personnesDesignees || ''}
                           onChange={(e) =>
                             updateStatutsData({
                               admissionAssocies: {
                                 ...statutsData.admissionAssocies!,
-                                majoriteMutation: e.target.value,
+                                personnesDesignees: e.target.value,
                               },
                             })
                           }
-                          placeholder="Ex: la moitié, les deux tiers..."
+                          placeholder="Ex: le conjoint survivant, les enfants..."
                         />
                       </div>
-                      <div>
-                        <Label>Modalités de détermination du prix de rachat</Label>
-                        <TrackedTextarea
-                          fieldName="admissionAssocies"
-                          value={statutsData.admissionAssocies.modalitesPrixRachat || ''}
-                          onChange={(e) =>
-                            updateStatutsData({
-                              admissionAssocies: {
-                                ...statutsData.admissionAssocies!,
-                                modalitesPrixRachat: e.target.value,
-                              },
-                            })
-                          }
-                          placeholder="Méthode de calcul du prix en cas de refus d'agrément"
-                          rows={3}
-                        />
-                      </div>
-                      <div>
-                        <Label className="flex items-center gap-2">
-                          <input
-                            type="checkbox"
-                            checked={statutsData.admissionAssocies.agrementDeces || false}
-                            onChange={(e) =>
-                              updateStatutsData({
-                                admissionAssocies: {
-                                  ...statutsData.admissionAssocies!,
-                                  agrementDeces: e.target.checked,
-                                },
-                              })
-                            }
-                          />
-                          Agrément d'office en cas de décès
-                        </Label>
-                        {statutsData.admissionAssocies.agrementDeces && (
-                          <div className="mt-3 space-y-3">
-                            <div>
-                              <Label>Bénéficiaires de la continuation</Label>
-                              <TrackedInput
-                                fieldName="admissionAssocies"
-                                value={statutsData.admissionAssocies.beneficiairesContinuation || ''}
-                                onChange={(e) =>
-                                  updateStatutsData({
-                                    admissionAssocies: {
-                                      ...statutsData.admissionAssocies!,
-                                      beneficiairesContinuation: e.target.value,
-                                    },
-                                  })
-                                }
-                                placeholder="Ex: les héritiers, le conjoint survivant..."
-                              />
-                            </div>
-                            <div>
-                              <Label>Modalités de valorisation des droits</Label>
-                              <TrackedInput
-                                fieldName="admissionAssocies"
-                                value={statutsData.admissionAssocies.modalitesValeurDroits || ''}
-                                onChange={(e) =>
-                                  updateStatutsData({
-                                    admissionAssocies: {
-                                      ...statutsData.admissionAssocies!,
-                                      modalitesValeurDroits: e.target.value,
-                                    },
-                                  })
-                                }
-                                placeholder="Méthode de calcul de la valeur des droits"
-                              />
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </>
+                    )}
+                  </div>
+
+                  {/* Liquidation de communauté (Article 13.3) */}
+                  <div>
+                    <Label>Liquidation de communauté (Article 13.3) *</Label>
+                    <Select
+                      value={statutsData.admissionAssocies?.liquidationCommunaute || 'NON_APPLICABLE'}
+                      onChange={(e) =>
+                        updateStatutsData({
+                          admissionAssocies: {
+                            ...statutsData.admissionAssocies!,
+                            liquidationCommunaute: e.target.value as LiquidationCommunaute,
+                          },
+                        })
+                      }
+                    >
+                      <option value="NON_APPLICABLE">
+                        Pas de clause spécifique
+                      </option>
+                      <option value="AVEC_AGREMENT">
+                        Attribution au conjoint avec agrément
+                      </option>
+                      <option value="SANS_AGREMENT">
+                        Attribution au conjoint sans agrément
+                      </option>
+                    </Select>
+                  </div>
+
+                  {/* Type d'exploit pour signification (Article 13.1.1) */}
+                  <div className="border-t pt-4 mt-4">
+                    <Label>Type d'exploit pour signification (Article 13.1.1) *</Label>
+                    <Select
+                      value={statutsData.admissionAssocies?.exploitType || 'HUISSIER'}
+                      onChange={(e) =>
+                        updateStatutsData({
+                          admissionAssocies: {
+                            ...statutsData.admissionAssocies!,
+                            exploitType: e.target.value as ExploitType,
+                          },
+                        })
+                      }
+                    >
+                      <option value="HUISSIER">
+                        Huissier de justice
+                      </option>
+                      <option value="COMMISSAIRE">
+                        Commissaire de justice
+                      </option>
+                    </Select>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Depuis 2022, les huissiers et commissaires-priseurs fusionnent en "commissaires de justice"
+                    </p>
+                  </div>
+
+                  {/* Article 12: Répartition des votes en cas d'usufruit - uniquement pour SARL */}
+                  {dossier?.societe.formeJuridique === 'SARL' && (
+                    <div className="border-t pt-4 mt-4">
+                      <Label>Répartition des votes en cas d'usufruit (Article 12) *</Label>
+                      <Select
+                        value={statutsData.repartitionVotesUsufruit || 'NU_PROPRIETAIRE'}
+                        onChange={(e) =>
+                          updateStatutsData({
+                            repartitionVotesUsufruit: e.target.value as 'NU_PROPRIETAIRE' | 'USUFRUITIER' | 'MIXTE',
+                          })
+                        }
+                      >
+                        <option value="NU_PROPRIETAIRE">
+                          Droit de vote au nu-propriétaire (sauf affectation bénéfices)
+                        </option>
+                        <option value="USUFRUITIER">
+                          Droit de vote à l'usufruitier pour toutes les décisions
+                        </option>
+                        <option value="MIXTE">
+                          Répartition mixte (nu-propriétaire pour décisions extraordinaires, usufruitier pour ordinaires)
+                        </option>
+                      </Select>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Détermine qui peut voter lorsque les parts sociales sont grevées d'usufruit (démembrement de propriété)
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Location des parts - uniquement pour SARL */}
+                  {dossier?.societe.formeJuridique === 'SARL' && (
+                    <div className="border-t pt-4 mt-4">
+                      <Label>Location des parts sociales (Article 13.5) *</Label>
+                      <Select
+                        value={statutsData.admissionAssocies?.locationParts || 'INTERDITE'}
+                        onChange={(e) =>
+                          updateStatutsData({
+                            admissionAssocies: {
+                              ...(statutsData.admissionAssocies || {
+                                regimeCession: 'LIBRE_ASSOCIES_FAMILIAL',
+                                exploitType: 'HUISSIER',
+                                majoriteCessionTiers: 'la moitié',
+                                transmissionDeces: 'HERITIERS_SANS_AGREMENT',
+                                liquidationCommunaute: 'NON_APPLICABLE',
+                                locationParts: 'INTERDITE',
+                              }),
+                              locationParts: e.target.value as 'INTERDITE' | 'AUTORISEE',
+                            },
+                          })
+                        }
+                      >
+                        <option value="INTERDITE">
+                          Interdite
+                        </option>
+                        <option value="AUTORISEE">
+                          Autorisée (bail de parts)
+                        </option>
+                      </Select>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Les parts sociales peuvent être données à bail au profit d'une personne physique dans les conditions légales. Cette option est rarement utilisée en pratique.
+                      </p>
+                    </div>
                   )}
                 </div>
               )}
@@ -2577,7 +2810,7 @@ export function RedactionStatuts() {
             {/* Section 6: Gérance (EURL) ou Présidence (SASU) */}
             {shouldShowSection('section-6') && (
               <FormSection
-                title={`6. ${labels.Direction} (Articles 12-20)`}
+                title={isSASU ? `6. ${labels.Direction} (Article 13)` : `6. ${labels.Direction} (Articles 12-16)`}
               subtitle={`Nomination et pouvoirs du ${labels.dirigeant}`}
               completed={isSASU ? !!statutsData.president : !!statutsData.gerant}
               sectionId="section-6"
@@ -2619,8 +2852,67 @@ export function RedactionStatuts() {
                     }}
                     className="rounded"
                   />
-                  <Label htmlFor="dirigeant-associe">Le {labels.dirigeant} est l'associé unique</Label>
+                  <Label htmlFor="dirigeant-associe">
+                    Le {labels.dirigeant} est {
+                      dossier?.societe.formeJuridique === 'SARL' || dossier?.societe.formeJuridique === 'SAS'
+                        ? "un des associés"
+                        : "l'associé unique"
+                    }
+                  </Label>
                 </div>
+
+                {/* Pour SARL: Sélection des premiers gérants parmi les associés */}
+                {dossier?.societe.formeJuridique === 'SARL' && 
+                 statutsData.gerant?.isAssocieUnique !== false &&
+                 statutsData.associes?.liste && statutsData.associes.liste.length > 0 && (
+                  <div className="bg-muted/50 p-4 rounded-lg space-y-3">
+                    <p className="text-sm font-medium">Sélectionner le(s) premier(s) gérant(s)</p>
+                    <p className="text-xs text-muted-foreground">
+                      Cochez un ou plusieurs associés qui seront nommés comme premiers gérants dans les statuts.
+                    </p>
+                    
+                    <div className="space-y-2">
+                      {statutsData.associes.liste.map((item, index) => {
+                        const associeId = `associe-${index}`
+                        const isGerant = statutsData.gerantsSARLIds?.includes(associeId) || false
+                        const associe = item.associe
+                        const associeNom = associe.type === 'PERSONNE_PHYSIQUE' 
+                          ? `${associe.prenom} ${associe.nom}`.trim()
+                          : associe.societeNom || 'Associé ' + (index + 1)
+                        
+                        return (
+                          <div key={associeId} className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              id={`gerant-${associeId}`}
+                              checked={isGerant}
+                              onChange={(e) => {
+                                const currentGerants = statutsData.gerantsSARLIds || []
+                                const newGerants = e.target.checked
+                                  ? [...currentGerants, associeId]
+                                  : currentGerants.filter(id => id !== associeId)
+                                
+                                updateStatutsData({
+                                  gerantsSARLIds: newGerants
+                                })
+                              }}
+                              className="rounded"
+                            />
+                            <Label htmlFor={`gerant-${associeId}`} className="cursor-pointer">
+                              {associeNom}
+                            </Label>
+                          </div>
+                        )
+                      })}
+                    </div>
+
+                    {(!statutsData.gerantsSARLIds || statutsData.gerantsSARLIds.length === 0) && (
+                      <p className="text-xs text-amber-600 mt-2">
+                        ⚠️ Veuillez sélectionner au moins un gérant parmi les associés.
+                      </p>
+                    )}
+                  </div>
+                )}
 
                 {/* Formulaire pour dirigeant tiers (si dirigeant ≠ associé unique) */}
                 {((isSASU && statutsData.president?.isAssocieUnique === false) ||
@@ -2831,8 +3123,8 @@ export function RedactionStatuts() {
                   </div>
                 )}
 
-                {/* Champs spécifiques EURL : Durée du mandat */}
-                {!isSASU && (
+                {/* EURL : Durée du mandat (texte libre) */}
+                {dossier?.societe.formeJuridique === 'EURL' && (
                   <div>
                     <Label>Durée du mandat *</Label>
                     <TrackedInput
@@ -2851,6 +3143,65 @@ export function RedactionStatuts() {
                       onFieldBlur={handleFieldBlur}
                       placeholder="Ex: durée de la société, 3 ans..."
                     />
+                  </div>
+                )}
+
+                {/* SARL : Durée du mandat (choix) - Article 17 */}
+                {dossier?.societe.formeJuridique === 'SARL' && (
+                  <div className="space-y-3">
+                    <div>
+                      <Label>Durée du mandat *</Label>
+                      <Select
+                        value={statutsData.dureeMandat || 'INDETERMINEE'}
+                        onChange={(e) =>
+                          updateStatutsData({
+                            dureeMandat: e.target.value as 'INDETERMINEE' | 'DETERMINEE',
+                          })
+                        }
+                      >
+                        <option value="INDETERMINEE">Durée indéterminée</option>
+                        <option value="DETERMINEE">Durée déterminée</option>
+                      </Select>
+                    </div>
+
+                    {statutsData.dureeMandat === 'DETERMINEE' && (
+                      <>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <Label>Nombre d'années *</Label>
+                            <TrackedInput
+                              fieldName="anneesDureeMandat"
+                              type="number"
+                              value={statutsData.anneesDureeMandat || 5}
+                              onChange={(e) =>
+                                updateStatutsData({
+                                  anneesDureeMandat: parseInt(e.target.value) || 5,
+                                })
+                              }
+                              onFieldChange={handleFieldChange}
+                              onFieldFocus={handleFieldFocus}
+                              onFieldBlur={handleFieldBlur}
+                              min={1}
+                            />
+                          </div>
+                          <div>
+                            <Label className="flex items-center gap-2">
+                              <input
+                                type="checkbox"
+                                checked={statutsData.reeligible !== false}
+                                onChange={(e) =>
+                                  updateStatutsData({
+                                    reeligible: e.target.checked,
+                                  })
+                                }
+                                className="rounded"
+                              />
+                              Gérants rééligibles
+                            </Label>
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 )}
 
@@ -2899,8 +3250,8 @@ export function RedactionStatuts() {
                   </div>
                 )}
 
-                {/* Champs spécifiques EURL : Majorités et modalités (Articles 14-15-16) */}
-                {!isSASU && (
+                {/* EURL : Majorités et modalités (Articles 14-15-16) */}
+                {dossier?.societe.formeJuridique === 'EURL' && (
                   <div className="border-t pt-4 mt-4">
                     <p className="text-sm font-medium mb-3">Majorités et modalités (Articles 14-15-16)</p>
                     <div className="space-y-3">
@@ -2962,15 +3313,226 @@ export function RedactionStatuts() {
                           rows={3}
                         />
                       )}
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
+
+                {/* SARL : Majorités et modalités (Articles 17-18-20) */}
+                {dossier?.societe.formeJuridique === 'SARL' && (
+                  <div className="border-t pt-4 mt-4">
+                    <p className="text-sm font-medium mb-3">Nomination et révocation (Articles 17-20)</p>
+                    <div className="space-y-4">
+                      {/* Majorité nomination */}
+                      <div>
+                        <Label>Majorité pour la nomination *</Label>
+                        <Select
+                          value={statutsData.majoriteNomination || 'LEGALE_AVEC_SECONDE'}
+                          onChange={(e) =>
+                            updateStatutsData({
+                              majoriteNomination: e.target.value as any,
+                            })
+                          }
+                        >
+                          <option value="LEGALE_AVEC_SECONDE">
+                            Majorité légale (moitié) avec possibilité de seconde consultation
+                          </option>
+                          <option value="LEGALE_SANS_SECONDE">
+                            Majorité légale (moitié) sans seconde consultation
+                          </option>
+                          <option value="RENFORCEE_AVEC_SECONDE">
+                            Majorité renforcée avec possibilité de seconde consultation
+                          </option>
+                          <option value="RENFORCEE_SANS_SECONDE">
+                            Majorité renforcée sans seconde consultation
+                          </option>
+                        </Select>
+                      </div>
+
+                      {(statutsData.majoriteNomination === 'RENFORCEE_AVEC_SECONDE' ||
+                        statutsData.majoriteNomination === 'RENFORCEE_SANS_SECONDE') && (
+                        <div>
+                          <Label>Niveau de majorité renforcée *</Label>
+                          <TrackedInput
+                            fieldName="niveauMajoriteRenforcee"
+                            value={statutsData.niveauMajoriteRenforcee || 'deux tiers'}
+                            onChange={(e) =>
+                              updateStatutsData({
+                                niveauMajoriteRenforcee: e.target.value,
+                              })
+                            }
+                            onFieldChange={handleFieldChange}
+                            onFieldFocus={handleFieldFocus}
+                            onFieldBlur={handleFieldBlur}
+                            placeholder="Ex: deux tiers, les trois quarts"
+                          />
+                        </div>
+                      )}
+
+                      {/* Majorité révocation */}
+                      <div>
+                        <Label>Majorité pour la révocation *</Label>
+                        <Select
+                          value={statutsData.majoriteRevocation || statutsData.majoriteNomination || 'LEGALE_AVEC_SECONDE'}
+                          onChange={(e) =>
+                            updateStatutsData({
+                              majoriteRevocation: e.target.value as any,
+                            })
+                          }
+                        >
+                          <option value="LEGALE_AVEC_SECONDE">
+                            Majorité légale (moitié) avec possibilité de seconde consultation
+                          </option>
+                          <option value="LEGALE_SANS_SECONDE">
+                            Majorité légale (moitié) sans seconde consultation
+                          </option>
+                          <option value="RENFORCEE_AVEC_SECONDE">
+                            Majorité renforcée avec possibilité de seconde consultation
+                          </option>
+                          <option value="RENFORCEE_SANS_SECONDE">
+                            Majorité renforcée sans seconde consultation
+                          </option>
+                        </Select>
+                      </div>
+
+                      {(statutsData.majoriteRevocation === 'RENFORCEE_AVEC_SECONDE' ||
+                        statutsData.majoriteRevocation === 'RENFORCEE_SANS_SECONDE') && (
+                        <div>
+                          <Label>Niveau de majorité renforcée pour révocation *</Label>
+                          <TrackedInput
+                            fieldName="niveauMajoriteRevocation"
+                            value={statutsData.niveauMajoriteRevocation || statutsData.niveauMajoriteRenforcee || 'deux tiers'}
+                            onChange={(e) =>
+                              updateStatutsData({
+                                niveauMajoriteRevocation: e.target.value,
+                              })
+                            }
+                            onFieldChange={handleFieldChange}
+                            onFieldFocus={handleFieldFocus}
+                            onFieldBlur={handleFieldBlur}
+                            placeholder="Ex: deux tiers, les trois quarts"
+                          />
+                        </div>
+                      )}
+
+                      {/* Délai de préavis */}
+                      <div>
+                        <Label>Délai de préavis (mois) *</Label>
+                        <TrackedInput
+                          fieldName="delaiPreavisGerant"
+                          type="number"
+                          value={statutsData.delaiPreavisGerant || 3}
+                          onChange={(e) =>
+                            updateStatutsData({
+                              delaiPreavisGerant: parseInt(e.target.value) || 3,
+                            })
+                          }
+                          onFieldChange={handleFieldChange}
+                          onFieldFocus={handleFieldFocus}
+                          onFieldBlur={handleFieldBlur}
+                          min={1}
+                        />
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Préavis de démission du gérant (Article 20)
+                        </p>
+                      </div>
+
+                      {/* Limitations de pouvoirs - Article 18 */}
+                      <div className="border-t pt-4">
+                        <p className="text-sm font-medium mb-3">Pouvoirs de la Gérance (Article 18)</p>
+                        
+                        <Label className="flex items-center gap-2 mb-3">
+                          <input
+                            type="checkbox"
+                            checked={statutsData.limitationsPouvoirs || false}
+                            onChange={(e) =>
+                              updateStatutsData({
+                                limitationsPouvoirs: e.target.checked,
+                              })
+                            }
+                            className="rounded"
+                          />
+                          Prévoir des limitations de pouvoirs
+                        </Label>
+
+                        {statutsData.limitationsPouvoirs && (
+                          <div className="space-y-3 ml-6">
+                            <div>
+                              <Label>Majorité requise pour les décisions soumises à autorisation *</Label>
+                              <TrackedInput
+                                fieldName="majoriteLimitationsPouvoirs"
+                                value={statutsData.majoriteLimitationsPouvoirs || 'la moitié'}
+                                onChange={(e) =>
+                                  updateStatutsData({
+                                    majoriteLimitationsPouvoirs: e.target.value,
+                                  })
+                                }
+                                onFieldChange={handleFieldChange}
+                                onFieldFocus={handleFieldFocus}
+                                onFieldBlur={handleFieldBlur}
+                                placeholder="Ex: la moitié, les deux tiers"
+                              />
+                            </div>
+                            <div>
+                              <Label>Liste des décisions nécessitant autorisation préalable *</Label>
+                              <TrackedTextarea
+                                fieldName="listeLimitationsPouvoirs"
+                                value={statutsData.listeLimitationsPouvoirs || ''}
+                                onChange={(e) =>
+                                  updateStatutsData({
+                                    listeLimitationsPouvoirs: e.target.value,
+                                  })
+                                }
+                                placeholder="Ex: - Emprunts supérieurs à 50 000 €&#10;- Acquisitions ou cessions d'immeubles&#10;- Constitution de sûretés..."
+                                rows={4}
+                              />
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Cogérance */}
+                        <div className="border-t pt-4 mt-4">
+                          <Label className="flex items-center gap-2 mb-3">
+                            <input
+                              type="checkbox"
+                              checked={statutsData.cogerance || false}
+                              onChange={(e) =>
+                                updateStatutsData({
+                                  cogerance: e.target.checked,
+                                })
+                              }
+                              className="rounded"
+                            />
+                            Prévoir une cogérance (certains actes nécessitent plusieurs gérants)
+                          </Label>
+
+                          {statutsData.cogerance && (
+                            <div className="ml-6">
+                              <Label>Liste des actes nécessitant l'intervention de plusieurs gérants *</Label>
+                              <TrackedTextarea
+                                fieldName="listeActesCogerance"
+                                value={statutsData.listeActesCogerance || ''}
+                                onChange={(e) =>
+                                  updateStatutsData({
+                                    listeActesCogerance: e.target.value,
+                                  })
+                                }
+                                placeholder="Ex: - Cessions de fonds de commerce&#10;- Emprunts supérieurs à 100 000 €&#10;- Acquisitions immobilières..."
+                                rows={4}
+                              />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </FormSection>
             )}
 
-            {/* Section 6bis: Comptes courants (Article 21) */}
-            {shouldShowSection('section-6bis') && (
+            {/* Section 6bis: Comptes courants (Article 21) - EURL uniquement */}
+            {dossier?.societe.formeJuridique === 'EURL' && shouldShowSection('section-6bis') && (
               <FormSection
               title="6bis. Comptes courants (Article 21)"
               subtitle="Conditions d'avances en compte courant"
@@ -3024,7 +3586,7 @@ export function RedactionStatuts() {
             {/* Section 7: Exercice social */}
             {shouldShowSection('section-7') && (
               <FormSection
-              title="7. Exercice social (Article 23)"
+              title={isSASU ? "7. Exercice social (Article 19)" : dossier?.societe.formeJuridique === 'SARL' ? "7. Exercice social (Article 26)" : "7. Exercice social (Article 23)"}
               subtitle="Dates de début et fin"
               completed={!!statutsData.exerciceSocial}
               sectionId="section-7"
@@ -3098,10 +3660,109 @@ export function RedactionStatuts() {
             </FormSection>
             )}
 
+            {/* Section 7bis: Décisions collectives et modalités de consultation (Articles 17-18) - SASU uniquement */}
+            {isSASU && shouldShowSection('section-7bis') && (
+              <FormSection
+                title="7bis. Décisions collectives (Articles 17-18)"
+                subtitle="Modalités de consultation des associés"
+                completed={!!statutsData.quorumDecisions}
+                sectionId="section-7bis"
+                onSectionClick={handleSectionClick}
+              >
+                <div className="space-y-4">
+                  <p className="text-sm text-muted-foreground">
+                    Ces modalités s'appliquent lorsque la société compte plusieurs associés. Elles définissent les règles de quorum,
+                    les délais de convocation et de consultation.
+                  </p>
+
+                  <div>
+                    <Label>Quorum requis pour les décisions collectives *</Label>
+                    <TrackedInput
+                      fieldName="quorumDecisions"
+                      value={statutsData.quorumDecisions || '50%'}
+                      onChange={(e) => updateStatutsData({ quorumDecisions: e.target.value })}
+                      placeholder="Ex: 50%, 2/3, l'unanimité..."
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Pourcentage minimum des droits de vote requis pour que les décisions soient valables
+                    </p>
+                  </div>
+
+                  <div className="border-t pt-4 mt-4">
+                    <p className="text-sm font-medium mb-3">Modalités de consultation (Article 18)</p>
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <Label>Délai de convocation en assemblée (jours) *</Label>
+                          <TrackedInput
+                            fieldName="delaiConvocationAssemblee"
+                            type="number"
+                            value={statutsData.delaiConvocationAssemblee || 15}
+                            onChange={(e) => updateStatutsData({ delaiConvocationAssemblee: parseInt(e.target.value) || 15 })}
+                            min={1}
+                            placeholder="Ex: 15 jours"
+                          />
+                          <p className="text-xs text-muted-foreground mt-1">
+                            Délai minimum avant la tenue de l'assemblée
+                          </p>
+                        </div>
+                        <div>
+                          <Label>Délai de consultation écrite (jours) *</Label>
+                          <TrackedInput
+                            fieldName="delaiConsultationEcrite"
+                            type="number"
+                            value={statutsData.delaiConsultationEcrite || 15}
+                            onChange={(e) => updateStatutsData({ delaiConsultationEcrite: parseInt(e.target.value) || 15 })}
+                            min={1}
+                            placeholder="Ex: 15 jours"
+                          />
+                          <p className="text-xs text-muted-foreground mt-1">
+                            Délai pour émettre son vote en cas de consultation écrite
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <Label>Signataire des procès-verbaux *</Label>
+                          <TrackedInput
+                            fieldName="signatairePV"
+                            value={statutsData.signatairePV || 'le Président'}
+                            onChange={(e) => updateStatutsData({ signatairePV: e.target.value })}
+                            placeholder="Ex: le Président, le Président de séance..."
+                          />
+                        </div>
+                        <div>
+                          <Label>Délai d'information des résultats (jours) *</Label>
+                          <TrackedInput
+                            fieldName="delaiInformationResultat"
+                            type="number"
+                            value={statutsData.delaiInformationResultat || 15}
+                            onChange={(e) => updateStatutsData({ delaiInformationResultat: parseInt(e.target.value) || 15 })}
+                            min={1}
+                            placeholder="Ex: 15 jours"
+                          />
+                          <p className="text-xs text-muted-foreground mt-1">
+                            Délai pour informer les associés du résultat d'une consultation
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </FormSection>
+            )}
+
             {/* Section 8: Commissaires aux comptes */}
             {shouldShowSection('section-8') && (
               <FormSection
-              title="8. Commissaires aux comptes (Article 18)"
+              title={
+                isSASU 
+                  ? "8. Commissaires aux comptes (Article 15)" 
+                  : dossier?.societe.formeJuridique === 'SARL' 
+                    ? "8. Commissaires aux comptes (Articles 23 et 35bis)" 
+                    : "8. Commissaires aux comptes (Article 18)"
+              }
               subtitle="Nomination obligatoire ou facultative"
               completed={!!statutsData.commissairesAuxComptes}
               sectionId="section-8"
@@ -3129,6 +3790,221 @@ export function RedactionStatuts() {
                     <br />- Total bilan {'>'}4M€ | CA HT {'>'}8M€ | Salariés {'>'}50
                   </p>
                 </div>
+
+                <div className="border-t pt-4 mt-4">
+                  <Label className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={statutsData.commissairesAuxComptes?.designes || false}
+                      onChange={(e) =>
+                        updateStatutsData({
+                          commissairesAuxComptes: {
+                            obligatoire: statutsData.commissairesAuxComptes?.obligatoire || false,
+                            ...statutsData.commissairesAuxComptes,
+                            designes: e.target.checked,
+                            ...(e.target.checked && {
+                              duree: '6 exercices',
+                              dateFinMandat: '',
+                              titulaire: { nom: '', prenom: '', adresse: '' },
+                            }),
+                          },
+                        })
+                      }
+                    />
+                    Désigner les commissaires aux comptes dès la constitution
+                  </Label>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    {isSASU 
+                      ? "Si vous souhaitez nommer les commissaires dans les statuts (Article 15)"
+                      : dossier?.societe.formeJuridique === 'SARL'
+                        ? "Si vous souhaitez nommer les commissaires dans les statuts (Article 35bis)"
+                        : "Si vous souhaitez nommer les commissaires dans les statuts"}
+                  </p>
+
+                  {statutsData.commissairesAuxComptes?.designes && (
+                    <div className="mt-4 space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <Label>Durée du mandat *</Label>
+                          <TrackedInput
+                            fieldName="dureeCommissaires"
+                            value={statutsData.commissairesAuxComptes.duree || '6'}
+                            onChange={(e) =>
+                              updateStatutsData({
+                                commissairesAuxComptes: {
+                                  ...statutsData.commissairesAuxComptes!,
+                                  duree: e.target.value,
+                                },
+                              })
+                            }
+                            placeholder="Ex: 6"
+                          />
+                          <p className="text-xs text-muted-foreground mt-1">
+                            Durée en nombre d'exercices (généralement 6)
+                          </p>
+                        </div>
+                        <div>
+                          <Label>Date de fin du mandat *</Label>
+                          <TrackedInput
+                            fieldName="dateFinMandatCAC"
+                            type="date"
+                            value={statutsData.commissairesAuxComptes.dateFinMandat || ''}
+                            onChange={(e) =>
+                              updateStatutsData({
+                                commissairesAuxComptes: {
+                                  ...statutsData.commissairesAuxComptes!,
+                                  dateFinMandat: e.target.value,
+                                },
+                              })
+                            }
+                          />
+                        </div>
+                      </div>
+
+                      <div className="bg-muted/50 p-4 rounded-lg space-y-3">
+                        <p className="text-sm font-medium">Commissaire aux comptes titulaire</p>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <Label>Nom *</Label>
+                            <TrackedInput
+                              fieldName="commissaireTitulaireNom"
+                              value={statutsData.commissairesAuxComptes?.titulaire?.nom || ''}
+                              onChange={(e) =>
+                                updateStatutsData({
+                                  commissairesAuxComptes: {
+                                    ...statutsData.commissairesAuxComptes!,
+                                    titulaire: {
+                                      ...(statutsData.commissairesAuxComptes?.titulaire || { nom: '', prenom: '', adresse: '' }),
+                                      nom: e.target.value,
+                                    },
+                                  },
+                                })
+                              }
+                            />
+                          </div>
+                          <div>
+                            <Label>Prénom *</Label>
+                            <TrackedInput
+                              fieldName="commissaireTitulairePrenom"
+                              value={statutsData.commissairesAuxComptes?.titulaire?.prenom || ''}
+                              onChange={(e) =>
+                                updateStatutsData({
+                                  commissairesAuxComptes: {
+                                    ...statutsData.commissairesAuxComptes!,
+                                    titulaire: {
+                                      ...(statutsData.commissairesAuxComptes?.titulaire || { nom: '', prenom: '', adresse: '' }),
+                                      prenom: e.target.value,
+                                    },
+                                  },
+                                })
+                              }
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <Label>Adresse complète *</Label>
+                          <TrackedInput
+                            fieldName="commissaireTitulaireAdresse"
+                            value={statutsData.commissairesAuxComptes?.titulaire?.adresse || ''}
+                            onChange={(e) =>
+                              updateStatutsData({
+                                commissairesAuxComptes: {
+                                  ...statutsData.commissairesAuxComptes!,
+                                  titulaire: {
+                                    ...(statutsData.commissairesAuxComptes?.titulaire || { nom: '', prenom: '', adresse: '' }),
+                                    adresse: e.target.value,
+                                  },
+                                },
+                              })
+                            }
+                            placeholder="Adresse professionnelle du commissaire"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="border-t pt-4">
+                        <Label className="flex items-center gap-2 mb-3">
+                          <input
+                            type="checkbox"
+                            checked={!!statutsData.commissairesAuxComptes?.suppleant}
+                            onChange={(e) =>
+                              updateStatutsData({
+                                commissairesAuxComptes: {
+                                  ...statutsData.commissairesAuxComptes!,
+                                  suppleant: e.target.checked ? { nom: '', prenom: '', adresse: '' } : undefined,
+                                },
+                              })
+                            }
+                          />
+                          Désigner un commissaire aux comptes suppléant (optionnel)
+                        </Label>
+
+                        {statutsData.commissairesAuxComptes?.suppleant && (
+                          <div className="bg-muted/50 p-4 rounded-lg space-y-3">
+                            <p className="text-sm font-medium">Commissaire aux comptes suppléant</p>
+                            <div className="grid grid-cols-2 gap-4">
+                              <div>
+                                <Label>Nom *</Label>
+                                <TrackedInput
+                                  fieldName="commissaireSuppleantNom"
+                                  value={statutsData.commissairesAuxComptes?.suppleant?.nom || ''}
+                                  onChange={(e) =>
+                                    updateStatutsData({
+                                      commissairesAuxComptes: {
+                                        ...statutsData.commissairesAuxComptes!,
+                                        suppleant: {
+                                          ...(statutsData.commissairesAuxComptes?.suppleant || { nom: '', prenom: '', adresse: '' }),
+                                          nom: e.target.value,
+                                        },
+                                      },
+                                    })
+                                  }
+                                />
+                              </div>
+                              <div>
+                                <Label>Prénom *</Label>
+                                <TrackedInput
+                                  fieldName="commissaireSuppleantPrenom"
+                                  value={statutsData.commissairesAuxComptes?.suppleant?.prenom || ''}
+                                  onChange={(e) =>
+                                    updateStatutsData({
+                                      commissairesAuxComptes: {
+                                        ...statutsData.commissairesAuxComptes!,
+                                        suppleant: {
+                                          ...(statutsData.commissairesAuxComptes?.suppleant || { nom: '', prenom: '', adresse: '' }),
+                                          prenom: e.target.value,
+                                        },
+                                      },
+                                    })
+                                  }
+                                />
+                              </div>
+                            </div>
+                            <div>
+                              <Label>Adresse complète *</Label>
+                              <TrackedInput
+                                fieldName="commissaireSuppleantAdresse"
+                                value={statutsData.commissairesAuxComptes?.suppleant?.adresse || ''}
+                                onChange={(e) =>
+                                  updateStatutsData({
+                                    commissairesAuxComptes: {
+                                      ...statutsData.commissairesAuxComptes!,
+                                      suppleant: {
+                                        ...(statutsData.commissairesAuxComptes?.suppleant || { nom: '', prenom: '', adresse: '' }),
+                                        adresse: e.target.value,
+                                      },
+                                    },
+                                  })
+                                }
+                                placeholder="Adresse professionnelle du commissaire"
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </FormSection>
             )}
@@ -3136,7 +4012,7 @@ export function RedactionStatuts() {
             {/* Section 9: Conventions réglementées */}
             {shouldShowSection('section-9') && (
               <FormSection
-                title="9. Conventions réglementées (Article 19)"
+                title={isSASU ? "9. Conventions réglementées (Article 16)" : "9. Conventions réglementées (Article 22)"}
               subtitle="Article obligatoire - toujours inclus"
               completed={true}
               sectionId="section-9"
@@ -3154,8 +4030,174 @@ export function RedactionStatuts() {
             </FormSection>
             )}
 
-            {/* Section 10: Options */}
-            {shouldShowSection('section-10') && (
+            {/* Section 9bis: Décisions collectives - SARL uniquement */}
+            {dossier?.societe.formeJuridique === 'SARL' && shouldShowSection('section-9bis') && (
+              <FormSection
+                title="9bis. Décisions collectives (Article 24)"
+                subtitle="Modalités de consultation et de vote des associés"
+                completed={!!(
+                  statutsData.formesDecisionsCollectives &&
+                  statutsData.decisionsOrdinaires &&
+                  statutsData.quorumExtraordinaire1 &&
+                  statutsData.quorumExtraordinaire2 &&
+                  statutsData.majoriteExtraordinaire
+                )}
+                sectionId="section-9bis"
+                onSectionClick={handleSectionClick}
+              >
+                <div className="space-y-6">
+                  <p className="text-sm text-muted-foreground">
+                    L'article 24 définit les règles de prise de décision collective des associés de la SARL.
+                  </p>
+
+                  {/* 24.1: Forme des décisions collectives */}
+                  <div className="border rounded-lg p-4 bg-slate-50">
+                    <h4 className="font-medium text-sm mb-3">24.1 Forme des décisions collectives</h4>
+                    <div>
+                      <Label>Mode de consultation des associés *</Label>
+                      <Select
+                        value={statutsData.formesDecisionsCollectives || 'DIVERSES'}
+                        onChange={(e) =>
+                          updateStatutsData({
+                            formesDecisionsCollectives: e.target.value as 'DIVERSES' | 'ASSEMBLEE_SEULE' | 'SANS_CE_UNANIME_COMPTES',
+                          })
+                        }
+                      >
+                        <option value="DIVERSES">
+                          Diverses formes (assemblée, consultation écrite ou consentement unanime)
+                        </option>
+                        <option value="ASSEMBLEE_SEULE">
+                          Assemblée générale uniquement
+                        </option>
+                        <option value="SANS_CE_UNANIME_COMPTES">
+                          Sans consentement unanime pour les comptes
+                        </option>
+                      </Select>
+                      <p className="text-xs text-muted-foreground mt-1.5">
+                        Définit les modalités selon lesquelles les associés prennent leurs décisions
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* 24.2: Décisions ordinaires */}
+                  <div className="border rounded-lg p-4 bg-slate-50">
+                    <h4 className="font-medium text-sm mb-3">24.2 Décisions ordinaires</h4>
+                    <div className="space-y-4">
+                      <div>
+                        <Label>Majorité pour les décisions ordinaires *</Label>
+                        <Select
+                          value={statutsData.decisionsOrdinaires || 'LEGALE_AVEC_SECONDE'}
+                          onChange={(e) =>
+                            updateStatutsData({
+                              decisionsOrdinaires: e.target.value as 'LEGALE_AVEC_SECONDE' | 'LEGALE_SANS_SECONDE' | 'RENFORCEE_AVEC_SECONDE' | 'RENFORCEE_SANS_SECONDE',
+                            })
+                          }
+                        >
+                          <option value="LEGALE_AVEC_SECONDE">
+                            Majorité légale (+ moitié) avec seconde consultation possible
+                          </option>
+                          <option value="LEGALE_SANS_SECONDE">
+                            Majorité légale (+ moitié) sans seconde consultation
+                          </option>
+                          <option value="RENFORCEE_AVEC_SECONDE">
+                            Majorité renforcée avec seconde consultation possible
+                          </option>
+                          <option value="RENFORCEE_SANS_SECONDE">
+                            Majorité renforcée sans seconde consultation
+                          </option>
+                        </Select>
+                        <p className="text-xs text-muted-foreground mt-1.5">
+                          Les décisions ordinaires concernent la gestion courante (approbation des comptes, nomination gérants, etc.)
+                        </p>
+                      </div>
+
+                      {(statutsData.decisionsOrdinaires === 'RENFORCEE_AVEC_SECONDE' ||
+                        statutsData.decisionsOrdinaires === 'RENFORCEE_SANS_SECONDE') && (
+                        <div>
+                          <Label>Seuil de majorité renforcée *</Label>
+                          <TrackedInput
+                            fieldName="majoriteOrdinairesRenforcee"
+                            value={statutsData.majoriteOrdinairesRenforcee || 'deux tiers'}
+                            onChange={(e) =>
+                              updateStatutsData({
+                                majoriteOrdinairesRenforcee: e.target.value,
+                              })
+                            }
+                            placeholder="Ex: deux tiers, trois quarts"
+                          />
+                          <p className="text-xs text-muted-foreground mt-1.5">
+                            Indiquez la fraction (ex: deux tiers, trois quarts)
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* 24.3: Décisions extraordinaires */}
+                  <div className="border rounded-lg p-4 bg-slate-50">
+                    <h4 className="font-medium text-sm mb-3">24.3 Décisions extraordinaires</h4>
+                    <p className="text-xs text-muted-foreground mb-4">
+                      Les décisions extraordinaires portent sur les modifications statutaires (changement dénomination, siège, objet, forme, etc.)
+                    </p>
+                    <div className="space-y-4">
+                      <div>
+                        <Label>Quorum sur première convocation *</Label>
+                        <TrackedInput
+                          fieldName="quorumExtraordinaire1"
+                          value={statutsData.quorumExtraordinaire1 || 'le quart'}
+                          onChange={(e) =>
+                            updateStatutsData({
+                              quorumExtraordinaire1: e.target.value,
+                            })
+                          }
+                          placeholder="Ex: le quart, le tiers"
+                        />
+                        <p className="text-xs text-muted-foreground mt-1.5">
+                          Fraction minimale de parts sociales représentées pour délibérer valablement (ex: le quart)
+                        </p>
+                      </div>
+
+                      <div>
+                        <Label>Quorum sur deuxième convocation *</Label>
+                        <TrackedInput
+                          fieldName="quorumExtraordinaire2"
+                          value={statutsData.quorumExtraordinaire2 || 'le cinquième'}
+                          onChange={(e) =>
+                            updateStatutsData({
+                              quorumExtraordinaire2: e.target.value,
+                            })
+                          }
+                          placeholder="Ex: le cinquième, le sixième"
+                        />
+                        <p className="text-xs text-muted-foreground mt-1.5">
+                          Quorum réduit pour la seconde convocation (ex: le cinquième)
+                        </p>
+                      </div>
+
+                      <div>
+                        <Label>Majorité requise pour adoption *</Label>
+                        <TrackedInput
+                          fieldName="majoriteExtraordinaire"
+                          value={statutsData.majoriteExtraordinaire || 'des deux tiers'}
+                          onChange={(e) =>
+                            updateStatutsData({
+                              majoriteExtraordinaire: e.target.value,
+                            })
+                          }
+                          placeholder="Ex: des deux tiers, des trois quarts"
+                        />
+                        <p className="text-xs text-muted-foreground mt-1.5">
+                          Majorité des parts détenues par les associés présents ou représentés (ex: des deux tiers)
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </FormSection>
+            )}
+
+            {/* Section 10: Options - EURL uniquement */}
+            {dossier?.societe.formeJuridique === 'EURL' && shouldShowSection('section-10') && (
               <FormSection
                 title="10. Options (Articles 25-28)"
               subtitle="Choix fiscaux et clause d'arbitrage"
@@ -3263,7 +4305,7 @@ export function RedactionStatuts() {
             {/* Section 11: Actes en formation */}
             {shouldShowSection('section-11') && (
               <FormSection
-              title="11. Actes en formation (Article 29)"
+              title={isSASU ? "11. Actes en formation (Article 25)" : "11. Actes en formation (Article 29)"}
               subtitle="Actes accomplis avant immatriculation"
               completed={!!statutsData.actesFormation}
               sectionId="section-11"
@@ -3317,7 +4359,7 @@ export function RedactionStatuts() {
             {/* Section 12: Nomination du premier gérant et signatures (Article 30) */}
             {shouldShowSection('section-12') && (
               <FormSection
-                title="12. Nomination du premier gérant (Article 30 + Conclusion)"
+                title={isSASU ? "12. Signatures (Conclusion)" : "12. Nomination du premier gérant (Article 30 + Conclusion)"}
               subtitle="Nomination dans les statuts et signatures"
               completed={!!statutsData.nominationGerant}
               sectionId="section-12"
@@ -3364,7 +4406,9 @@ export function RedactionStatuts() {
                             })
                           }
                         />
-                        Le gérant est l'associé unique
+                        {dossier?.societe.formeJuridique === 'SARL' || dossier?.societe.formeJuridique === 'SAS'
+                          ? "Le gérant est un des associés"
+                          : "Le gérant est l'associé unique"}
                       </Label>
                     </div>
 

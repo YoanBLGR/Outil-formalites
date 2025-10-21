@@ -157,32 +157,103 @@ export function formaterDateFrancais(dateISO: string): string {
 }
 
 /**
+ * Formate une date au format ISO (YYYY-MM-DD) en format DD-MM-YYYY
+ * Exemple: "2025-10-15" -> "15-10-2025"
+ */
+export function formaterDateCourte(dateISO: string): string {
+  if (!dateISO) return ''
+
+  try {
+    const [annee, mois, jour] = dateISO.split('-')
+    return `${jour}-${mois}-${annee}`
+  } catch (e) {
+    return dateISO
+  }
+}
+
+/**
  * Accorde le texte en fonction de la civilité (M/Mme)
- * Remplace "associé" par "associée" si civilité === 'Mme'
+ * Remplace les mots au masculin par leur version féminine si civilité === 'Mme'
+ *
+ * IMPORTANT : Les remplacements sont effectués du plus spécifique au plus général
+ * pour éviter les doubles transformations (ex: "associé" → "associée" → "associéee")
  */
 export function accorderGenre(texte: string, civilite: 'M' | 'Mme'): string {
   if (civilite === 'Mme') {
     return texte
-      .replace(/\bassocié unique\b/g, 'associée unique')
-      .replace(/\bAssocié unique\b/g, 'Associée unique')
-      .replace(/\bl'associé unique\b/g, "l'associée unique")
-      .replace(/\bL'associé unique\b/g, "L'associée unique")
-      .replace(/\bde l'associé unique\b/g, "de l'associée unique")
-      .replace(/\bDe l'associé unique\b/g, "De l'associée unique")
-      .replace(/\bà l'associé unique\b/g, "à l'associée unique")
-      .replace(/\bÀ l'associé unique\b/g, "À l'associée unique")
-      .replace(/\bl'associé\b/g, "l'associée")
-      .replace(/\bL'associé\b/g, "L'associée")
-      .replace(/\bnommé gérant\b/g, 'nommée gérante')
-      .replace(/\bNommé gérant\b/g, 'Nommée gérante')
-      .replace(/\ble gérant\b/g, 'la gérante')
-      .replace(/\bLe gérant\b/g, 'La gérante')
-      .replace(/\bdu gérant\b/g, 'de la gérante')
-      .replace(/\bDu gérant\b/g, 'De la gérante')
-      .replace(/\bnommé\b/g, 'nommée')
-      .replace(/\bNommé\b/g, 'Nommée')
-      .replace(/\bné\b/g, 'née')
-      .replace(/\bNé\b/g, 'Née')
+      // ÉTAPE 1 : Expressions avec "associé" - du plus spécifique au plus général
+      .replace(/associé unique/g, 'associée unique')
+      .replace(/Associé unique/g, 'Associée unique')
+      .replace(/l'associé unique/g, "l'associée unique")
+      .replace(/L'associé unique/g, "L'associée unique")
+      .replace(/de l'associé unique/g, "de l'associée unique")
+      .replace(/De l'associé unique/g, "De l'associée unique")
+      .replace(/à l'associé unique/g, "à l'associée unique")
+      .replace(/À l'associé unique/g, "À l'associée unique")
+      .replace(/l'associé fondateur/g, "l'associée fondatrice")
+      .replace(/L'associé fondateur/g, "L'associée fondatrice")
+
+      // "l'associé" seul (après avoir traité "l'associé unique")
+      .replace(/l'associé([^e])/g, "l'associée$1")
+      .replace(/L'associé([^e])/g, "L'associée$1")
+      .replace(/de l'associé([^e])/g, "de l'associée$1")
+      .replace(/De l'associé([^e])/g, "De l'associée$1")
+
+      // ÉTAPE 2 : Le/La soussigné(e)
+      .replace(/Le soussigné /g, 'La soussignée ')
+      .replace(/le soussigné /g, 'la soussignée ')
+      .replace(/du soussigné /g, 'de la soussignée ')
+      .replace(/au soussigné /g, 'à la soussignée ')
+      .replace(/soussigné,/g, 'soussignée,')
+
+      // ÉTAPE 3 : Le/La gérant(e)
+      .replace(/nommé gérant/g, 'nommée gérante')
+      .replace(/Nommé gérant/g, 'Nommée gérante')
+      .replace(/le gérant/g, 'la gérante')
+      .replace(/Le gérant/g, 'La gérante')
+      .replace(/du gérant/g, 'de la gérante')
+      .replace(/Du gérant/g, 'De la gérante')
+      .replace(/au gérant/g, 'à la gérante')
+      .replace(/Au gérant/g, 'À la gérante')
+
+      // ÉTAPE 4 : Le/La Président(e) (pour SASU)
+      .replace(/le Président/g, 'la Présidente')
+      .replace(/Le Président/g, 'La Présidente')
+      .replace(/du Président/g, 'de la Présidente')
+      .replace(/Du Président/g, 'De la Présidente')
+      .replace(/au Président/g, 'à la Présidente')
+      .replace(/Au Président/g, 'À la Présidente')
+      .replace(/Président([,\s])/g, 'Présidente$1')
+
+      // ÉTAPE 5 : Participes passés
+      .replace(/nommé ([^g])/g, 'nommée $1') // "nommé" sauf "nommé gérant" déjà traité
+      .replace(/Nommé ([^g])/g, 'Nommée $1')
+
+      // né(e) avec parenthèses d'abord
+      .replace(/né\(e\)/g, 'née')
+      .replace(/Né\(e\)/g, 'Née')
+      // puis né seul
+      .replace(/né le /g, 'née le ')
+      .replace(/né à /g, 'née à ')
+      .replace(/Né le /g, 'Née le ')
+      .replace(/Né à /g, 'Née à ')
+
+      // dénommé(e) avec parenthèses
+      .replace(/dénommé\(e\)/g, 'dénommée')
+      .replace(/Dénommé\(e\)/g, 'Dénommée')
+
+      // ÉTAPE 6 : Fondateur/Fondatrice
+      .replace(/le fondateur/g, 'la fondatrice')
+      .replace(/Le fondateur/g, 'La fondatrice')
+      .replace(/du fondateur/g, 'de la fondatrice')
+      .replace(/fondateur([,\s])/g, 'fondatrice$1')
+  } else {
+    // Pour les hommes (civilite === 'M'), enlever les parenthèses de né(e) et dénommé(e)
+    return texte
+      .replace(/né\(e\)/g, 'né')
+      .replace(/Né\(e\)/g, 'Né')
+      .replace(/dénommé\(e\)/g, 'dénommé')
+      .replace(/Dénommé\(e\)/g, 'Dénommé')
   }
   return texte
 }

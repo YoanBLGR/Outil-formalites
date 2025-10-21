@@ -33,6 +33,7 @@ export interface AssociePersonnePhysique {
   lieuNaissance: string
   nationalite: string
   adresse: string
+  pourcentageCapital: number // Pourcentage du capital détenu (ex: 50 pour 50%)
   regimeMatrimonial?: RegimeMatrimonial
   conjointNom?: string
   conjointPrenom?: string
@@ -53,9 +54,26 @@ export interface AssociePersonneMorale {
   representantNom: string
   representantPrenom: string
   representantQualite: string
+  pourcentageCapital: number // Pourcentage du capital détenu (ex: 50 pour 50%)
 }
 
 export type AssocieUnique = AssociePersonnePhysique | AssociePersonneMorale
+
+// Associé avec parts (pour SARL/SAS)
+export interface AssocieAvecParts {
+  id: string
+  associe: AssociePersonnePhysique | AssociePersonneMorale
+  nombreParts?: number // Calculé automatiquement si non fourni, basé sur pourcentageCapital
+  montantApport?: number // Calculé automatiquement si non fourni, basé sur pourcentageCapital
+  pourcentageCapital?: number // DEPRECATED: utiliser associe.pourcentageCapital à la place
+  apport?: ApportDetaille // Détails de l'apport si applicable
+}
+
+// Liste des associés (pour SARL/SAS)
+export interface Associes {
+  liste: AssocieAvecParts[]
+  nombreTotal: number
+}
 
 // Commissaire aux apports
 export interface CommissaireAuxApports {
@@ -136,6 +154,7 @@ export interface ApportBienCommun {
   conjointNom: string
   conjointPrenom: string
   conjointRenonciation: boolean // Renonce à la qualité d'associé
+  conjointApport?: ConjointApport // Détails intervention conjoint
   nombreParts: number // Pour EURL/SARL
   nombreActions?: number // Pour SASU/SAS
 }
@@ -149,9 +168,37 @@ export interface ApportBienIndivis {
   partenairePrenom: string
   partenaireAccord: boolean
   partenaireRenonciation: boolean
+  partenairePACS?: PartenairePACS // Type de PACS (coassocié ou séparation)
   nombreParts: number // Pour EURL/SARL
   nombreActions?: number // Pour SASU/SAS
 }
+
+// Type d'intervention du conjoint pour apports de biens communs
+export type ConjointIntervention = 
+  | 'REVENDICATION' // Revendique la qualité d'associé
+  | 'RENONCIATION_DEFINITIVE' // Renonce définitivement
+  | 'RENONCIATION_PROVISOIRE' // Renonce provisoirement, peut revendiquer plus tard
+  | 'AUCUNE' // Pas d'intervention
+
+// Mode de notification du conjoint
+export type ConjointNotification = 
+  | 'COURRIER' // Par lettre recommandée
+  | 'STATUTS' // Intervention aux statuts
+  | 'AUCUNE' // Pas de notification
+
+// Informations sur le conjoint pour apports mariés
+export interface ConjointApport {
+  intervention: ConjointIntervention
+  notification: ConjointNotification
+  dateAvertissement?: string
+  dateNotification?: string
+  consentementArticle1424?: boolean // Accord pour apport soumis à l'article 1424 C.civ
+}
+
+// Informations sur le partenaire PACS pour apports
+export type PartenairePACS = 
+  | 'COASSOCIE' // Partenaires co-associés
+  | 'SEPARATION_PATRIMOINES' // Séparation des patrimoines
 
 export type ApportDetaille =
   | ApportNumeraire
@@ -244,20 +291,59 @@ export interface TransmissionParts {
   }
 }
 
-// Régime de cession des parts (EURL/SARL - Article 11)
-export type RegimeCession = 'LIBRE_FAMILIAL_AGREMENT_TIERS' | 'AGREMENT_TOUTES_MUTATIONS'
+// Régime de cession des parts (EURL/SARL - Article 13.1.2)
+export type RegimeCession = 
+  | 'LIBRE_ENTRE_ASSOCIES' // Libre entre associés, agrément famille et tiers
+  | 'LIBRE_FAMILIAL' // Libre famille, agrément associés et tiers
+  | 'LIBRE_ASSOCIES_FAMILIAL' // Libre associés+famille, agrément tiers
+  | 'AGREMENT_TOTAL' // Agrément pour toutes cessions
+
+// Type d'exploit pour signification (Article 13.1.1 et 13.1.2)
+export type ExploitType = 'HUISSIER' | 'COMMISSAIRE'
+
+// Transmission par décès (Article 13.3)
+export type TransmissionDeces =
+  | 'SURVIVANTS_SEULS' // Société continue avec les seuls associés survivants
+  | 'HERITIERS_AVEC_AGREMENT' // Héritiers avec agrément
+  | 'HERITIERS_SANS_AGREMENT' // Héritiers sans agrément
+  | 'PERSONNES_DESIGNEES' // Personnes désignées dans les statuts
+
+// Liquidation de communauté (Article 13.3)
+export type LiquidationCommunaute =
+  | 'AVEC_AGREMENT' // Attribution parts au conjoint avec agrément
+  | 'SANS_AGREMENT' // Attribution parts au conjoint sans agrément
+  | 'NON_APPLICABLE' // Pas de clause
+
+// Location des parts (Article 13.5)
+export type LocationParts = 'INTERDITE' | 'AUTORISEE'
+
+// Article 17 : Durée du mandat de Gérant
+export type DureeMandat = 'INDETERMINEE' | 'DETERMINEE'
+
+// Article 17 : Majorité pour nomination du Gérant
+export type MajoriteNomination = 
+  | 'LEGALE_AVEC_SECONDE' // Majorité légale (>50%) avec seconde consultation possible
+  | 'LEGALE_SANS_SECONDE' // Majorité légale sans seconde consultation
+  | 'RENFORCEE_AVEC_SECONDE' // Majorité renforcée avec seconde consultation
+  | 'RENFORCEE_SANS_SECONDE' // Majorité renforcée sans seconde consultation
 
 // Régime de cession des actions (SASU/SAS - Article 11)
 export type RegimeCessionActions = 'LIBRE' | 'AGREMENT_PLURIPERSONNELLE'
 
 export interface AdmissionAssocies {
   regimeCession: RegimeCession
+  exploitType: ExploitType // Type d'exploit (huissier ou commissaire)
   majoriteCessionTiers?: string // ex: "la moitié" ou "les deux tiers"
   majoriteMutation?: string // ex: "la moitié"
   modalitesPrixRachat?: string // Description du calcul du prix de rachat
-  agrementDeces?: boolean // Agrément d'office à certains postulants en cas de décès
-  beneficiairesContinuation?: string // Qui continue en cas de décès
-  modalitesValeurDroits?: string // Modalités de valorisation des droits
+  
+  // Article 13.3 : Transmission par décès
+  transmissionDeces: TransmissionDeces
+  personnesDesignees?: string // Si PERSONNES_DESIGNEES
+  liquidationCommunaute: LiquidationCommunaute
+  
+  // Article 13.5 : Location des parts
+  locationParts: LocationParts
 }
 
 // Transmission des actions (SASU/SAS - Article 11)
@@ -295,9 +381,15 @@ export interface NominationPresident {
 export interface DepotFonds {
   date: string
   etablissement: string // Nom de la banque, notaire ou CDC
+  typeDepositaire?: 'NOTAIRE' | 'BANQUE' | 'CDC'
+  nomDepositaire?: string
+  adresseDepositaire?: string
+  numeroCompte?: string
 }
 
-// Nantissement de parts
+// Nantissement de parts (OBSOLÈTE - non utilisé dans les templates actuels)
+// Note: Cette interface est conservée pour compatibilité avec l'ancien template EURL v2
+// Les templates actuels (EURL v3, SARL v1, SASU v1) ont tous un contenu fixe pour le nantissement
 export interface Nantissement {
   agrementRequis: boolean // Si true, nantissement soumis à agrément
 }
@@ -305,6 +397,9 @@ export interface Nantissement {
 // Commissaires aux comptes
 export interface CommissairesAuxComptes {
   obligatoire: boolean
+  designes?: boolean // Si true, on désigne des commissaires dès la constitution (Articles 15 et 24)
+  duree?: string // Durée du mandat (ex: "6 exercices")
+  dateFinMandat?: string // Date de fin du mandat (ex: "31 décembre 2030")
   titulaire?: {
     nom: string
     prenom: string
@@ -349,8 +444,11 @@ export interface DissolutionLiquidation {
 // Données complètes pour la rédaction des statuts (Version 3 - Conforme modèle de référence)
 // Support EURL/SARL et SASU/SAS
 export interface StatutsData {
-  // SECTION 0: Type d'associé unique
-  associeUnique: AssocieUnique
+  // SECTION 0: Associés
+  // Pour EURL/SASU : associeUnique
+  // Pour SARL/SAS : associes
+  associeUnique?: AssocieUnique
+  associes?: Associes
 
   // SECTION 1: Identité (pré-rempli depuis Dossier)
   formeJuridique: FormeJuridique
@@ -373,8 +471,26 @@ export interface StatutsData {
   // SECTION 4: Parts sociales (EURL/SARL) ou Actions (SASU/SAS)
   partsSociales: PartsSociales
 
-  // SECTION 5: Nantissement
-  nantissement: Nantissement
+  // SECTION 5: Nantissement supprimée - contenu fixe dans tous les templates actuels (EURL v3, SARL v1, SASU v1)
+
+  // Variables SARL spécifiques
+  droitPreferentielSouscription?: boolean // Article 8: Droit préférentiel de souscription en cas d'augmentation de capital
+  repartitionVotesUsufruit?: 'NU_PROPRIETAIRE' | 'USUFRUITIER' | 'MIXTE' // Article 12: Répartition votes usufruit/nu-propriétaire
+
+  // Variables SARL pour génération textes Articles 17 et 20 (Gérance)
+  dureeMandat?: 'INDETERMINEE' | 'DETERMINEE' // Durée du mandat des gérants (SARL)
+  anneesDureeMandat?: number // Nombre d'années si durée déterminée (SARL)
+  reeligible?: boolean // Gérants rééligibles si durée déterminée (SARL)
+  majoriteNomination?: 'LEGALE_AVEC_SECONDE' | 'LEGALE_SANS_SECONDE' | 'RENFORCEE_AVEC_SECONDE' | 'RENFORCEE_SANS_SECONDE' // SARL Article 17
+  majoriteRevocation?: 'LEGALE_AVEC_SECONDE' | 'LEGALE_SANS_SECONDE' | 'RENFORCEE_AVEC_SECONDE' | 'RENFORCEE_SANS_SECONDE' // SARL Article 20
+  niveauMajoriteRenforcee?: string // Ex: "deux tiers" (si majorité renforcée pour nomination)
+  niveauMajoriteRevocation?: string // Ex: "deux tiers" (si différent de nomination)
+  
+  // Article 18 : Pouvoirs de la Gérance (SARL)
+  majoriteLimitationsPouvoirs?: string // Majorité pour décisions soumises à autorisation
+  listeLimitationsPouvoirs?: string // Liste détaillée des limitations
+  cogerance?: boolean // Certains actes nécessitent plusieurs gérants
+  listeActesCogerance?: string // Liste des actes en cogérance
 
   // SECTION 6: Gérance (EURL/SARL) ou Présidence (SASU/SAS)
   gerant?: Gerant // Pour EURL/SARL
@@ -398,13 +514,17 @@ export interface StatutsData {
   // SECTION 11: Actes en formation
   actesFormation: ActesFormation
 
+  // Article 6.5 : Apports mariés/PACS
+  conjointApport?: ConjointApport
+  partenairePACS?: PartenairePACS
+
   // Article 11: Admission de nouveaux associés (EURL/SARL)
   admissionAssocies?: AdmissionAssocies
 
   // Article 11: Transmission des actions (SASU/SAS)
   transmissionActions?: TransmissionActions
 
-  // Article 14-15: Gérance (majorités et délais) - EURL/SARL
+  // Article 14-15: Gérance (majorités et délais) - EURL uniquement
   majoriteNominationGerant?: string // ex: "la moitié"
   majoriteRevocationGerant?: string // ex: "la moitié"
   delaiPreavisGerant?: number // en mois
@@ -447,6 +567,33 @@ export interface StatutsData {
   // Signature
   dateSignature?: string
   lieuSignature?: string
+  
+  // Variables de configuration supplémentaires (optionnelles, pour templates avancés)
+  designationCAC_Obligatoire?: boolean
+  formesDecisionsCollectives?: string
+  decisionsOrdinaires?: string
+  majoriteOrdinairesRenforcee?: string
+  quorumExtraordinaire1?: string
+  quorumExtraordinaire2?: string
+  majoriteExtraordinaire?: string
+  exerciceSocialCivil?: boolean
+  dateCloturePremiereExercice?: string
+  dateDebutExercice?: string
+  dateFinExercice?: string
+  rapportGestion?: string
+  contenuRapportActivite?: string
+  
+  // Article 35: Nomination du premier Gérant (SARL)
+  gerantsSARLIds?: string[] // IDs des associés désignés comme premiers gérants (pour SARL multi-associés)
+  dureeGerantPremier?: string
+  nomPrenomGerantPremier?: string
+  adresseGerantPremier?: string
+  nominationPremiersCAC?: boolean
+  dureeCAC?: number
+  dateFinMandatCAC?: string
+  nomCACTitulaire?: string
+  nomCACSuppléant?: string
+  mandatairePostSignature?: string
   nombreExemplaires?: number
   nomAssocieSignature?: string
 }
@@ -472,7 +619,7 @@ export type StatutsSection =
   | 'duree'
   | 'capital'
   | 'parts'
-  | 'nantissement'
+  // 'nantissement' supprimé - contenu fixe dans les templates
   | 'gerant'
   | 'exercice'
   | 'commissairesComptes'
@@ -486,7 +633,7 @@ export const STATUTS_SECTION_LABELS: Record<StatutsSection, string> = {
   duree: 'Durée',
   capital: 'Capital et apports',
   parts: 'Parts sociales',
-  nantissement: 'Nantissement',
+  // nantissement supprimé - contenu fixe dans les templates
   gerant: 'Gérance',
   exercice: 'Exercice social',
   commissairesComptes: 'Commissaires aux comptes',
@@ -522,8 +669,10 @@ export const OPTION_FISCALE_LABELS: Record<OptionFiscale, string> = {
 
 // Labels pour les régimes de cession (EURL/SARL)
 export const REGIME_CESSION_LABELS: Record<RegimeCession, string> = {
-  LIBRE_FAMILIAL_AGREMENT_TIERS: 'Libre pour la famille, agrément pour les tiers',
-  AGREMENT_TOUTES_MUTATIONS: 'Agrément pour toutes les mutations',
+  LIBRE_ENTRE_ASSOCIES: 'Libre entre associés, agrément pour famille et tiers',
+  LIBRE_FAMILIAL: 'Libre pour la famille, agrément pour associés et tiers',
+  LIBRE_ASSOCIES_FAMILIAL: 'Libre entre associés et famille, agrément pour tiers (régime légal)',
+  AGREMENT_TOTAL: 'Agrément pour toutes les cessions',
 }
 
 // Labels pour les régimes de cession d'actions (SASU/SAS)

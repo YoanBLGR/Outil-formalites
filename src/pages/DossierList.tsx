@@ -27,7 +27,15 @@ import type { Dossier, WorkflowStatus } from '../types'
 import { WORKFLOW_STATUS_LABELS, FORME_JURIDIQUE_LABELS } from '../types'
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
-import { LayoutGrid, List, Search, Filter, X } from 'lucide-react'
+import { LayoutGrid, List, Search, Filter, X, MoreVertical, Eye, Trash2 } from 'lucide-react'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../components/ui/dropdown-menu'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../components/ui/dialog'
 
 type ViewMode = 'kanban' | 'list'
 
@@ -84,7 +92,9 @@ function DroppableColumn({ status, children }: { status: WorkflowStatus; childre
   return (
     <div
       ref={setNodeRef}
-      className={`transition-colors ${isOver ? 'bg-accent/50 rounded-lg' : ''}`}
+      className={`transition-all duration-200 ${
+        isOver ? 'bg-primary/10 ring-2 ring-primary/50 ring-inset rounded-lg scale-[1.02]' : ''
+      }`}
     >
       {children}
     </div>
@@ -94,7 +104,7 @@ function DroppableColumn({ status, children }: { status: WorkflowStatus; childre
 export function DossierList() {
   const [dossiers, setDossiers] = useState<Dossier[]>([])
   const [loading, setLoading] = useState(true)
-  const [viewMode, setViewMode] = useState<ViewMode>('kanban')
+  const [viewMode, setViewMode] = useState<ViewMode>('list')
   const [searchQuery, setSearchQuery] = useState('')
   const [activeDossier, setActiveDossier] = useState<Dossier | null>(null)
   const [showFilters, setShowFilters] = useState(false)
@@ -104,6 +114,9 @@ export function DossierList() {
     dateFrom: '',
     dateTo: '',
   })
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const [dossierToDelete, setDossierToDelete] = useState<Dossier | null>(null)
+  const [isDeleting, setIsDeleting] = useState(false)
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -275,6 +288,36 @@ export function DossierList() {
     }))
   }
 
+  const handleDeleteClick = (dossier: Dossier, e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setDossierToDelete(dossier)
+    setDeleteDialogOpen(true)
+  }
+
+  const handleDelete = async () => {
+    if (!dossierToDelete) return
+
+    try {
+      setIsDeleting(true)
+      const db = await getDatabase()
+      const doc = await db.dossiers.findOne(dossierToDelete.id).exec()
+
+      if (doc) {
+        await doc.remove()
+        toast.success('Dossier supprimé avec succès')
+        loadDossiers()
+      }
+    } catch (error) {
+      toast.error('Erreur lors de la suppression du dossier')
+      console.error(error)
+    } finally {
+      setIsDeleting(false)
+      setDeleteDialogOpen(false)
+      setDossierToDelete(null)
+    }
+  }
+
   return (
     <Layout title="Dossiers" subtitle="Gestion de vos dossiers clients">
       <div className="space-y-6">
@@ -432,64 +475,180 @@ export function DossierList() {
             <div className="flex gap-4 overflow-x-auto pb-4">
               {WORKFLOW_COLUMNS.map((status) => {
                 const statusDossiers = getDossiersByStatus(status)
+
+                // Définir les couleurs par statut
+                const getStatusColor = (status: WorkflowStatus) => {
+                  const colors = {
+                    NOUVEAU: 'from-blue-500 to-blue-600',
+                    DEVIS_ENVOYE: 'from-indigo-500 to-indigo-600',
+                    PROJET_STATUTS: 'from-purple-500 to-purple-600',
+                    ATTENTE_DEPOT: 'from-pink-500 to-pink-600',
+                    DEPOT_VALIDE: 'from-rose-500 to-rose-600',
+                    PREP_RDV: 'from-orange-500 to-orange-600',
+                    RDV_SIGNE: 'from-amber-500 to-amber-600',
+                    FORMALITE_SAISIE: 'from-yellow-500 to-yellow-600',
+                    SUIVI: 'from-lime-500 to-lime-600',
+                    CLOTURE: 'from-green-500 to-green-600',
+                  }
+                  return colors[status] || 'from-gray-500 to-gray-600'
+                }
+
+                const getStatusIcon = (status: WorkflowStatus) => {
+                  const icons = {
+                    NOUVEAU: '🆕',
+                    DEVIS_ENVOYE: '📧',
+                    PROJET_STATUTS: '📝',
+                    ATTENTE_DEPOT: '⏳',
+                    DEPOT_VALIDE: '✅',
+                    PREP_RDV: '📅',
+                    RDV_SIGNE: '✍️',
+                    FORMALITE_SAISIE: '📋',
+                    SUIVI: '👀',
+                    CLOTURE: '🎉',
+                  }
+                  return icons[status] || '📄'
+                }
+
                 return (
                   <div key={status} className="flex-shrink-0 w-80">
-                    <Card>
-                      <CardHeader className="pb-3">
+                    <Card className="border-2">
+                      <CardHeader className={`pb-3 bg-gradient-to-r ${getStatusColor(status)} text-white`}>
                         <div className="flex items-center justify-between">
-                          <CardTitle className="text-sm font-medium">
+                          <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                            <span className="text-xl">{getStatusIcon(status)}</span>
                             {WORKFLOW_STATUS_LABELS[status]}
                           </CardTitle>
-                          <Badge variant="outline" className="ml-2">
+                          <Badge className="bg-white/20 text-white border-white/30 hover:bg-white/30">
                             {statusDossiers.length}
                           </Badge>
                         </div>
                       </CardHeader>
                       <DroppableColumn status={status}>
-                        <CardContent className="space-y-2 min-h-[200px]">
-                          {statusDossiers.map((dossier) => (
-                            <DraggableCard key={dossier.id} dossier={dossier}>
-                              <Link
-                                to={`/dossiers/${dossier.id}`}
-                                className="block"
-                                onClick={(e) => {
-                                  if (activeDossier) {
-                                    e.preventDefault()
-                                  }
-                                }}
-                              >
-                                <Card className="hover:bg-accent transition-colors cursor-grab active:cursor-grabbing">
-                                  <CardContent className="p-4">
-                                    <div className="space-y-2">
-                                      <div>
-                                        <p className="font-medium text-sm truncate">
-                                          {dossier.numero}
-                                        </p>
-                                        <p className="text-xs text-muted-foreground truncate">
-                                          {dossier.client.prenom} {dossier.client.nom}
-                                        </p>
-                                      </div>
-                                      <div className="flex items-center justify-between">
-                                        <Badge variant="outline" className="text-xs">
-                                          {FORME_JURIDIQUE_LABELS[dossier.societe.formeJuridique]}
-                                        </Badge>
-                                        <p className="text-xs text-muted-foreground">
-                                          {format(new Date(dossier.createdAt), 'dd/MM', {
-                                            locale: fr,
-                                          })}
-                                        </p>
-                                      </div>
-                                    </div>
-                                  </CardContent>
-                                </Card>
-                              </Link>
-                            </DraggableCard>
-                          ))}
+                        <CardContent className="space-y-3 min-h-[300px] pt-4 bg-gray-50/50">
                           {statusDossiers.length === 0 && (
-                            <p className="text-sm text-muted-foreground text-center py-8">
-                              Aucun dossier
-                            </p>
+                            <div className="text-center py-12 text-muted-foreground">
+                              <div className="text-4xl mb-2 opacity-30">📋</div>
+                              <p className="text-xs">Glissez un dossier ici</p>
+                            </div>
                           )}
+                          {statusDossiers.map((dossier) => {
+                            const checklistProgress = dossier.checklist.length > 0
+                              ? Math.round((dossier.checklist.filter(item => item.completed).length / dossier.checklist.length) * 100)
+                              : 0
+
+                            return (
+                              <DraggableCard key={dossier.id} dossier={dossier}>
+                                <div className="relative group">
+                                  <Link
+                                    to={`/dossiers/${dossier.id}`}
+                                    className="block"
+                                    onClick={(e) => {
+                                      if (activeDossier) {
+                                        e.preventDefault()
+                                      }
+                                    }}
+                                  >
+                                    <Card className="hover:shadow-lg transition-all cursor-grab active:cursor-grabbing border-2 border-transparent hover:border-primary/20 bg-white">
+                                      <CardContent className="p-4">
+                                        <div className="space-y-3">
+                                          {/* Titre et numéro */}
+                                          <div>
+                                            <p className="font-semibold text-sm truncate text-primary">
+                                              {dossier.numero}
+                                            </p>
+                                            <p className="font-medium text-sm truncate mt-1">
+                                              {dossier.societe.denomination}
+                                            </p>
+                                            <p className="text-xs text-muted-foreground truncate mt-0.5">
+                                              {dossier.client.prenom} {dossier.client.nom}
+                                            </p>
+                                          </div>
+
+                                          {/* Badges */}
+                                          <div className="flex items-center justify-between gap-2">
+                                            <Badge variant="outline" className="text-xs font-medium">
+                                              {FORME_JURIDIQUE_LABELS[dossier.societe.formeJuridique]}
+                                            </Badge>
+                                            <p className="text-xs text-muted-foreground">
+                                              {format(new Date(dossier.createdAt), 'dd MMM', {
+                                                locale: fr,
+                                              })}
+                                            </p>
+                                          </div>
+
+                                          {/* Barre de progression checklist */}
+                                          <div>
+                                            <div className="flex items-center justify-between mb-1">
+                                              <span className="text-xs font-medium text-gray-600">Progression</span>
+                                              <span className="text-xs font-bold text-primary">{checklistProgress}%</span>
+                                            </div>
+                                            <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                                              <div
+                                                className={`h-full rounded-full transition-all ${
+                                                  checklistProgress === 100
+                                                    ? 'bg-gradient-to-r from-green-500 to-green-600'
+                                                    : checklistProgress >= 50
+                                                    ? 'bg-gradient-to-r from-blue-500 to-blue-600'
+                                                    : 'bg-gradient-to-r from-orange-500 to-orange-600'
+                                                }`}
+                                                style={{ width: `${checklistProgress}%` }}
+                                              />
+                                            </div>
+                                          </div>
+
+                                          {/* Indicateurs */}
+                                          <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                                            <span className="flex items-center gap-1">
+                                              📄 {dossier.documents.length}
+                                            </span>
+                                            <span className="flex items-center gap-1">
+                                              ✓ {dossier.checklist.filter(item => item.completed).length}/{dossier.checklist.length}
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </CardContent>
+                                    </Card>
+                                  </Link>
+                                  <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                                    <DropdownMenu>
+                                      <DropdownMenuTrigger asChild>
+                                        <Button
+                                          variant="ghost"
+                                          size="sm"
+                                          className="h-7 w-7 p-0 bg-white shadow-md hover:bg-gray-100 rounded-full"
+                                          onClick={(e) => {
+                                            e.preventDefault()
+                                            e.stopPropagation()
+                                          }}
+                                        >
+                                          <MoreVertical className="h-4 w-4" />
+                                        </Button>
+                                      </DropdownMenuTrigger>
+                                      <DropdownMenuContent align="end">
+                                        <DropdownMenuItem asChild>
+                                          <Link
+                                            to={`/dossiers/${dossier.id}`}
+                                            className="flex items-center cursor-pointer"
+                                          >
+                                            <Eye className="mr-2 h-4 w-4" />
+                                            Voir les détails
+                                          </Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem
+                                          className="text-red-600 focus:text-red-600 focus:bg-red-50 cursor-pointer"
+                                          onClick={(e) => handleDeleteClick(dossier, e)}
+                                        >
+                                          <Trash2 className="mr-2 h-4 w-4" />
+                                          Supprimer
+                                        </DropdownMenuItem>
+                                      </DropdownMenuContent>
+                                    </DropdownMenu>
+                                  </div>
+                                </div>
+                              </DraggableCard>
+                            )
+                          })}
                         </CardContent>
                       </DroppableColumn>
                     </Card>
@@ -499,20 +658,28 @@ export function DossierList() {
             </div>
             <DragOverlay>
               {activeDossier ? (
-                <Card className="w-80 opacity-90 rotate-3 shadow-xl">
+                <Card className="w-80 opacity-95 rotate-2 shadow-2xl border-4 border-primary/50 bg-white">
                   <CardContent className="p-4">
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                       <div>
-                        <p className="font-medium text-sm truncate">
+                        <p className="font-semibold text-sm truncate text-primary">
                           {activeDossier.numero}
                         </p>
-                        <p className="text-xs text-muted-foreground truncate">
+                        <p className="font-medium text-sm truncate mt-1">
+                          {activeDossier.societe.denomination}
+                        </p>
+                        <p className="text-xs text-muted-foreground truncate mt-0.5">
                           {activeDossier.client.prenom} {activeDossier.client.nom}
                         </p>
                       </div>
-                      <Badge variant="outline" className="text-xs">
-                        {FORME_JURIDIQUE_LABELS[activeDossier.societe.formeJuridique]}
-                      </Badge>
+                      <div className="flex items-center gap-2">
+                        <Badge variant="outline" className="text-xs font-medium">
+                          {FORME_JURIDIQUE_LABELS[activeDossier.societe.formeJuridique]}
+                        </Badge>
+                      </div>
+                      <div className="text-center py-2 bg-primary/10 rounded-md">
+                        <p className="text-xs font-medium text-primary">🎯 Glissez pour changer de statut</p>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -544,37 +711,77 @@ export function DossierList() {
                         exit="exit"
                         transition={{ delay: index * 0.05 }}
                       >
-                        <Link
-                          to={`/dossiers/${dossier.id}`}
-                          className="block hover:bg-accent transition-colors"
-                        >
-                          <motion.div
-                            className="p-4 flex items-center justify-between"
-                            whileHover={{ x: 4 }}
-                            transition={{ type: 'spring', stiffness: 300 }}
+                        <div className="relative group">
+                          <Link
+                            to={`/dossiers/${dossier.id}`}
+                            className="block hover:bg-accent transition-colors"
                           >
-                            <div className="flex-1">
-                              <div className="flex items-center gap-3">
-                                <p className="font-medium">{dossier.numero}</p>
-                                <Badge variant="outline">
-                                  {FORME_JURIDIQUE_LABELS[dossier.societe.formeJuridique]}
-                                </Badge>
-                                <StatusBadge status={dossier.statut} />
+                            <motion.div
+                              className="p-4 flex items-center justify-between"
+                              whileHover={{ x: 4 }}
+                              transition={{ type: 'spring', stiffness: 300 }}
+                            >
+                              <div className="flex-1">
+                                <div className="flex items-center gap-3">
+                                  <p className="font-medium">{dossier.numero}</p>
+                                  <Badge variant="outline">
+                                    {FORME_JURIDIQUE_LABELS[dossier.societe.formeJuridique]}
+                                  </Badge>
+                                  <StatusBadge status={dossier.statut} />
+                                </div>
+                                <p className="text-sm text-muted-foreground mt-1">
+                                  {dossier.client.prenom} {dossier.client.nom} •{' '}
+                                  {dossier.client.email}
+                                </p>
                               </div>
-                              <p className="text-sm text-muted-foreground mt-1">
-                                {dossier.client.prenom} {dossier.client.nom} •{' '}
-                                {dossier.client.email}
-                              </p>
-                            </div>
-                            <div className="text-right">
-                              <p className="text-sm">
-                                {format(new Date(dossier.createdAt), 'dd MMMM yyyy', {
-                                  locale: fr,
-                                })}
-                              </p>
-                            </div>
-                          </motion.div>
-                        </Link>
+                              <div className="flex items-center gap-4">
+                                <div className="text-right">
+                                  <p className="text-sm">
+                                    {format(new Date(dossier.createdAt), 'dd MMMM yyyy', {
+                                      locale: fr,
+                                    })}
+                                  </p>
+                                </div>
+                              </div>
+                            </motion.div>
+                          </Link>
+                          <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-8 w-8 p-0"
+                                  onClick={(e) => {
+                                    e.preventDefault()
+                                    e.stopPropagation()
+                                  }}
+                                >
+                                  <MoreVertical className="h-4 w-4" />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                <DropdownMenuItem asChild>
+                                  <Link
+                                    to={`/dossiers/${dossier.id}`}
+                                    className="flex items-center cursor-pointer"
+                                  >
+                                    <Eye className="mr-2 h-4 w-4" />
+                                    Voir les détails
+                                  </Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem
+                                  className="text-red-600 focus:text-red-600 focus:bg-red-50 cursor-pointer"
+                                  onClick={(e) => handleDeleteClick(dossier, e)}
+                                >
+                                  <Trash2 className="mr-2 h-4 w-4" />
+                                  Supprimer
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </div>
+                        </div>
                       </motion.div>
                     ))}
                   </AnimatePresence>
@@ -583,6 +790,81 @@ export function DossierList() {
             </CardContent>
           </Card>
         )}
+
+        {/* Dialog de confirmation de suppression */}
+        <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Confirmer la suppression</DialogTitle>
+              <DialogDescription>
+                {dossierToDelete && (
+                  <>
+                    Êtes-vous sûr de vouloir supprimer le dossier{' '}
+                    <strong>{dossierToDelete.numero}</strong> pour{' '}
+                    <strong>
+                      {dossierToDelete.client.prenom} {dossierToDelete.client.nom}
+                    </strong>{' '}
+                    ?
+                    <br />
+                    <br />
+                    Cette action est irréversible et supprimera définitivement :
+                    <ul className="mt-2 list-disc list-inside space-y-1">
+                      <li>Toutes les informations du dossier</li>
+                      <li>Les documents associés</li>
+                      <li>L'historique complet</li>
+                    </ul>
+                  </>
+                )}
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => setDeleteDialogOpen(false)}
+                disabled={isDeleting}
+              >
+                Annuler
+              </Button>
+              <Button
+                variant="default"
+                onClick={handleDelete}
+                disabled={isDeleting}
+                className="bg-red-600 hover:bg-red-700 text-white"
+              >
+                {isDeleting ? (
+                  <>
+                    <svg
+                      className="mr-2 h-4 w-4 animate-spin"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    Suppression...
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="mr-2 h-4 w-4" />
+                    Supprimer définitivement
+                  </>
+                )}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </Layout>
   )

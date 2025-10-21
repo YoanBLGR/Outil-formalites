@@ -1,0 +1,29 @@
+- DETECTION PROBLEMES INTEGRATIONS EURL / SASU 
+
+- Correction des problèmes d'intégration API GU
+
+
+= Probleme : adresse non spécifiée. Structure envoyée : "adresse": {
+          "codePays": "FRA",
+          "codePostal": "75001",
+          "commune": "PARIS",
+          "voie": "Adresse non spécifiée"
+        } 
+
+La voie doit etre recupérée directement depuis le dossier créé (identité) 
+
+
+
+- TEST COMPLET CREATION EURL / SASU 
+
+- AJOUT STATUTS SARL
+
+De la meme manière que nous avons intégré le Template des statuts d'EURL et de SASU, je veux que tu integres le modele des statuts de la SARL que je te fourni dans un fichier txt. Le formulaire de l'outil devra donc comprendre TOUS les articles du modèles ainsi que TOUTES les variantes présentes dans le modele. La prévisualisation devra s'adapter et le fichier exporté en .docs et pdf également, 
+
+
+- AJOUT STATUTS SAS 
+
+- AJOUT CREATION DOSSIER EI / MICRO
+- INTEGRATION AGENT CATEGORISATION
+- SAISIE AUTOMATIQUE GU
+

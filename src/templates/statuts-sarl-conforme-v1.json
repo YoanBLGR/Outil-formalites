@@ -1,0 +1,810 @@
+{
+  "formeJuridique": "SARL",
+  "titre": "STATUTS DE SARL",
+  "enTete": {
+    "variants": [
+      {
+        "condition": "true",
+        "texte": "{{denomination}}\nSociété à responsabilité limitée au capital de {{capitalSocialChiffres}} euros\nSiège social : {{siegeSocial}}\nSociété en formation\n\nSTATUTS"
+      }
+    ]
+  },
+  "preambule": {
+    "variants": [
+      {
+        "condition": "true",
+        "texte": "Les soussignés :\n\n{{listeAssocies}}\n\nOnt établi ainsi qu'il suit :\nLes statuts de la société à responsabilité limitée devant exister entre eux et toute autre personne qui viendrait ultérieurement à acquérir la qualité d'associé (la « Société »)."
+      }
+    ]
+  },
+  "articles": [
+    {
+      "numero": 1,
+      "titre": "Forme",
+      "contenu": "La Société est une société à responsabilité limitée.\nElle est régie par les dispositions législatives et réglementaires en vigueur ainsi que par les présents statuts.\nElle fonctionne indifféremment sous la même forme avec un ou plusieurs associés.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 2,
+      "titre": "Objet",
+      "variants": [
+        {
+          "condition": "!raisonEtre",
+          "contenu": "La Société a pour objet, directement ou indirectement, en France ou à l'étranger :\n- {{objetSocial}} ;\n- la participation directe ou indirecte de la Société à toutes activités ou opérations industrielles, commerciales ou financières, mobilières ou immobilières, en France ou à l'étranger, sous quelque forme que ce soit, dès lors que ces activités ou opérations peuvent se rattacher directement ou indirectement à l'objet social ou à tous objets similaires, connexes ou complémentaires,\n- et plus généralement toutes opérations de quelque nature qu'elles soient, économiques ou juridiques, financières, civiles ou commerciales, pouvant se rattacher, directement ou indirectement, à cet objet social ou à tous objets similaires, connexes ou complémentaires.",
+          "variables": ["objetSocial"]
+        },
+        {
+          "condition": "raisonEtre",
+          "contenu": "La Société a pour objet, directement ou indirectement, en France ou à l'étranger :\n- {{objetSocial}} ;\n- la participation directe ou indirecte de la Société à toutes activités ou opérations industrielles, commerciales ou financières, mobilières ou immobilières, en France ou à l'étranger, sous quelque forme que ce soit, dès lors que ces activités ou opérations peuvent se rattacher directement ou indirectement à l'objet social ou à tous objets similaires, connexes ou complémentaires,\n- et plus généralement toutes opérations de quelque nature qu'elles soient, économiques ou juridiques, financières, civiles ou commerciales, pouvant se rattacher, directement ou indirectement, à cet objet social ou à tous objets similaires, connexes ou complémentaires.\n\nLa Société a pour raison d'être {{raisonEtre}}.",
+          "variables": ["objetSocial", "raisonEtre"]
+        }
+      ],
+      "obligatoire": true
+    },
+    {
+      "numero": 3,
+      "titre": "Dénomination sociale",
+      "variants": [
+        {
+          "condition": "!sigle",
+          "contenu": "La Société a pour dénomination sociale {{denomination}}.\nDans tous les actes et documents émanant de la Société et destinés aux tiers, la dénomination sociale doit être précédée ou suivie immédiatement et lisiblement des mots « société à responsabilité limitée » ou des initiales « SARL » et de l'indication du montant de son capital social.",
+          "variables": ["denomination"]
+        },
+        {
+          "condition": "sigle",
+          "contenu": "La Société a pour dénomination sociale {{denomination}}.\nCette dénomination sociale peut être résumée par le sigle {{sigle}}.\nDans tous les actes et documents émanant de la Société et destinés aux tiers, la dénomination sociale doit être précédée ou suivie immédiatement et lisiblement des mots « société à responsabilité limitée » ou des initiales « SARL » et de l'indication du montant de son capital social.",
+          "variables": ["denomination", "sigle"]
+        }
+      ],
+      "obligatoire": true
+    },
+    {
+      "numero": 4,
+      "titre": "Siège social",
+      "contenu": "Le siège social de la Société est fixé {{siegeSocial}}.\nLe transfert du siège social en tout autre endroit du territoire français est décidé par un ou plusieurs associés représentant plus de la moitié des parts sociales.\nIl peut être également décidé par la Gérance, sous réserve de ratification de cette décision par décision collective ordinaire des associés. En cas de transfert du siège social décidé conformément à la loi par la Gérance, celle-ci est habilitée à modifier les statuts en conséquence.",
+      "variables": ["siegeSocial"],
+      "obligatoire": true
+    },
+    {
+      "numero": 5,
+      "titre": "Durée",
+      "contenu": "La durée de la Société est de {{duree}} ans à compter de la date de son immatriculation au Registre du commerce et des sociétés, sauf prorogation ou dissolution anticipée.",
+      "variables": ["duree"],
+      "obligatoire": true
+    },
+    {
+      "numero": 6,
+      "titre": "Apports",
+      "sousSections": [
+        {
+          "numero": "6.1",
+          "titre": "Apports en numéraire",
+          "variants": [
+            {
+              "condition": "apportsNumeraire && liberationTotale",
+              "contenu": "{{listeApporteursNumeraire}}\n\nLaquelle somme de {{montantTotalNumeraire}} euros a été régulièrement déposée à un compte ouvert au nom de la Société en formation, le {{dateDepotFonds}} {{lieuDepotFonds}}.",
+              "variables": ["listeApporteursNumeraire", "montantTotalNumeraire", "dateDepotFonds", "lieuDepotFonds"]
+            },
+            {
+              "condition": "apportsNumeraire && !liberationTotale",
+              "contenu": "{{listeApporteursNumeraire}}\n\nLaquelle somme de {{montantLibere}} euros a été régulièrement déposée à un compte ouvert au nom de la Société en formation, le {{dateDepotFonds}} {{lieuDepotFonds}}.\n\nLa libération du surplus, soit la somme de {{montantNonLibere}} euros, devra intervenir dans les conditions fixées par la loi.",
+              "variables": ["listeApporteursNumeraire", "montantLibere", "montantNonLibere", "dateDepotFonds", "lieuDepotFonds"]
+            }
+          ]
+        },
+        {
+          "numero": "6.2",
+          "titre": "Apport en nature",
+          "variants": [
+            {
+              "condition": "apportsNature && commissaireAuxApportsUnanime",
+              "contenu": "{{listeApporteursNature}}\n\nÉvaluation : l'évaluation des biens ci-avant désignés a été faite au vu du rapport de {{commissaireAuxApportsNom}}, commissaire aux apports, établi sous sa responsabilité le {{dateRapportCAA}}, ledit commissaire ayant été désigné par décision unanime des fondateurs en date du {{dateDesignationCAA}}. Un exemplaire de ce rapport demeure annexé aux présentes.\n\nRémunération de l'apport : en rémunération de l'apport en nature ci-dessus désigné et évalué à la somme totale de {{valeurApportNature}} euros, {{identiteApporteurNature}} s'est vu attribuer {{nombrePartsNature}} parts sociales de {{valeurNominale}} euros de valeur nominale chacune, dont la valeur correspond au montant de l'évaluation de son apport.",
+              "variables": ["listeApporteursNature", "commissaireAuxApportsNom", "dateRapportCAA", "dateDesignationCAA", "valeurApportNature", "identiteApporteurNature", "nombrePartsNature", "valeurNominale"]
+            },
+            {
+              "condition": "apportsNature && commissaireAuxApportsOrdonnance",
+              "contenu": "{{listeApporteursNature}}\n\nÉvaluation : l'évaluation des biens ci-avant désignés a été faite au vu du rapport de {{commissaireAuxApportsNom}}, commissaire aux apports, établi sous sa responsabilité le {{dateRapportCAA}}, ledit commissaire ayant été désigné par ordonnance du président du tribunal de commerce de {{lieuTribunal}} le {{dateOrdonnance}}, sur requête de {{identiteRequerant}}, agissant en qualité de fondateur. Un exemplaire de ce rapport demeure annexé aux présentes.\n\nRémunération de l'apport : en rémunération de l'apport en nature ci-dessus désigné et évalué à la somme totale de {{valeurApportNature}} euros, {{identiteApporteurNature}} s'est vu attribuer {{nombrePartsNature}} parts sociales de {{valeurNominale}} euros de valeur nominale chacune, dont la valeur correspond au montant de l'évaluation de son apport.",
+              "variables": ["listeApporteursNature", "commissaireAuxApportsNom", "dateRapportCAA", "lieuTribunal", "dateOrdonnance", "identiteRequerant", "valeurApportNature", "identiteApporteurNature", "nombrePartsNature", "valeurNominale"]
+            },
+            {
+              "condition": "apportsNature && !commissaireAuxApports",
+              "contenu": "{{listeApporteursNature}}\n\nÉvaluation : l'évaluation des biens ci-avant désignés a été réalisée sous la seule responsabilité des associés fondateurs, qui décident à l'unanimité de ne pas recourir à un commissaire aux apports, conformément à la faculté offerte par l'article L. 223-9 du code de commerce et aux conditions posées par ce même article ainsi que par l'article D. 223-6-1 du code de commerce.\n\nRémunération de l'apport : en rémunération de l'apport en nature ci-dessus désigné et évalué à la somme totale de {{valeurApportNature}} euros, {{identiteApporteurNature}} s'est vu attribuer {{nombrePartsNature}} parts sociales de {{valeurNominale}} euros de valeur nominale chacune, dont la valeur correspond au montant de l'évaluation de son apport.",
+              "variables": ["listeApporteursNature", "valeurApportNature", "identiteApporteurNature", "nombrePartsNature", "valeurNominale"]
+            }
+          ]
+        },
+        {
+          "numero": "6.3",
+          "titre": "Apports en industrie",
+          "variants": [
+            {
+              "condition": "apportsIndustrie",
+              "contenu": "{{identiteApporteurIndustrie}}, soussigné, apporte à la Société son industrie selon les modalités suivantes {{descriptionApportIndustrie}}. Il reçoit en contrepartie {{nombrePartsIndustrie}} parts sociales ouvrant droit au partage des bénéfices et de l'actif net à hauteur de {{pourcentageBenefices}} %, à charge de contribuer aux pertes à hauteur de {{pourcentagePertes}} %.",
+              "variables": ["identiteApporteurIndustrie", "descriptionApportIndustrie", "nombrePartsIndustrie", "pourcentageBenefices", "pourcentagePertes"]
+            }
+          ]
+        },
+        {
+          "numero": "6.4",
+          "titre": "Récapitulation des apports formant le capital",
+          "contenu": "L'ensemble des apports effectués à la Société qui forment le capital de la Société s'élève à la somme de {{capitalSocial}}, représentant :\n\n1° Les apports en numéraire pour un montant total de : {{montantTotalNumeraire}} euros\n\n2° Les apports en nature évalués pour un montant total de : {{montantTotalNature}} euros\n\nTotal égal au montant du capital social : {{capitalSocialChiffres}} euros",
+          "variables": ["capitalSocial", "montantTotalNumeraire", "montantTotalNature", "capitalSocialChiffres"],
+          "obligatoire": true
+        },
+        {
+          "numero": "6.5",
+          "titre": "Dispositions pour les apporteurs mariés sous le régime de la communauté de biens ou pacsés",
+          "variants": [
+            {
+              "condition": "apportBiensCommunsOuPACS",
+              "contenu": "{{texteApportBiensCommunsOuPACS}}",
+              "variables": ["texteApportBiensCommunsOuPACS"]
+            }
+          ]
+        }
+      ],
+      "obligatoire": true
+    },
+    {
+      "numero": 7,
+      "titre": "Capital social",
+      "contenu": "Le capital social est fixé à la somme de {{capitalSocial}}, divisé en {{nombreParts}} parts sociales de {{valeurNominale}} euros de valeur nominale chacune, {{statutLiberationParts}} et attribuées de la manière suivante :\n\n{{repartitionParts}}\n\nTotal égal au nombre de parts composant le capital social : {{nombreParts}} parts.\n\nLes soussignés déclarent que toutes les parts représentant le capital social de la Société leur appartiennent et sont réparties entre eux dans les proportions indiquées ci-dessus.",
+      "variables": ["capitalSocial", "nombreParts", "valeurNominale", "statutLiberationParts", "repartitionParts"],
+      "obligatoire": true
+    },
+    {
+      "numero": 8,
+      "titre": "Modification du capital social",
+      "variants": [
+        {
+          "condition": "!droitPreferentielSouscription",
+          "contenu": "1. Le capital social peut être augmenté par tous procédés et selon toutes modalités prévues par la loi en vertu d'une décision extraordinaire des associés.\nLe capital social peut être augmenté soit par création de parts sociales nouvelles, soit par majoration du montant nominal des parts existantes.\nLes parts sociales nouvelles sont émises soit à leur montant nominal, soit à ce montant majoré d'une prime d'émission.\nElles sont libérées soit par apport en numéraire y compris par compensation avec des créances liquides et exigibles sur la Société, soit par apport en nature, soit par incorporation de réserves, bénéfices ou primes d'émission, soit en conséquence d'une fusion ou d'une scission. Le capital social doit être intégralement libéré avant toute souscription de nouvelles parts à libérer en numéraire.\nEn cas de souscription de parts sociales au moyen de fonds ou de biens communs, la qualité d'associé est reconnue à celui des époux qui souscrit. Cette qualité est également reconnue, pour la moitié des parts souscrites, à son conjoint qui notifie à la Société, conformément aux dispositions de l'article 1832-2 du code civil, son intention d'être personnellement associé.\n\n2. Le capital social peut également être réduit, soit par réduction du nombre de parts sociales, soit par réduction de la valeur nominale des parts sociales existantes.\nLa réduction de capital est décidée en vertu d'une décision collective extraordinaire des associés et ne peut en aucun cas porter atteinte à l'égalité des associés.",
+          "variables": []
+        },
+        {
+          "condition": "droitPreferentielSouscription",
+          "contenu": "1. Le capital social peut être augmenté par tous procédés et selon toutes modalités prévues par la loi en vertu d'une décision extraordinaire des associés.\nLe capital social peut être augmenté soit par création de parts sociales nouvelles, soit par majoration du montant nominal des parts existantes.\nLes parts sociales nouvelles sont émises soit à leur montant nominal, soit à ce montant majoré d'une prime d'émission.\nElles sont libérées soit par apport en numéraire y compris par compensation avec des créances liquides et exigibles sur la Société, soit par apport en nature, soit par incorporation de réserves, bénéfices ou primes d'émission, soit en conséquence d'une fusion ou d'une scission. Le capital social doit être intégralement libéré avant toute souscription de nouvelles parts à libérer en numéraire.\nEn cas de souscription de parts sociales au moyen de fonds ou de biens communs, la qualité d'associé est reconnue à celui des époux qui souscrit. Cette qualité est également reconnue, pour la moitié des parts souscrites, à son conjoint qui notifie à la Société, conformément aux dispositions de l'article 1832-2 du code civil, son intention d'être personnellement associé.\n\nEn cas d'augmentation de capital en numéraire, chaque associé bénéficie, proportionnellement au nombre des parts qu'il possède, d'un droit préférentiel à la souscription des parts sociales nouvelles.\n\nLes associés peuvent renoncer à titre individuel à leur droit préférentiel de souscription en en avisant la Société par lettre recommandée avec demande d'avis de réception. Par ailleurs, les associés peuvent, par décision collective extraordinaire, supprimer ce droit préférentiel de souscription.\n\nLe droit préférentiel de souscription peut être cédé, sous réserve, le cas échéant, de l'agrément du cessionnaire dans les conditions prévues par les stipulations de l'article 13.1.2 des présents statuts.\n\nLes modalités de ce droit préférentiel de souscription seront fixées par la collectivité des associés.\n\n2. Le capital social peut également être réduit, soit par réduction du nombre de parts sociales, soit par réduction de la valeur nominale des parts sociales existantes.\nLa réduction de capital est décidée en vertu d'une décision collective extraordinaire des associés et ne peut en aucun cas porter atteinte à l'égalité des associés.",
+          "variables": []
+        }
+      ],
+      "obligatoire": true
+    },
+    {
+      "numero": 9,
+      "titre": "Libération des parts sociales",
+      "contenu": "Les parts sociales doivent être intégralement libérées lorsqu'elles représentent des apports en nature.\nLes parts représentant des apports en numéraire sont obligatoirement libérées, lors de la souscription, du cinquième (1/5) au moins de leur valeur nominale en ce qui concerne la souscription au capital initial lors de la constitution, ou, en cas d'augmentation de capital, du quart (1/4) au moins de leur valeur nominale. La libération du surplus intervient en une ou plusieurs fois sur décision de la Gérance, dans le délai de cinq (5) ans à compter de la date de l'immatriculation de la Société au Registre du commerce et des sociétés en ce qui concerne le capital initial, et dans le délai de cinq (5) ans à compter de la date où l'opération est devenue définitive en cas d'augmentation de capital.\nL'associé qui n'effectue pas à leur échéance les versements exigibles au titre des parts sociales dont il est titulaire est, de plein droit et sans aucune mise en demeure, redevable à la Société d'un intérêt de retard calculé jour après jour, à partir de la date d'exigibilité, au taux de l'intérêt légal, sans préjudice de l'action personnelle que la Société peut exercer contre l'associé défaillant et des mesures d'exécution forcée prévues par la loi.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 10,
+      "titre": "Représentation des parts sociales",
+      "contenu": "Les parts sociales ne peuvent pas être représentées par des titres négociables.\nLeur propriété résulte seulement des statuts de la Société, des actes qui pourraient modifier ceux-ci et des cessions et mutations ultérieures de parts sociales qui seraient régulièrement consenties, constatées et publiées.\nChaque associé peut se faire délivrer, à ses frais, des copies ou extraits des statuts et actes modificatifs, ainsi qu'il sera dit ci-après.\nLa Société peut émettre des parts sociales en rémunération d'apports en industrie. Ces parts sont émises sans valeur nominale et ne sont pas prises en compte pour la formation du capital social. Elles sont attribuées à titre personnel et ne peuvent pas être cédées. En cas de décès de leur titulaire ou en cas de cessation par celui-ci de ses prestations, elles sont annulées.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 11,
+      "titre": "Droits et obligations attachés aux parts sociales",
+      "contenu": "Chaque part sociale donne droit dans la propriété de l'actif social, dans le partage des bénéfices et dans le boni de liquidation, à une fraction proportionnelle au nombre de parts sociales existantes. Elle donne également le droit de participer aux décisions collectives des associés. Chaque part donne droit à une voix.\nSauf disposition contraire de l'acte d'apport, les droits attachés aux parts d'industrie sont égaux à ceux de l'associé ayant le moins apporté.\nLes associés ne sont tenus à l'égard des tiers qu'à concurrence du montant de leur apport. Toutefois, lorsqu'il n'y a pas eu de commissaire aux apports ou lorsque la valeur retenue est différente de celle proposée par le commissaire aux apports, les associés sont solidairement responsables pendant cinq (5) ans, à l'égard des tiers, de la valeur attribuée aux apports en nature lors de la constitution de la Société ou de l'augmentation de capital.\nLes droits et obligations attachés aux parts les suivent, dans quelque main qu'elles passent.\nLa propriété d'une part sociale emporte de plein droit adhésion aux statuts et aux résolutions régulièrement prises par les associés.\nLes représentants, ayants droit, conjoint et héritiers d'un associé ne peuvent, sous quelque prétexte que ce soit, requérir l'apposition des scellés sur les biens et valeurs de la Société, ni en demander le partage ou la licitation.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 12,
+      "titre": "Indivisibilité des parts sociales",
+      "variants": [
+        {
+          "condition": "repartitionVotesUsufruit === 'NU_PROPRIETAIRE'",
+          "contenu": "Les parts sociales sont indivisibles à l'égard de la Société qui ne reconnaît qu'un seul propriétaire pour chacune d'elles. A cet égard, les indivisions successorales sont considérées comme un seul associé quel que soit le nombre des parts possédées par cette indivision.\nLes copropriétaires indivis de parts sociales sont tenus de se faire représenter auprès de la Société par un mandataire commun choisi parmi eux ou en dehors d'eux. A défaut d'entente, il sera pourvu à la désignation de ce mandataire à la demande de l'indivisaire le plus diligent, par ordonnance du président du tribunal de commerce statuant en référé.\nLorsque les parts sociales sont grevées d'usufruit, le droit de vote est exercé par le nu-propriétaire, sauf pour les décisions concernant l'affectation des bénéfices où il est réservé à l'usufruitier, sauf convention contraire.\nChaque fois qu'il est nécessaire de posséder plusieurs parts sociales pour exercer un droit quelconque, les parts isolées ou en nombre inférieur à celui requis ne donnent aucun droit à leurs propriétaires contre la Société, les associés ayant à faire, dans ce cas, leur affaire personnelle du groupement du nombre de parts sociales nécessaires.",
+          "variables": []
+        },
+        {
+          "condition": "repartitionVotesUsufruit === 'USUFRUITIER'",
+          "contenu": "Les parts sociales sont indivisibles à l'égard de la Société qui ne reconnaît qu'un seul propriétaire pour chacune d'elles. A cet égard, les indivisions successorales sont considérées comme un seul associé quel que soit le nombre des parts possédées par cette indivision.\nLes copropriétaires indivis de parts sociales sont tenus de se faire représenter auprès de la Société par un mandataire commun choisi parmi eux ou en dehors d'eux. A défaut d'entente, il sera pourvu à la désignation de ce mandataire à la demande de l'indivisaire le plus diligent, par ordonnance du président du tribunal de commerce statuant en référé.\nLorsque les parts sociales sont grevées d'usufruit, le droit de vote est exercé par l'usufruitier pour toutes les décisions collectives des associés, sauf pour les décisions pour lesquelles la loi exige l'accord unanime des associés où il est réservé au nu-propriétaire, sauf convention contraire.\nChaque fois qu'il est nécessaire de posséder plusieurs parts sociales pour exercer un droit quelconque, les parts isolées ou en nombre inférieur à celui requis ne donnent aucun droit à leurs propriétaires contre la Société, les associés ayant à faire, dans ce cas, leur affaire personnelle du groupement du nombre de parts sociales nécessaires.",
+          "variables": []
+        },
+        {
+          "condition": "repartitionVotesUsufruit === 'MIXTE'",
+          "contenu": "Les parts sociales sont indivisibles à l'égard de la Société qui ne reconnaît qu'un seul propriétaire pour chacune d'elles. A cet égard, les indivisions successorales sont considérées comme un seul associé quel que soit le nombre des parts possédées par cette indivision.\nLes copropriétaires indivis de parts sociales sont tenus de se faire représenter auprès de la Société par un mandataire commun choisi parmi eux ou en dehors d'eux. A défaut d'entente, il sera pourvu à la désignation de ce mandataire à la demande de l'indivisaire le plus diligent, par ordonnance du président du tribunal de commerce statuant en référé.\nLorsque les parts sociales sont grevées d'usufruit, le droit de vote est exercé par le nu-propriétaire pour les décisions collectives extraordinaires et par l'usufruitier pour les décisions collectives ordinaires, sauf convention contraire.\nChaque fois qu'il est nécessaire de posséder plusieurs parts sociales pour exercer un droit quelconque, les parts isolées ou en nombre inférieur à celui requis ne donnent aucun droit à leurs propriétaires contre la Société, les associés ayant à faire, dans ce cas, leur affaire personnelle du groupement du nombre de parts sociales nécessaires.",
+          "variables": []
+        }
+      ],
+      "obligatoire": true
+    },
+    {
+      "numero": 13,
+      "titre": "Cession et transmission des parts sociales",
+      "sousSections": [
+        {
+          "numero": "13.1",
+          "titre": "Cessions",
+          "sousSections": [
+            {
+              "numero": "13.1.1",
+              "titre": "Forme de la cession",
+              "contenu": "Toute cession des parts sociales doit être constatée par un acte écrit sous seing privé ou notarié. La cession n'est rendue opposable à la Société qu'après avoir été signifiée à cette dernière par exploit {{exploitType}} de justice ou acceptée par elle dans un acte authentique signé devant notaire. Toutefois, la signification peut être remplacée par le dépôt d'un original de l'acte de cession au siège social contre remise par le Gérant d'une attestation de ce dépôt.\nElle n'est opposable aux tiers qu'après accomplissement de cette formalité et, en outre, qu'après publication des statuts modifiés au Registre du commerce et des sociétés.",
+              "variables": ["exploitType"],
+              "obligatoire": true
+            },
+            {
+              "numero": "13.1.2",
+              "titre": "Agrément",
+              "variants": [
+                {
+                  "condition": "regimeCession === 'LIBRE_ENTRE_ASSOCIES'",
+                  "contenu": "Les parts sociales sont librement cessibles entre associés.\nLes parts sociales ne sont cessibles entre conjoints, ascendants ou descendants qu'avec le consentement de la majorité des associés représentant au moins la moitié des parts sociales.\nLes parts sociales ne peuvent être cédées à des tiers étrangers à la Société qu'avec le consentement de la majorité des associés représentant au moins la moitié des parts sociales.\n\nDans tous les cas où il y a lieu à agrément, le projet de cession est notifié à la Société et à chacun des associés par acte {{exploitType}} de justice ou par lettre recommandée avec demande d'avis de réception. Dans le délai de huit (8) jours à compter de cette notification, la Gérance doit convoquer l'assemblée générale des associés pour qu'elle délibère sur ledit projet ou consulter les associés par écrit sur ce projet. La décision de la Société est notifiée au cédant par lettre recommandée avec demande d'avis de réception. Si la Société n'a pas fait connaître sa décision dans le délai de trois (3) mois à compter de la dernière des notifications prévues au présent alinéa, le consentement à la cession est réputé acquis.\nSi la Société a refusé de consentir à la cession, les associés sont tenus, dans le délai de trois (3) mois à compter de ce refus, d'acquérir ou de faire acquérir les parts à un prix fixé d'un commun accord entre les parties ou, en cas de contestation, par un expert désigné conformément à l'article 1843-4 du code civil, sauf si le cédant renonce à la cession de ses parts. A la demande de la Gérance, ce délai peut être prolongé par décision du président du tribunal de commerce, statuant par ordonnance sur requête non susceptible de recours, sans que cette prolongation puisse excéder six (6) mois.\nLa Société peut également, avec le consentement de l'associé cédant, décider, dans le même délai, de réduire son capital du montant de la valeur nominale des parts de l'associé cédant et de racheter lesdites parts au prix déterminé dans les conditions prévues ci-dessus. Un délai de paiement, qui ne saurait excéder deux (2) ans, peut, sur justification, être accordé à la Société par le président du tribunal de commerce, statuant par ordonnance de référé non susceptible de recours. Les sommes dues portent intérêt au taux légal en matière commerciale.\nL'associé cédant ne peut imposer à ses coassociés ou à la Société le rachat de ses parts sociales que s'il les détient depuis au moins deux (2) ans. Toutefois, cette durée minimale de détention ne s'impose pas s'il a recueilli les parts par succession, liquidation de communauté de biens entre époux, ou donation du conjoint, d'un ascendant ou d'un descendant.\nSi, à l'expiration du délai imparti, aucune des solutions prévues ci-dessus n'est intervenue, l'associé peut réaliser la cession initialement prévue.",
+                  "variables": ["exploitType"]
+                },
+                {
+                  "condition": "regimeCession === 'LIBRE_FAMILIAL'",
+                  "contenu": "Les parts sociales sont librement cessibles entre conjoints, ascendants ou descendants.\nLes parts sociales ne sont cessibles entre associés qu'avec le consentement de la majorité des associés représentant au moins la moitié des parts sociales.\nLes parts sociales ne peuvent être cédées à des tiers étrangers à la Société qu'avec le consentement de la majorité des associés représentant au moins la moitié des parts sociales.\n\nDans tous les cas où il y a lieu à agrément, le projet de cession est notifié à la Société et à chacun des associés par acte {{exploitType}} de justice ou par lettre recommandée avec demande d'avis de réception. Dans le délai de huit (8) jours à compter de cette notification, la Gérance doit convoquer l'assemblée générale des associés pour qu'elle délibère sur ledit projet ou consulter les associés par écrit sur ce projet. La décision de la Société est notifiée au cédant par lettre recommandée avec demande d'avis de réception. Si la Société n'a pas fait connaître sa décision dans le délai de trois (3) mois à compter de la dernière des notifications prévues au présent alinéa, le consentement à la cession est réputé acquis.\nSi la Société a refusé de consentir à la cession, les associés sont tenus, dans le délai de trois (3) mois à compter de ce refus, d'acquérir ou de faire acquérir les parts à un prix fixé d'un commun accord entre les parties ou, en cas de contestation, par un expert désigné conformément à l'article 1843-4 du code civil, sauf si le cédant renonce à la cession de ses parts. A la demande de la Gérance, ce délai peut être prolongé par décision du président du tribunal de commerce, statuant par ordonnance sur requête non susceptible de recours, sans que cette prolongation puisse excéder six (6) mois.\nLa Société peut également, avec le consentement de l'associé cédant, décider, dans le même délai, de réduire son capital du montant de la valeur nominale des parts de l'associé cédant et de racheter lesdites parts au prix déterminé dans les conditions prévues ci-dessus. Un délai de paiement, qui ne saurait excéder deux (2) ans, peut, sur justification, être accordé à la Société par le président du tribunal de commerce, statuant par ordonnance de référé non susceptible de recours. Les sommes dues portent intérêt au taux légal en matière commerciale.\nL'associé cédant ne peut imposer à ses coassociés ou à la Société le rachat de ses parts sociales que s'il les détient depuis au moins deux (2) ans. Toutefois, cette durée minimale de détention ne s'impose pas s'il a recueilli les parts par succession, liquidation de communauté de biens entre époux, ou donation du conjoint, d'un ascendant ou d'un descendant.\nSi, à l'expiration du délai imparti, aucune des solutions prévues ci-dessus n'est intervenue, l'associé peut réaliser la cession initialement prévue.",
+                  "variables": ["exploitType"]
+                },
+                {
+                  "condition": "regimeCession === 'LIBRE_ASSOCIES_FAMILIAL'",
+                  "contenu": "Les parts sociales sont librement cessibles entre associés ou entre conjoints, ascendants ou descendants.\nLes parts sociales ne peuvent être cédées à des tiers étrangers à la Société qu'avec le consentement de la majorité des associés représentant au moins la moitié des parts sociales.\n\nDans tous les cas où il y a lieu à agrément, le projet de cession est notifié à la Société et à chacun des associés par acte {{exploitType}} de justice ou par lettre recommandée avec demande d'avis de réception. Dans le délai de huit (8) jours à compter de cette notification, la Gérance doit convoquer l'assemblée générale des associés pour qu'elle délibère sur ledit projet ou consulter les associés par écrit sur ce projet. La décision de la Société est notifiée au cédant par lettre recommandée avec demande d'avis de réception. Si la Société n'a pas fait connaître sa décision dans le délai de trois (3) mois à compter de la dernière des notifications prévues au présent alinéa, le consentement à la cession est réputé acquis.\nSi la Société a refusé de consentir à la cession, les associés sont tenus, dans le délai de trois (3) mois à compter de ce refus, d'acquérir ou de faire acquérir les parts à un prix fixé d'un commun accord entre les parties ou, en cas de contestation, par un expert désigné conformément à l'article 1843-4 du code civil, sauf si le cédant renonce à la cession de ses parts. A la demande de la Gérance, ce délai peut être prolongé par décision du président du tribunal de commerce, statuant par ordonnance sur requête non susceptible de recours, sans que cette prolongation puisse excéder six (6) mois.\nLa Société peut également, avec le consentement de l'associé cédant, décider, dans le même délai, de réduire son capital du montant de la valeur nominale des parts de l'associé cédant et de racheter lesdites parts au prix déterminé dans les conditions prévues ci-dessus. Un délai de paiement, qui ne saurait excéder deux (2) ans, peut, sur justification, être accordé à la Société par le président du tribunal de commerce, statuant par ordonnance de référé non susceptible de recours. Les sommes dues portent intérêt au taux légal en matière commerciale.\nL'associé cédant ne peut imposer à ses coassociés ou à la Société le rachat de ses parts sociales que s'il les détient depuis au moins deux (2) ans. Toutefois, cette durée minimale de détention ne s'impose pas s'il a recueilli les parts par succession, liquidation de communauté de biens entre époux, ou donation du conjoint, d'un ascendant ou d'un descendant.\nSi, à l'expiration du délai imparti, aucune des solutions prévues ci-dessus n'est intervenue, l'associé peut réaliser la cession initialement prévue.",
+                  "variables": ["exploitType"]
+                },
+                {
+                  "condition": "regimeCession === 'AGREMENT_TOTAL'",
+                  "contenu": "Les parts sociales ne sont cessibles entre associés qu'avec le consentement de la majorité des associés représentant au moins la moitié des parts sociales.\nLes parts sociales ne sont cessibles entre conjoints, ascendants ou descendants qu'avec le consentement de la majorité des associés représentant au moins la moitié des parts sociales.\nLes parts sociales ne peuvent être cédées à des tiers étrangers à la Société qu'avec le consentement de la majorité des associés représentant au moins la moitié des parts sociales.\n\nDans tous les cas où il y a lieu à agrément, le projet de cession est notifié à la Société et à chacun des associés par acte {{exploitType}} de justice ou par lettre recommandée avec demande d'avis de réception. Dans le délai de huit (8) jours à compter de cette notification, la Gérance doit convoquer l'assemblée générale des associés pour qu'elle délibère sur ledit projet ou consulter les associés par écrit sur ce projet. La décision de la Société est notifiée au cédant par lettre recommandée avec demande d'avis de réception. Si la Société n'a pas fait connaître sa décision dans le délai de trois (3) mois à compter de la dernière des notifications prévues au présent alinéa, le consentement à la cession est réputé acquis.\nSi la Société a refusé de consentir à la cession, les associés sont tenus, dans le délai de trois (3) mois à compter de ce refus, d'acquérir ou de faire acquérir les parts à un prix fixé d'un commun accord entre les parties ou, en cas de contestation, par un expert désigné conformément à l'article 1843-4 du code civil, sauf si le cédant renonce à la cession de ses parts. A la demande de la Gérance, ce délai peut être prolongé par décision du président du tribunal de commerce, statuant par ordonnance sur requête non susceptible de recours, sans que cette prolongation puisse excéder six (6) mois.\nLa Société peut également, avec le consentement de l'associé cédant, décider, dans le même délai, de réduire son capital du montant de la valeur nominale des parts de l'associé cédant et de racheter lesdites parts au prix déterminé dans les conditions prévues ci-dessus. Un délai de paiement, qui ne saurait excéder deux (2) ans, peut, sur justification, être accordé à la Société par le président du tribunal de commerce, statuant par ordonnance de référé non susceptible de recours. Les sommes dues portent intérêt au taux légal en matière commerciale.\nL'associé cédant ne peut imposer à ses coassociés ou à la Société le rachat de ses parts sociales que s'il les détient depuis au moins deux (2) ans. Toutefois, cette durée minimale de détention ne s'impose pas s'il a recueilli les parts par succession, liquidation de communauté de biens entre époux, ou donation du conjoint, d'un ascendant ou d'un descendant.\nSi, à l'expiration du délai imparti, aucune des solutions prévues ci-dessus n'est intervenue, l'associé peut réaliser la cession initialement prévue.",
+                  "variables": ["exploitType"]
+                }
+              ],
+              "obligatoire": true
+            }
+          ]
+        },
+        {
+          "numero": "13.2",
+          "titre": "Revendication par le conjoint de la qualité d'associé",
+          "variants": [
+            {
+              "condition": "cessionFamilialeLibre",
+              "contenu": "La qualité d'associé est reconnue au conjoint commun en biens pour la moitié des parts souscrites ou acquises au moyen de fonds communs s'il notifie à la Société son intention d'être personnellement associé.\n\nAucun agrément n'est requis à cet effet.",
+              "variables": []
+            },
+            {
+              "condition": "!cessionFamilialeLibre",
+              "contenu": "La qualité d'associé est reconnue au conjoint commun en biens pour la moitié des parts souscrites ou acquises au moyen de fonds communs s'il notifie à la Société son intention d'être personnellement associé.\n\nSi la notification a été effectuée lors de la souscription ou de l'acquisition, l'agrément donné par les associés vaut pour les deux époux.\nSi le conjoint exerce son droit de revendication postérieurement à la réalisation de la souscription ou de l'acquisition, il devra être agréé selon les conditions prévues à l'article 13.1.2 ci-dessus. L'époux associé sera alors exclu du vote et ses parts ne seront pas prises en compte pour le calcul de la majorité. Si le conjoint n'est pas agréé par les autres associés, l'époux demeure associé pour la totalité des parts sociales concernées.",
+              "variables": []
+            }
+          ],
+          "obligatoire": true
+        },
+        {
+          "numero": "13.3",
+          "titre": "Transmission par décès ou par suite de dissolution ou de liquidation de communauté",
+          "variants": [
+            {
+              "condition": "transmissionDeces === 'SURVIVANTS_SEULS'",
+              "contenu": "En cas de décès d'un associé, la Société continuera avec les seuls associés survivants. L'héritier a droit à la valeur des droits sociaux de son auteur.{{texteLiquidationCommunaute}}",
+              "variables": ["texteLiquidationCommunaute"]
+            },
+            {
+              "condition": "transmissionDeces === 'HERITIERS_AVEC_AGREMENT'",
+              "contenu": "En cas de décès d'un associé, la Société continuera entre les associés survivants et les héritiers ou ayants droit de l'associé décédé et éventuellement son conjoint survivant, sous réserve de leur agrément préalable par les associés survivants dans les conditions prévues à l'article 13.1.2 ci-dessus.{{texteLiquidationCommunaute}}",
+              "variables": ["texteLiquidationCommunaute"]
+            },
+            {
+              "condition": "transmissionDeces === 'HERITIERS_SANS_AGREMENT'",
+              "contenu": "En cas de décès d'un associé, la Société continuera entre les associés survivants et les héritiers ou ayants droit de l'associé décédé et éventuellement son conjoint survivant, lesquels ne seront pas tenus d'obtenir l'agrément des associés survivants.{{texteLiquidationCommunaute}}",
+              "variables": ["texteLiquidationCommunaute"]
+            },
+            {
+              "condition": "transmissionDeces === 'PERSONNES_DESIGNEES'",
+              "contenu": "En cas de décès d'un associé, la Société continuera entre les associés survivants et {{personnesDesignees}}, sans qu'il n'y ait lieu à agrément des associés survivants.{{texteLiquidationCommunaute}}",
+              "variables": ["personnesDesignees", "texteLiquidationCommunaute"]
+            }
+          ],
+          "obligatoire": true
+        },
+        {
+          "numero": "13.4",
+          "titre": "Nantissement des parts sociales",
+          "contenu": "Si les associés ont donné leur consentement à un projet de nantissement de parts sociales dans les conditions prévues à l'article 13.1.2 ci-dessus, ce consentement emportera agrément du cessionnaire en cas de réalisation forcée des parts nanties, à moins que la Société ne préfère, après la cession, racheter sans délai les parts, en vue de réduire son capital social.\nSi la Société n'a pas fait connaître sa décision dans le délai de trois (3) mois à compter de la notification du projet de nantissement, le consentement au nantissement, emportant agrément du cessionnaire en cas de réalisation forcée des parts nanties, est réputé acquis.\nLe défaut de notification du projet de nantissement à la Société comme le refus d'agrément de celui-ci par les associés, n'empêche pas le nantissement ; mais, en cas de réalisation forcée, l'adjudicataire devra être agréé comme en cas de cession de parts sociales.",
+          "variables": [],
+          "obligatoire": true
+        },
+        {
+          "numero": "13.5",
+          "titre": "Location des parts sociales",
+          "variants": [
+            {
+              "condition": "locationParts === 'INTERDITE'",
+              "contenu": "La location de parts sociales est interdite.",
+              "variables": []
+            },
+            {
+              "condition": "locationParts === 'AUTORISEE'",
+              "contenu": "Les parts sociales de la Société peuvent être données à bail, au sens des dispositions de l'article 1709 du code civil, au profit d'une personne physique dans les conditions prévues par les articles L. 239-1 et suivants du code de commerce.\nToute location de parts sociales doit être soumise, le cas échéant, à l'agrément des associés dans les conditions prévues à l'article 13.1.2 ci-avant.\nA peine de nullité, les parts sociales louées ne peuvent pas faire l'objet d'une sous-location ou d'un prêt de titres au sens des articles L. 211-22 à L. 211-26 du code monétaire et financier.\nLe contrat de bail est constaté par acte authentique ou sous seing privé soumis à la procédure de l'enregistrement. Il est rendu opposable à la Société par voie de signification par acte extrajudiciaire ou par voie d'acceptation par la Gérance dans un acte authentique.\nLa délivrance des parts sociales louées est réalisée à la date à laquelle est inscrite, dans les présents statuts, à côté du nom de l'associé bailleur, la mention du bail et du nom du locataire. A compter de cette date, la Société doit adresser au locataire les informations dues aux associés et prévoir sa participation et son vote aux assemblées.\nLe droit de vote attaché à la part sociale louée appartient au bailleur dans les assemblées statuant sur les modifications statutaires ou le changement de nationalité de la Société et au locataire dans les autres assemblées. Pour l'exercice des autres droits attachés aux parts sociales louées, le bailleur est considéré comme le nu-propriétaire et le locataire comme l'usufruitier.\nLes parts sociales louées doivent faire l'objet d'une évaluation en début et en fin de contrat, ainsi qu'à la fin de chaque exercice comptable lorsque le bailleur est une personne morale. Cette évaluation est effectuée sur la base de critères tirés des comptes sociaux. Si la Société est dotée d'un commissaire aux comptes et n'a pas opté pour le régime d'audit légal allégé visé à l'article L. 821-57 du code de commerce, elle est certifiée par le commissaire aux comptes.\nLe bail est renouvelé dans les mêmes conditions que la conclusion du bail initial. En cas de non-renouvellement du contrat de bail ou de résiliation, la partie la plus diligente fait procéder à la radiation de la mention portée dans les statuts.",
+              "variables": []
+            }
+          ],
+          "obligatoire": true
+        }
+      ],
+      "obligatoire": true
+    },
+    {
+      "numero": 14,
+      "titre": "Réunion de toutes les parts sociales en une seule main",
+      "contenu": "La réunion de toutes les parts sociales en une seule main n'entraîne pas la dissolution de la Société qui continue d'exister avec un associé unique. Dans ce cas, l'associé unique exerce tous les pouvoirs dévolus à la collectivité des associés.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 15,
+      "titre": "Décès, incapacité, interdiction, faillite d'un associé",
+      "contenu": "Le décès, l'incapacité, l'interdiction, la faillite de l'un quelconque des associés, personnes physiques ainsi que le redressement ou la liquidation judiciaire d'un associé personne morale n'entraînent pas la dissolution de la Société.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 16,
+      "titre": "Émission d'obligations",
+      "contenu": "Si la Société a désigné un commissaire aux comptes et que les comptes des trois (3) derniers exercices de douze (12) mois ont été régulièrement approuvés par les associés, elle peut émettre des obligations nominatives dans les conditions et sous les réserves prévues par l'article L. 223-11 du code de commerce.\nL'émission d'obligations nominatives est décidée par l'assemblée générale des associés, dans les conditions de majorité requises pour les décisions ordinaires. Ces titres sont soumis aux dispositions applicables aux obligations émises par les sociétés par actions, à l'exclusion de celles prévues par les articles L. 228-39 à L. 228-43 et L. 228-51 du code de commerce.\nLes obligataires sont groupés, dans les conditions fixées par la loi, en une masse jouissant de la personnalité morale.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 17,
+      "titre": "Gérance",
+      "contenu": "{{texteNominationGerant}}",
+      "variables": ["texteNominationGerant"],
+      "obligatoire": true
+    },
+    {
+      "numero": 18,
+      "titre": "Pouvoirs de la Gérance",
+      "variants": [
+        {
+          "condition": "!limitationsPouvoirs && !cogerance",
+          "contenu": "Dans les rapports avec les tiers, la Gérance est investie des pouvoirs les plus étendus pour agir en toute circonstance au nom de la Société, sous réserve des pouvoirs que la loi attribue expressément aux associés. La Société est engagée même par les actes de la Gérance qui ne relèvent pas de l'objet social, à moins qu'elle ne prouve que le tiers savait que l'acte dépassait cet objet ou qu'il ne pouvait l'ignorer compte tenu des circonstances, étant exclu que la seule publication des statuts suffise à constituer cette preuve.\nEn cas de pluralité de Gérants, ceux-ci détiennent séparément les pouvoirs prévus à l'alinéa précédent, sauf le droit pour chacun de s'opposer à toute opération avant qu'elle ne soit conclue. L'opposition formée par un Gérant aux actes d'un autre Gérant est sans effet à l'égard des tiers, à moins qu'il ne soit établi qu'ils en ont eu connaissance.\nDans les rapports entre associés, la Gérance peut faire tous actes de gestion dans l'intérêt de la Société.\n\nLe ou les Gérants sont expressément habilités à mettre les statuts de la Société en harmonie avec les dispositions impératives de la loi et des règlements, sous réserve de ratification de ces modifications par décision collective ordinaire des associés.",
+          "variables": []
+        },
+        {
+          "condition": "limitationsPouvoirs && !cogerance",
+          "contenu": "Dans les rapports avec les tiers, la Gérance est investie des pouvoirs les plus étendus pour agir en toute circonstance au nom de la Société, sous réserve des pouvoirs que la loi attribue expressément aux associés. La Société est engagée même par les actes de la Gérance qui ne relèvent pas de l'objet social, à moins qu'elle ne prouve que le tiers savait que l'acte dépassait cet objet ou qu'il ne pouvait l'ignorer compte tenu des circonstances, étant exclu que la seule publication des statuts suffise à constituer cette preuve.\nEn cas de pluralité de Gérants, ceux-ci détiennent séparément les pouvoirs prévus à l'alinéa précédent, sauf le droit pour chacun de s'opposer à toute opération avant qu'elle ne soit conclue. L'opposition formée par un Gérant aux actes d'un autre Gérant est sans effet à l'égard des tiers, à moins qu'il ne soit établi qu'ils en ont eu connaissance.\nDans les rapports entre associés, la Gérance peut faire tous actes de gestion dans l'intérêt de la Société.\n\nToutefois, la Gérance ne peut pas prendre les décisions suivantes sans avoir obtenu au préalable l'autorisation de la collectivité des associés statuant à la majorité {{majoriteLimitationsPouvoirs}} :\n\n{{listeLimitationsPouvoirs}}\n\nLe ou les Gérants sont expressément habilités à mettre les statuts de la Société en harmonie avec les dispositions impératives de la loi et des règlements, sous réserve de ratification de ces modifications par décision collective ordinaire des associés.",
+          "variables": ["majoriteLimitationsPouvoirs", "listeLimitationsPouvoirs"]
+        },
+        {
+          "condition": "cogerance",
+          "contenu": "Dans les rapports avec les tiers, la Gérance est investie des pouvoirs les plus étendus pour agir en toute circonstance au nom de la Société, sous réserve des pouvoirs que la loi attribue expressément aux associés. La Société est engagée même par les actes de la Gérance qui ne relèvent pas de l'objet social, à moins qu'elle ne prouve que le tiers savait que l'acte dépassait cet objet ou qu'il ne pouvait l'ignorer compte tenu des circonstances, étant exclu que la seule publication des statuts suffise à constituer cette preuve.\nEn cas de pluralité de Gérants, ceux-ci détiennent séparément les pouvoirs prévus à l'alinéa précédent, sauf le droit pour chacun de s'opposer à toute opération avant qu'elle ne soit conclue. L'opposition formée par un Gérant aux actes d'un autre Gérant est sans effet à l'égard des tiers, à moins qu'il ne soit établi qu'ils en ont eu connaissance.\nDans les rapports entre associés, la Gérance peut faire tous actes de gestion dans l'intérêt de la Société.\n\n{{#if limitationsPouvoirs}}Toutefois, la Gérance ne peut pas prendre les décisions suivantes sans avoir obtenu au préalable l'autorisation de la collectivité des associés statuant à la majorité {{majoriteLimitationsPouvoirs}} :\n\n{{listeLimitationsPouvoirs}}\n\n{{/if}}Chaque Gérant ne peut agir séparément pour les actes suivants :\n\n{{listeActesCogerance}}\n\nLe ou les Gérants sont expressément habilités à mettre les statuts de la Société en harmonie avec les dispositions impératives de la loi et des règlements, sous réserve de ratification de ces modifications par décision collective ordinaire des associés.",
+          "variables": ["limitationsPouvoirs", "majoriteLimitationsPouvoirs", "listeLimitationsPouvoirs", "listeActesCogerance"]
+        }
+      ],
+      "obligatoire": true
+    },
+    {
+      "numero": 19,
+      "titre": "Rémunération de la Gérance",
+      "contenu": "En rémunération de ses fonctions, chacun des Gérants a droit à un traitement qui est fixé par décision collective ordinaire des associés.\nLa Gérance a droit, en outre, au remboursement de ses frais de représentation et de déplacement.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 20,
+      "titre": "Cessation des fonctions",
+      "contenu": "{{texteRevocationGerant}}\n\nSi la révocation est décidée sans juste motif, elle peut donner lieu à des dommages et intérêts. En outre, tout Gérant est révocable par les tribunaux pour cause légitime à la demande de tout associé.\nTout Gérant a le droit de démissionner de ses fonctions, à charge pour ce dernier d'informer les associés de sa décision au moins {{delaiPreavisGerant}} mois à l'avance, par lettre recommandée avec demande d'avis de réception.\nLa cessation des fonctions du ou des Gérants n'entraîne pas la dissolution de la Société.\nEn cas de cessation des fonctions du Gérant, pour quelque cause que ce soit, la collectivité des associés est habilitée à modifier les statuts en vue de supprimer le nom du Gérant, par décision collective ordinaire.",
+      "variables": ["texteRevocationGerant", "delaiPreavisGerant"],
+      "obligatoire": true
+    },
+    {
+      "numero": 21,
+      "titre": "Responsabilité de la Gérance",
+      "contenu": "Les Gérants sont responsables individuellement ou solidairement selon le cas, envers la Société ou envers les tiers des infractions aux dispositions législatives ou réglementaires applicables aux sociétés à responsabilité limitée, des violations des statuts, ainsi que des fautes commises dans leur gestion.\nSi plusieurs Gérants ont coopéré aux mêmes faits, le tribunal détermine la part contributive de chacun dans la réparation du dommage.\nOutre l'action en réparation du préjudice subi personnellement, les associés peuvent intenter l'action sociale en responsabilité contre les Gérants, soit individuellement, soit en se groupant dans les conditions fixées par les dispositions législatives et réglementaires en vigueur. Les demandeurs sont habilités à poursuivre la réparation de l'entier préjudice subi par la Société à laquelle, le cas échéant, les dommages-intérêts sont alloués.\nAucune décision de l'assemblée générale des associés ne peut avoir pour effet d'éteindre une action en responsabilité contre les Gérants pour fautes commises dans l'accomplissement de leur mandat.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 22,
+      "titre": "Conventions conclues entre la Société et ses associés ou Gérants",
+      "sousSections": [
+        {
+          "numero": "22.1",
+          "titre": "Conventions réglementées",
+          "contenu": "Si la Société est dotée d'un commissaire aux comptes et n'a pas opté pour le régime d'audit légal allégé visé à l'article L. 821-57 du code de commerce, le Gérant avise le commissaire aux comptes des conventions intervenues directement ou par personne interposée entre la Société et l'un de ses Gérants ou associés dans le délai d'un (1) mois à compter de la conclusion desdites conventions. Lorsque l'exécution de conventions conclues au cours d'exercices antérieurs a été poursuivie au cours du dernier exercice, le commissaire aux comptes est informé de cette situation dans le délai d'un (1) mois à compter de la clôture de l'exercice.\n\nLe Gérant ou, si la Société est dotée d'un commissaire aux comptes et n'a pas opté pour le régime d'audit légal allégé visé à l'article L. 821-57 du code de commerce, le commissaire aux comptes, présente à l'assemblée générale ordinaire annuelle des associés ou joint aux documents communiqués aux associés en cas de consultation écrite, un rapport sur les conventions intervenues directement ou par personne interposée entre la Société et l'un de ses Gérants ou associés.\n\nL'assemblée générale des associés statue sur ce rapport. Le Gérant ou l'associé intéressé ne peut pas prendre part au vote et ses parts ne sont pas prises en compte pour le calcul du quorum et de la majorité. Toutefois, s'il n'existe pas de commissaire aux comptes, les conventions conclues par un Gérant non associé sont soumises à l'approbation préalable de l'assemblée générale des associés.\n\nLes conventions non approuvées produisent néanmoins leurs effets, à charge, pour le Gérant, et, s'il y a lieu, pour l'associé contractant, de supporter individuellement ou solidairement, selon les cas, les conséquences dommageables de la convention pour la Société.\n\nLes dispositions du présent article s'étendent aux conventions passées avec une société dont un associé indéfiniment responsable, Gérant, administrateur, directeur général, membre du directoire ou membre du conseil de surveillance, est simultanément Gérant ou associé de la Société.\n\nLes dispositions du présent article ne sont toutefois pas applicables aux conventions portant sur des opérations courantes et conclues à des conditions normales.",
+          "variables": [],
+          "obligatoire": true
+        },
+        {
+          "numero": "22.2",
+          "titre": "Interdictions",
+          "contenu": "A peine de nullité du contrat, il est interdit aux Gérants ou associés autres que les personnes morales de contracter, sous quelque forme que ce soit, des emprunts auprès de la Société, de se faire consentir par elle un découvert, en compte courant ou autrement, ainsi que de faire cautionner ou avaliser par elle leurs engagements envers les tiers. Cette interdiction s'applique également aux représentants légaux des personnes morales associées, aux conjoint, ascendants et descendants des Gérants, associés ou des représentants légaux des personnes morales associées ainsi qu'à toute personne interposée.",
+          "variables": [],
+          "obligatoire": true
+        }
+      ],
+      "obligatoire": true
+    },
+    {
+      "numero": 23,
+      "titre": "Commissaires aux comptes",
+      "variants": [
+        {
+          "condition": "!designationCAC_Obligatoire",
+          "contenu": "La collectivité des associés est tenue de désigner, dans les conditions prévues à l'article L. 223-29 du code de commerce, un ou plusieurs commissaires aux comptes ayant notamment pour mission d'assurer le contrôle des comptes sociaux de la Société, dès lors qu'une telle nomination s'avère obligatoire en vertu des dispositions légales et réglementaires.\n\nEn outre, la Société sera tenue de désigner un commissaire aux comptes pour trois (3) exercices si un ou plusieurs associés représentant au moins le tiers (1/3) du capital lui en font la demande motivée.\n\nEn toute hypothèse, la nomination d'un commissaire aux comptes peut être demandée en justice par un ou plusieurs associés représentant au moins le dixième (1/10) du capital social de la Société.\n\nSi la Société ne relève d'aucun des cas de désignation obligatoire prévus par la loi, la collectivité des associés dispose toujours de la faculté de désigner, sur une base volontaire, un ou plusieurs commissaires aux comptes dans les conditions prévues à l'article L. 223-29 du code de commerce.",
+          "variables": []
+        },
+        {
+          "condition": "designationCAC_Obligatoire",
+          "contenu": "Nonobstant toute disposition légale ou réglementaire qui dispenserait la Société de le faire, la collectivité des associés désigne un ou plusieurs commissaires aux comptes dans les conditions prévues à l'article L. 223-29 du code de commerce.",
+          "variables": []
+        }
+      ],
+      "obligatoire": true
+    },
+    {
+      "numero": 24,
+      "titre": "Décisions collectives",
+      "contenu": "La volonté des associés s'exprime par des décisions collectives qui obligent tous les associés.",
+      "sousSections": [
+        {
+          "numero": "24.1",
+          "titre": "Forme des décisions collectives",
+          "variants": [
+            {
+              "condition": "formesDecisionsCollectives === 'DIVERSES'",
+              "contenu": "Les décisions collectives statuant sur les comptes sociaux peuvent être prises en assemblée ou par voie de consultation écrite ou dans un acte constatant le consentement unanime de tous les associés.\n\nLes décisions collectives statuant sur l'émission d'obligations sont prises en assemblée générale.\n\nSous réserve des cas prévus par la loi et nécessitant la réunion d'une assemblée générale, toutes les autres décisions collectives peuvent être prises par consultation écrite des associés ou peuvent résulter du consentement de tous les associés exprimé dans un acte.",
+              "variables": []
+            },
+            {
+              "condition": "formesDecisionsCollectives === 'ASSEMBLEE_SEULE'",
+              "contenu": "Toutes les décisions collectives doivent être prises en assemblée générale.",
+              "variables": []
+            },
+            {
+              "condition": "formesDecisionsCollectives === 'SANS_CE_UNANIME_COMPTES'",
+              "contenu": "Les décisions collectives statuant sur les comptes sociaux sont prises en assemblée.\n\nLes décisions collectives statuant sur l'émission d'obligations sont prises en assemblée générale.\n\nSous réserve des cas prévus par la loi et nécessitant la réunion d'une assemblée générale, toutes les autres décisions collectives peuvent être prises par consultation écrite des associés ou peuvent résulter du consentement de tous les associés exprimé dans un acte.",
+              "variables": []
+            }
+          ],
+          "obligatoire": true
+        },
+        {
+          "numero": "24.2",
+          "titre": "Décisions ordinaires",
+          "contenu": "Sont qualifiées d'ordinaires les décisions des associés autres que les décisions extraordinaires.",
+          "variants": [
+            {
+              "condition": "decisionsOrdinaires === 'LEGALE_AVEC_SECONDE'",
+              "contenu": "Sauf disposition expresse contraire des présents statuts, les décisions collectives ordinaires sont valablement adoptées par un ou plusieurs associés représentant plus de la moitié des parts sociales. Si cette majorité n'est pas obtenue, les associés sont, selon le cas, convoqués ou consultés une seconde fois, sur les mêmes questions figurant à l'ordre du jour de la première convocation ou consultation, et les décisions sont prises à la majorité des votes émis, quel que soit le nombre de votants.",
+              "variables": []
+            },
+            {
+              "condition": "decisionsOrdinaires === 'LEGALE_SANS_SECONDE'",
+              "contenu": "Sauf disposition expresse contraire des présents statuts, les décisions collectives ordinaires sont valablement adoptées par un ou plusieurs associés représentant plus de la moitié des parts sociales. Si cette majorité n'est pas obtenue, une seconde consultation ne pourra pas avoir lieu.",
+              "variables": []
+            },
+            {
+              "condition": "decisionsOrdinaires === 'RENFORCEE_AVEC_SECONDE'",
+              "contenu": "Sauf disposition expresse contraire des présents statuts, les décisions collectives ordinaires sont valablement adoptées par un ou plusieurs associés représentant plus de {{majoriteOrdinairesRenforcee}} des parts sociales. Si cette majorité n'est pas obtenue, les associés sont, selon le cas, convoqués ou consultés une seconde fois, sur les mêmes questions figurant à l'ordre du jour de la première convocation ou consultation, et les décisions sont prises à la majorité de {{majoriteOrdinairesRenforcee}} des votes émis, quel que soit le nombre de votants.",
+              "variables": ["majoriteOrdinairesRenforcee"]
+            },
+            {
+              "condition": "decisionsOrdinaires === 'RENFORCEE_SANS_SECONDE'",
+              "contenu": "Sauf disposition expresse contraire des présents statuts, les décisions collectives ordinaires sont valablement adoptées par un ou plusieurs associés représentant plus de {{majoriteOrdinairesRenforcee}} des parts sociales. Si cette majorité n'est pas obtenue, une seconde consultation ne pourra pas avoir lieu.",
+              "variables": ["majoriteOrdinairesRenforcee"]
+            }
+          ],
+          "obligatoire": true
+        },
+        {
+          "numero": "24.3",
+          "titre": "Décisions extraordinaires",
+          "contenu": "Sont qualifiées d'extraordinaires, les décisions des associés portant modification des statuts.\n\nSauf stipulation contraire des présents statuts, l'assemblée générale des associés ne délibère valablement que si les associés présents ou représentés possèdent au moins, sur première convocation, {{quorumExtraordinaire1}} des parts sociales et, sur deuxième convocation, {{quorumExtraordinaire2}} de celles-ci. A défaut de ce quorum, la deuxième assemblée générale peut être prorogée à une date postérieure de deux (2) mois au plus à celle à laquelle elle avait été convoquée. Dans l'un ou l'autre de ces deux cas, les décisions collectives extraordinaires sont valablement adoptées à la majorité {{majoriteExtraordinaire}} des parts détenues par les associés présents ou représentés.\n\nPar dérogation aux dispositions ci-dessus, la décision d'augmenter le capital social par incorporation de bénéfices ou de réserves est valablement décidée par les associés représentant au moins la moitié des parts sociales. Quant à la transformation de la Société, elle ne peut être décidée qu'aux conditions de majorité prévues à l'article L. 223-43 du code de commerce et qui diffèrent selon la forme nouvelle adoptée. Le changement de la nationalité de la Société ou l'augmentation des engagements des associés est décidé à l'unanimité des associés.",
+          "variables": ["quorumExtraordinaire1", "quorumExtraordinaire2", "majoriteExtraordinaire"],
+          "obligatoire": true
+        }
+      ],
+      "obligatoire": true
+    },
+    {
+      "numero": 25,
+      "titre": "Droit de communication permanent, d'information et de contrôle des associés",
+      "sousSections": [
+        {
+          "numero": "25.1",
+          "titre": "Droit de communication permanent",
+          "contenu": "Tout associé a le droit, à toute époque, d'obtenir, au siège social, la délivrance d'une copie certifiée des statuts en vigueur au jour de la demande. La Société doit annexer à ce document la liste des Gérants et, le cas échéant, des commissaires aux comptes en exercice.\n\nTout associé a également le droit, à toute époque, de prendre par lui-même et au siège social, connaissance des documents suivants : comptes annuels (comptes de résultat, bilans et, le cas échéant, annexes), inventaires, rapports soumis aux assemblées générales et procès-verbaux de ces assemblées concernant les trois (3) derniers exercices. Sauf en ce qui concerne l'inventaire, le droit de prendre connaissance emporte celui de prendre copie. A cette fin, il peut se faire assister d'un expert inscrit sur une des listes établies par les cours et tribunaux.",
+          "variables": [],
+          "obligatoire": true
+        },
+        {
+          "numero": "25.2",
+          "titre": "Expertise",
+          "contenu": "Un ou plusieurs associés représentant au moins le dixième (1/10) du capital social peuvent demander soit individuellement, soit en se groupant sous quelque forme que ce soit, la désignation en justice d'un ou plusieurs experts chargés de présenter un rapport sur une ou plusieurs opérations de gestion.\n\nLe ministère public est habilité à agir aux mêmes fins. Le comité social et économique, s'il existe, est également habilité à agir aux mêmes fins.\n\nS'il est fait droit à la demande, la décision de justice détermine l'étendue de la mission et des pouvoirs des experts. Elle peut mettre les honoraires des experts à la charge de la Société.\n\nLe rapport est adressé au demandeur, au ministère public, au comité social économique (s'il en existe), au commissaire aux comptes (s'il en existe) ainsi qu'à la Gérance. Ce rapport doit en outre être annexé à celui établi par le commissaire aux comptes, s'il en existe, en vue de la prochaine assemblée générale des associés et recevoir la même publicité.",
+          "variables": [],
+          "obligatoire": true
+        },
+        {
+          "numero": "25.3",
+          "titre": "Procédure d'alerte",
+          "contenu": "Tout associé non Gérant peut, deux (2) fois par exercice, poser par écrit des questions à la Gérance sur tout fait de nature à compromettre la continuité de l'exploitation. La réponse écrite de la Gérance doit intervenir dans le délai d'un (1) mois et est communiquée au commissaire aux comptes, s'il en existe.",
+          "variables": [],
+          "obligatoire": true
+        }
+      ],
+      "obligatoire": true
+    },
+    {
+      "numero": 26,
+      "titre": "Exercice social",
+      "variants": [
+        {
+          "condition": "exerciceSocialCivil",
+          "contenu": "L'exercice social commence le 1er janvier et se termine le 31 décembre de chaque année.\n\nPar exception, le premier exercice social sera clos le {{dateCloturePremiereExercice}}.",
+          "variables": ["dateCloturePremiereExercice"]
+        },
+        {
+          "condition": "!exerciceSocialCivil",
+          "contenu": "L'exercice social commence le {{dateDebutExercice}} de chaque année et se termine le {{dateFinExercice}} de l'année suivante.\n\nPar exception, le premier exercice social sera clos le {{dateCloturePremiereExercice}}.",
+          "variables": ["dateDebutExercice", "dateFinExercice", "dateCloturePremiereExercice"]
+        }
+      ],
+      "obligatoire": true
+    },
+    {
+      "numero": 27,
+      "titre": "Comptes annuels",
+      "contenu": "La Gérance tient une comptabilité régulière des opérations sociales, conformément aux dispositions législatives et réglementaires en vigueur. A la clôture de chaque exercice, la Gérance dresse l'inventaire des divers éléments de l'actif et du passif existant à cette date.\n\nLa Gérance dresse également le bilan décrivant les éléments actifs et passifs et faisant apparaître de façon distincte les capitaux propres, le compte de résultat récapitulant les produits et les charges de l'exercice, ainsi que, lorsque cela est obligatoire en vertu des dispositions légales et réglementaires en vigueur, l'annexe complétant et commentant l'information donnée par le bilan et le compte de résultat.\n\nIl est procédé, même en cas d'absence ou d'insuffisance du bénéfice, aux amortissements et provisions nécessaires. Le montant des engagements cautionnés, avalisés ou garantis est mentionné à la suite du bilan.",
+      "variants": [
+        {
+          "condition": "rapportGestion === 'LEGAL'",
+          "contenu": "La Gérance n'établit le rapport de gestion visé à l'article L. 232-1, I du code de commerce que si la Société est tenue d'établir ce rapport en vertu des dispositions légales et réglementaires.",
+          "variables": []
+        },
+        {
+          "condition": "rapportGestion === 'ACTIVITE'",
+          "contenu": "Lorsque les dispositions légales et réglementaires dispensent la Société d'établir le rapport de gestion visé à l'article L. 232-1, I du code de commerce, la Gérance demeure tenue d'établir, chaque année, un rapport d'activité dans lequel elle rend compte des éléments suivants : {{contenuRapportActivite}}",
+          "variables": ["contenuRapportActivite"]
+        },
+        {
+          "condition": "rapportGestion === 'OBLIGATOIRE'",
+          "contenu": "Nonobstant toute disposition légale ou réglementaire qui dispenserait la Société d'établir le rapport de gestion visé à l'article L. 232-1, I du code de commerce, la Gérance est tenue d'établir ce rapport.",
+          "variables": []
+        }
+      ],
+      "obligatoire": true
+    },
+    {
+      "numero": 28,
+      "titre": "Affectation et répartition des bénéfices",
+      "contenu": "Si les comptes de l'exercice approuvés par l'assemblée générale font apparaître un bénéfice distribuable, tel qu'il est défini par la loi, l'assemblée générale décide de l'inscrire à un ou plusieurs postes de réserves dont elle règle l'affectation ou l'emploi, de le reporter à nouveau ou de le distribuer.\n\nLe compte de résultat qui récapitule les produits et charges de l'exercice fait apparaître par différence, après déduction des amortissements et des provisions, le bénéfice de l'exercice.\n\nSur le bénéfice de l'exercice diminué, le cas échéant, des pertes antérieures, il est prélevé cinq pour cent (5 %) au moins pour doter le fonds de réserve légale. Ce prélèvement cesse d'être obligatoire lorsque la réserve légale atteint le dixième (1/10) du capital social.\n\nLe bénéfice distribuable est constitué par le bénéfice de l'exercice, diminué des pertes antérieures et des sommes à porter en réserve, en application de la loi et des statuts et augmenté du report bénéficiaire.\n\nSur ce bénéfice, l'assemblée générale peut prélever toutes sommes qu'elle juge à propos d'affecter à la dotation de tous fonds de réserves facultatives, ordinaires ou extraordinaires, ou de reporter à nouveau.\n\nLe solde, s'il en existe, est réparti entre tous les associés proportionnellement au nombre de parts sociales appartenant à chacun d'eux. Par ailleurs, l'assemblée générale peut décider la mise en distribution de sommes prélevées sur les réserves dont elle a la disposition, en indiquant expressément les postes de réserves sur lesquels les prélèvements sont effectués. Toutefois les dividendes sont prélevés par priorité sur les bénéfices de l'exercice.\n\nHors le cas de réduction du capital, aucune distribution ne peut être faite aux associés lorsque les capitaux propres sont ou deviendraient à la suite de celle-ci inférieurs au montant du capital augmenté des réserves que la loi ou les statuts ne permettent pas de distribuer. L'écart de réévaluation n'est pas distribuable. Il peut être incorporé en tout ou partie au capital.\n\nLes pertes, s'il en existe, sont, après l'approbation des comptes par l'assemblée générale, reportées à nouveau, pour être imputées sur les bénéfices des exercices ultérieurs jusqu'à extinction.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 29,
+      "titre": "Paiement des dividendes - Acomptes",
+      "contenu": "Lorsqu'un bilan établi au cours ou à la fin de l'exercice et certifié par un commissaire aux comptes fait apparaître que la Société, depuis la clôture de l'exercice précédent, après constitution des amortissements et provisions nécessaires et déduction faite s'il y a lieu des pertes antérieures ainsi que des sommes à porter en réserve, en application de la loi ou des statuts, a réalisé un bénéfice, il peut être distribué des acomptes sur dividende avant l'approbation des comptes de l'exercice. Le montant de ces acomptes ne peut excéder le montant du bénéfice ainsi défini.\n\nLes modalités de mise en paiement des dividendes sont fixées par l'assemblée générale, ou à défaut par la Gérance.\n\nLa mise en paiement des dividendes doit avoir lieu dans un délai maximal de neuf (9) mois après la clôture de l'exercice, sauf prolongation de ce délai par autorisation de justice.\n\nAucune répétition de dividende ne peut être exigée des associés, sauf lorsque la distribution a été effectuée en violation des dispositions légales et que la Société établit que les bénéficiaires avaient connaissance du caractère irrégulier de cette distribution au moment de celle-ci ou ne pouvaient l'ignorer compte tenu des circonstances.\n\nLes dividendes non réclamés dans les cinq (5) ans de leur mise en paiement sont prescrits.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 30,
+      "titre": "Transformation",
+      "contenu": "La transformation de la Société en société en nom collectif, en société par actions simplifiée, en commandite simple ou en commandite par actions, exige l'accord unanime des associés.\n\nLa transformation de la Société en société anonyme est décidée à la majorité requise pour la modification des statuts. Toutefois, elle peut être décidée par des associés représentant la majorité des parts sociales si le montant des capitaux propres figurant au dernier bilan excède 750 000 euros.\n\nSi la Société vient à comprendre plus de cent (100) associés, elle doit, dans le délai d'un an, être transformée en une société d'une autre forme. A défaut, elle est dissoute à moins que pendant ledit délai, le nombre des associés ne soit devenu égal ou inférieur à cent (100).",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 31,
+      "titre": "Capitaux propres devenus inférieurs à la moitié du capital social",
+      "contenu": "Si, du fait des pertes constatées dans les documents comptables, les capitaux propres de la Société deviennent inférieurs à la moitié du capital social, la Gérance doit, dans les quatre (4) mois qui suivent l'approbation des comptes ayant fait apparaître cette perte, consulter les associés afin de décider s'il y a lieu à dissolution anticipée de la Société.\n\nSi la dissolution n'est pas prononcée, la Société est tenue, au plus tard à la clôture du deuxième (2e) exercice suivant celui au cours duquel la constatation des pertes est intervenue, de reconstituer ses capitaux propres à concurrence d'une valeur au moins égale à la moitié du capital social ou de réduire son capital social du montant nécessaire pour que la valeur des capitaux propres soit au moins égale à la moitié de son montant.\n\nDans les deux cas, la résolution adoptée par les associés est publiée conformément aux dispositions législatives et réglementaires applicables.\n\nSi, avant l'échéance mentionnée au deuxième alinéa ci-dessus, les capitaux propres n'ont pas été reconstitués à concurrence d'une valeur au moins égale à la moitié du capital social alors que le capital social de la société est supérieur à un pourcent (1 %) du total de bilan de la société constaté lors de la clôture du dernier exercice, la société est tenue, au plus tard à la clôture du deuxième (2e) exercice suivant cette échéance, de réduire son capital pour le ramener à une valeur inférieure ou égale au seuil de 1 % du total de bilan susvisé.\n\nLorsque la société a procédé à une réduction de capital en application des stipulations de l'alinéa précédent sans pour autant que ses fonds propres aient été reconstitués, et procède par la suite à une augmentation de capital, elle se remet en conformité avec les stipulations de l'alinéa précédent avant la clôture du deuxième (2e) exercice suivant celui au cours duquel a eu lieu cette augmentation du capital.\n\nEn cas d'inobservation de ces dispositions, tout intéressé peut demander en justice la dissolution de la Société.\n\nDans tous les cas, le tribunal peut accorder à la Société un délai maximal de six (6) mois pour régulariser la situation. Il ne peut prononcer la dissolution, si, au jour où il statue sur le fond, cette régularisation a eu lieu.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 32,
+      "titre": "Dissolution anticipée - Prorogation",
+      "contenu": "La collectivité des associés peut, à toute époque, prononcer la dissolution anticipée de la Société dans les conditions requises pour les décisions collectives extraordinaires.\n\nUn (1) an au moins avant la date d'expiration de la Société, la Gérance doit provoquer une réunion de la collectivité des associés à l'effet de décider, dans les conditions requises pour les décisions collectives extraordinaires, si la Société doit être prorogée.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 33,
+      "titre": "Dissolution - Liquidation",
+      "sousSections": [
+        {
+          "numero": "33.1",
+          "titre": "Nomination du liquidateur",
+          "contenu": "A l'expiration de la Société ou en cas de dissolution anticipée, la collectivité des associés règle le mode de liquidation. Un ou plusieurs liquidateurs sont alors nommés par la collectivité des associés.",
+          "variables": [],
+          "obligatoire": true
+        },
+        {
+          "numero": "33.2",
+          "titre": "Pouvoirs du liquidateur",
+          "contenu": "Le liquidateur représente la Société. Il est investi des pouvoirs les plus étendus pour réaliser l'actif, même à l'amiable. Il est habilité à payer les créanciers et à répartir le solde disponible. Il ne peut continuer les affaires en cours ou en engager de nouvelles pour les besoins de la liquidation que s'il y a été autorisé par la collectivité des associés.",
+          "variables": [],
+          "obligatoire": true
+        },
+        {
+          "numero": "33.3",
+          "titre": "Clôture de la liquidation",
+          "contenu": "En fin de liquidation, les associés sont réunis pour statuer sur le compte définitif, sur le quitus de la gestion des liquidateurs, la décharge de leur mandat et pour constater la clôture de la liquidation.",
+          "variables": [],
+          "obligatoire": true
+        },
+        {
+          "numero": "33.4",
+          "titre": "Partage",
+          "contenu": "Le partage des capitaux propres subsistant après remboursement du nominal des parts sociales est effectué entre les associés dans les mêmes proportions que leur participation au capital social.",
+          "variables": [],
+          "obligatoire": true
+        },
+        {
+          "numero": "33.5",
+          "titre": "Transmission universelle du patrimoine",
+          "contenu": "En cas de réunion de toutes les parts sociales en une seule main, la dissolution de la Société, soit par décision judiciaire à la demande d'un tiers, soit par déclaration au greffe du tribunal de commerce, entraîne, lorsque l'associé unique est une personne morale, la transmission universelle du patrimoine de la Société à ce dernier, sans qu'il y ait lieu à liquidation, conformément aux dispositions de l'article 1844-5, alinéa 3 du code civil.",
+          "variables": [],
+          "obligatoire": true
+        }
+      ],
+      "obligatoire": true
+    },
+    {
+      "numero": 34,
+      "titre": "Contestations",
+      "contenu": "Toutes contestations et tous litiges relatifs à l'interprétation ou à l'exécution des présents statuts ou généralement relatifs aux affaires sociales, pendant la durée de la Société ou lors de sa liquidation, survenant soit entre les associés et la Société ou ses dirigeants, soit entre la Société et ses dirigeants, soit entre les associés eux-mêmes, seront soumis à la compétence exclusive du tribunal de commerce dans le ressort duquel est situé le siège social de la Société.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 35,
+      "titre": "Nomination du premier Gérant",
+      "variants": [
+        {
+          "condition": "!multipleGerants",
+          "contenu": "Est désigné comme premier Gérant de la Société pour une durée {{dureeGerantPremier}} :\n\n{{nomPrenomGerantPremier}}, demeurant {{adresseGerantPremier}}.\n\nLe Gérant ainsi nommé intervenant aux présentes, déclare, en ce qui le concerne, qu'il accepte sa nomination et qu'il n'existe aucune incompatibilité ni interdiction l'empêchant d'accepter et d'exercer la mission qui vient de lui être confiée.",
+          "variables": ["dureeGerantPremier", "nomPrenomGerantPremier", "adresseGerantPremier"]
+        },
+        {
+          "condition": "multipleGerants",
+          "contenu": "Sont désignés comme premiers Gérants de la Société pour une durée {{dureeGerantPremier}} :\n\n{{nomPrenomGerantPremier}}\n\nLes Gérants ainsi nommés intervenant aux présentes, déclarent, en ce qui les concerne, qu'ils acceptent leur nomination et qu'il n'existe aucune incompatibilité ni interdiction les empêchant d'accepter et d'exercer la mission qui vient de leur être confiée.",
+          "variables": ["dureeGerantPremier", "nomPrenomGerantPremier"]
+        }
+      ],
+      "obligatoire": true
+    },
+    {
+      "numero": "35bis",
+      "titre": "Nomination des premiers commissaires aux comptes",
+      "variants": [
+        {
+          "condition": "nominationPremiersCAC",
+          "contenu": "Sont désignés comme premiers commissaires aux comptes de la Société pour une durée de {{dureeCAC}} exercices, qui se terminera à l'issue de la décision de l'associé unique ou de la réunion de la collectivité des associés qui sera appelée à délibérer sur les comptes de l'exercice clos le {{dateFinMandatCAC}} :\n\n- {{nomCACTitulaire}}, titulaire ;\n\n{{#if nomCACSuppléant}}- {{nomCACSuppléant}}, suppléant.{{/if}}\n\nChacun des commissaires aux comptes ainsi nommés a accepté par avance lesdites fonctions et a déclaré, pour ce qui le concerne, n'être atteint d'aucune incompatibilité ni interdiction susceptible d'empêcher sa nomination.",
+          "variables": ["dureeCAC", "dateFinMandatCAC", "nomCACTitulaire", "nomCACSuppléant"]
+        }
+      ],
+      "obligatoire": false
+    },
+    {
+      "numero": 36,
+      "titre": "Reprise des engagements accomplis pour le compte de la Société",
+      "contenu": "Conformément à la loi, la Société ne jouira de la personnalité morale qu'à compter du jour de son immatriculation au Registre du commerce et des sociétés.\n\nCependant, il a été accompli dès avant la signature des présents statuts, pour le compte de la Société en formation, des actes énoncés dans un état annexé aux présents statuts, indiquant pour chacun d'eux l'engagement qui en résulterait pour la Société.\n\nLa signature des présents statuts vaudra reprise par la Société de ces engagements qui seront réputés avoir été souscrits par elle dès l'origine, et ce, dès qu'elle aura été immatriculée au Registre du commerce et des sociétés.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 37,
+      "titre": "Mandat pour accomplir des actes pour le compte de la Société après la signature des statuts et avant l'immatriculation",
+      "contenu": "En attendant l'accomplissement de la formalité d'immatriculation de la Société au Registre du commerce et des sociétés, la collectivité des associés donne mandat à {{mandatairePostSignature}} ou à toute personne qui s'y substituera, à l'effet de passer et conclure au nom et pour le compte de la Société, les engagements qui sont décrits et dont les modalités sont précisées dans un état annexé aux présents statuts.\n\nDu seul fait de l'immatriculation de la Société au Registre du commerce et des sociétés, les engagements pris en application de ce mandat et résultant de ces actes seront repris, rétroactivement, dès leur naissance et de plein droit, par la Société. Toutefois, les engagements pris en vertu d'un mandat trop imprécis devront être ratifiés postérieurement à l'immatriculation de la Société par la collectivité des associés.",
+      "variables": ["mandatairePostSignature"],
+      "obligatoire": true
+    },
+    {
+      "numero": 38,
+      "titre": "Pouvoirs - Publicité",
+      "contenu": "Tous pouvoirs sont conférés au porteur d'un original ou d'une copie des présentes à l'effet d'accomplir les formalités de publicité, de dépôt et autres nécessaires pour parvenir à l'immatriculation de la Société au Registre du commerce et des sociétés et au Registre national des entreprises.",
+      "variables": [],
+      "obligatoire": true
+    },
+    {
+      "numero": 39,
+      "titre": "Annexes",
+      "variants": [
+        {
+          "condition": "!commissaireAuxApports",
+          "contenu": "Sont annexés aux statuts :\n\n- le certificat du dépositaire des fonds (Annexe I) ;\n- l'état des actes accomplis pour le compte de la Société avant la signature des statuts (Annexe II) ;\n- l'état des actes accomplis pour le compte de la Société entre la signature des statuts et l'immatriculation de la Société au Registre du commerce et des sociétés (Annexe III) ;\n- la décision des fondateurs de ne pas recourir à la désignation d'un commissaire aux apports et le contrat d'apport.",
+          "variables": []
+        },
+        {
+          "condition": "commissaireAuxApports",
+          "contenu": "Sont annexés aux statuts :\n\n- le certificat du dépositaire des fonds (Annexe I) ;\n- l'état des actes accomplis pour le compte de la Société avant la signature des statuts (Annexe II) ;\n- l'état des actes accomplis pour le compte de la Société entre la signature des statuts et l'immatriculation de la Société au Registre du commerce et des sociétés (Annexe III) ;\n- le rapport du commissaire aux apports.",
+          "variables": []
+        }
+      ],
+      "obligatoire": true
+    }
+  ],
+  "conclusion": {
+    "texte": "Fait à {{lieuSignature}}, le {{dateSignature}}\n\nEn {{nombreExemplaires}} exemplaires\n\nSignatures",
+    "variables": ["lieuSignature", "dateSignature", "nombreExemplaires"]
+  },
+  "variablesGlobales": [
+    "denomination",
+    "sigle",
+    "capitalSocial",
+    "capitalSocialChiffres",
+    "siegeSocial",
+    "objetSocial",
+    "raisonEtre",
+    "duree",
+    "listeAssocies",
+    "nombreParts",
+    "valeurNominale",
+    "statutLiberationParts",
+    "repartitionParts",
+    "apportsNumeraire",
+    "liberationTotale",
+    "listeApporteursNumeraire",
+    "montantTotalNumeraire",
+    "dateDepotFonds",
+    "lieuDepotFonds",
+    "montantLibere",
+    "montantNonLibere",
+    "apportsNature",
+    "commissaireAuxApportsUnanime",
+    "commissaireAuxApportsOrdonnance",
+    "commissaireAuxApports",
+    "listeApporteursNature",
+    "commissaireAuxApportsNom",
+    "dateRapportCAA",
+    "dateDesignationCAA",
+    "valeurApportNature",
+    "identiteApporteurNature",
+    "nombrePartsNature",
+    "lieuTribunal",
+    "dateOrdonnance",
+    "identiteRequerant",
+    "apportsIndustrie",
+    "identiteApporteurIndustrie",
+    "descriptionApportIndustrie",
+    "nombrePartsIndustrie",
+    "pourcentageBenefices",
+    "pourcentagePertes",
+    "montantTotalNature",
+    "droitPreferentielSouscription",
+    "repartitionVotesUsufruit",
+    "regimeCession",
+    "cessionFamilialeLibre",
+    "transmissionDeces",
+    "dureeMandat",
+    "limitationsPouvoirs",
+    "majoriteLimitationsPouvoirs",
+    "listeLimitationsPouvoirs",
+    "cogerance",
+    "listeActesCogerance",
+    "delaiPreavisGerant",
+    "designationCAC_Obligatoire",
+    "formesDecisionsCollectives",
+    "decisionsOrdinaires",
+    "majoriteOrdinairesRenforcee",
+    "quorumExtraordinaire1",
+    "quorumExtraordinaire2",
+    "majoriteExtraordinaire",
+    "exerciceSocialCivil",
+    "dateCloturePremiereExercice",
+    "dateDebutExercice",
+    "dateFinExercice",
+    "rapportGestion",
+    "contenuRapportActivite",
+    "dureeGerantPremier",
+    "nomPrenomGerantPremier",
+    "adresseGerantPremier",
+    "nominationPremiersCAC",
+    "dureeCAC",
+    "dateFinMandatCAC",
+    "nomCACTitulaire",
+    "nomCACSuppléant",
+    "mandatairePostSignature",
+    "lieuSignature",
+    "dateSignature",
+    "nombreExemplaires"
+  ]
+}

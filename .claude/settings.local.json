@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/yoan/Documents/formalysev4/**)",
+      "Bash(npm run type-check:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npm run build:*)",
+      "Read(//Users/yoan/Documents/Développement/formalysev4/**)",
+      "Bash(awk:*)",
+      "Bash(npm run:*)",
+      "Bash(node:*)",
+      "Bash(cat:*)",
+      "Bash(npm install:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(test:*)",
+      "WebFetch(domain:guichet-unique.inpi.fr)",
+      "WebFetch(domain:guichet-unique-demo.inpi.fr)",
+      "WebSearch",
+      "WebFetch(domain:www.inpi.fr)",
+      "Read(//c/Users/y.boulanger/Documents/Développement/**)",
+      "Read(//c/Users/y.boulanger/Downloads/**)",
+      "Bash(taskkill:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

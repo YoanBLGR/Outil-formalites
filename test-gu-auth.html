@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Authentification GU</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #1d4ed8;
+    }
+    #result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f9fafb;
+      border-radius: 4px;
+      white-space: pre-wrap;
+      font-family: monospace;
+      font-size: 12px;
+    }
+    .error {
+      color: #dc2626;
+      background: #fef2f2;
+    }
+    .success {
+      color: #059669;
+      background: #f0fdf4;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Test Authentification Guichet Unique</h1>
+
+    <div style="margin-bottom: 20px;">
+      <p><strong>Mode:</strong> Développement (proxy Vite)</p>
+      <p><strong>Endpoint:</strong> /gu-api/user/login/sso</p>
+      <p><strong>Email:</strong> yoan.boulanger@outlook.fr</p>
+    </div>
+
+    <button onclick="testAuthentication()">Tester l'authentification</button>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    async function testAuthentication() {
+      const resultDiv = document.getElementById('result');
+      resultDiv.textContent = 'Tentative d\'authentification...\n';
+      resultDiv.className = '';
+
+      try {
+        const response = await fetch('/gu-api/user/login/sso', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username: 'yoan.boulanger@outlook.fr',
+            password: 'Iibk73d623bd*'
+          }),
+          credentials: 'same-origin'
+        });
+
+        resultDiv.textContent += `\nStatut HTTP: ${response.status} ${response.statusText}\n`;
+        resultDiv.textContent += `\nHeaders de réponse:\n`;
+
+        // Afficher tous les headers
+        response.headers.forEach((value, key) => {
+          resultDiv.textContent += `  ${key}: ${value}\n`;
+        });
+
+        // Essayer de lire la réponse (comme le script Python)
+        let responseData = null;
+        let responseText = '';
+
+        try {
+          responseText = await response.text();
+          resultDiv.textContent += `\nRéponse brute:\n${responseText}\n`;
+
+          // Essayer de parser en JSON
+          if (responseText) {
+            responseData = JSON.parse(responseText);
+            resultDiv.textContent += `\nRéponse JSON parsée:\n${JSON.stringify(responseData, null, 2)}\n`;
+          }
+        } catch (parseError) {
+          resultDiv.textContent += `\n⚠️ Impossible de parser le JSON: ${parseError.message}\n`;
+          resultDiv.textContent += `Réponse brute: ${responseText}\n`;
+        }
+
+        // Vérifier les cookies accessibles (note: HttpOnly cookies ne sont pas visibles)
+        resultDiv.textContent += `\nCookies document.cookie:\n${document.cookie || 'Aucun cookie visible'}\n`;
+        resultDiv.textContent += `\n⚠️ Note: Les cookies HttpOnly ne sont pas visibles en JavaScript mais sont envoyés automatiquement\n`;
+
+        if (response.ok) {
+          resultDiv.className = 'success';
+          resultDiv.textContent += `\n✅ Authentification réussie (200 OK)!\n`;
+
+          // Vérifier si on a un token dans le JSON
+          if (responseData && responseData.token) {
+            resultDiv.textContent += `\n🎫 Token reçu dans JSON: ${responseData.token.substring(0, 30)}...\n`;
+            resultDiv.textContent += `Mode: Token JSON (à utiliser dans Authorization header)\n`;
+          } else {
+            resultDiv.textContent += `\n🍪 Pas de token JSON reçu\n`;
+            resultDiv.textContent += `Mode probable: Cookie HttpOnly (envoyé automatiquement dans les requêtes)\n`;
+          }
+
+          // Tester une requête authentifiée
+          resultDiv.textContent += `\n\n🔬 Test d'une requête authentifiée...\n`;
+          await testAuthenticatedRequest(responseData);
+
+        } else {
+          resultDiv.className = 'error';
+          resultDiv.textContent += `\n❌ Échec de l\'authentification\n`;
+        }
+
+      } catch (error) {
+        resultDiv.className = 'error';
+        resultDiv.textContent += `\n❌ Erreur: ${error.message}\n`;
+        resultDiv.textContent += `\nStack trace:\n${error.stack}\n`;
+      }
+    }
+
+    async function testAuthenticatedRequest(authData) {
+      const resultDiv = document.getElementById('result');
+
+      try {
+        // Préparer les headers
+        const headers = {
+          'Content-Type': 'application/json',
+        };
+
+        // Si on a un token JSON, l'ajouter
+        if (authData && authData.token) {
+          headers['Authorization'] = `Bearer ${authData.token}`;
+          resultDiv.textContent += `Utilisation du token: Bearer ${authData.token.substring(0, 20)}...\n`;
+        } else {
+          resultDiv.textContent += `Utilisation des cookies (pas de token dans les headers)\n`;
+        }
+
+        // Tester avec un endpoint simple (à adapter selon l'API disponible)
+        const testResponse = await fetch('/gu-api/user/profile', {
+          method: 'GET',
+          headers,
+          credentials: 'same-origin'
+        });
+
+        resultDiv.textContent += `Statut de la requête test: ${testResponse.status}\n`;
+
+        if (testResponse.ok) {
+          resultDiv.textContent += `✅ Requête authentifiée réussie!\n`;
+          const data = await testResponse.text();
+          resultDiv.textContent += `Réponse: ${data.substring(0, 200)}...\n`;
+        } else {
+          resultDiv.textContent += `⚠️ Requête authentifiée échouée (${testResponse.status})\n`;
+          resultDiv.textContent += `Cela peut être normal si l'endpoint n'existe pas\n`;
+        }
+      } catch (error) {
+        resultDiv.textContent += `⚠️ Erreur lors du test de requête: ${error.message}\n`;
+        resultDiv.textContent += `Cela peut être normal si l'endpoint n'existe pas\n`;
+      }
+    }
+  </script>
+</body>
+</html>
