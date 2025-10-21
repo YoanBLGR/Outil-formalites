@@ -36,78 +36,51 @@ jobs:
       - name: Build Tauri app
         run: npm run tauri:build
         env:
-          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
-          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
 
-      - name: Sign and generate latest.json
+      - name: Generate latest.json from Tauri signature
         shell: pwsh
-        env:
-          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
-          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
         run: |
           # Arrêter en cas d'erreur
           $ErrorActionPreference = "Stop"
           
           # Extraire la version depuis le tag
           $version = $env:GITHUB_REF -replace 'refs/tags/v', ''
+          Write-Host "========================================" -ForegroundColor Cyan
           Write-Host "Version détectée: $version" -ForegroundColor Cyan
+          Write-Host "========================================" -ForegroundColor Cyan
           
           # Chemin de l'installateur
           $exePath = "src-tauri\target\release\bundle\nsis\Formalyse_${version}_x64-setup.exe"
+          $sigPath = "$exePath.sig"
           
-          # Vérifier que le fichier existe
+          # Vérifier que les fichiers existent
           if (-not (Test-Path $exePath)) {
             Write-Error "Fichier introuvable: $exePath"
             exit 1
           }
-          Write-Host "Installateur trouvé: $exePath" -ForegroundColor Green
+          Write-Host "✓ Installateur trouvé: $exePath" -ForegroundColor Green
           
-          # Créer un fichier temporaire pour la clé privée (sans BOM)
-          $keyPath = ".tauri-key-temp"
-          $env:TAURI_PRIVATE_KEY | Out-File -FilePath $keyPath -Encoding utf8NoBOM -NoNewline
-          
-          Write-Host "Clé privée créée. Longueur: $($env:TAURI_PRIVATE_KEY.Length) caractères" -ForegroundColor Gray
-          Write-Host "Première ligne de la clé: $((Get-Content $keyPath -First 1))" -ForegroundColor Gray
-          
-          Write-Host "Signature de l'installateur en cours..." -ForegroundColor Yellow
-          
-          # Signer l'installateur
-          try {
-            $signatureOutput = npx --yes @tauri-apps/cli signer sign `
-              "$exePath" `
-              --private-key "$keyPath" `
-              --password "$env:TAURI_KEY_PASSWORD" 2>&1 | Out-String
-            
-            Write-Host "Sortie complète de la signature:" -ForegroundColor Cyan
-            Write-Host $signatureOutput
-            
-            if ($LASTEXITCODE -ne 0) {
-              Write-Host "ERREUR: Code de sortie: $LASTEXITCODE" -ForegroundColor Red
-              throw "Échec de la signature. Code de sortie: $LASTEXITCODE"
-            }
-            
-            Write-Host "Signature réussie !" -ForegroundColor Green
+          if (-not (Test-Path $sigPath)) {
+            Write-Error "Fichier de signature introuvable: $sigPath"
+            Write-Host "Tauri n'a pas généré automatiquement la signature." -ForegroundColor Red
+            Write-Host "Vérifiez que TAURI_PRIVATE_KEY et TAURI_KEY_PASSWORD sont bien définis pendant le build." -ForegroundColor Yellow
+            exit 1
           }
-          catch {
-            Write-Host "ERREUR CATCH: $_" -ForegroundColor Red
-            throw "Erreur lors de la signature: $_"
-          }
-          finally {
-            # Nettoyer la clé temporaire
-            if (Test-Path $keyPath) {
-              Remove-Item $keyPath -Force
-            }
-          }
+          Write-Host "✓ Fichier de signature trouvé: $sigPath" -ForegroundColor Green
           
-          # Extraire la signature (dernière ligne non vide)
-          $signature = ($signatureOutput -split "`n" | Where-Object { $_.Trim() -ne "" })[-1].Trim()
+          # Lire la signature générée par Tauri
+          $signature = Get-Content $sigPath -Raw
+          $signature = $signature.Trim()
           
           if ([string]::IsNullOrWhiteSpace($signature)) {
             Write-Error "Signature vide ou invalide"
             exit 1
           }
           
-          Write-Host "Signature extraite: $signature" -ForegroundColor Green
+          Write-Host "✓ Signature lue depuis le fichier .sig" -ForegroundColor Green
+          Write-Host "  Signature: $($signature.Substring(0, [Math]::Min(50, $signature.Length)))..." -ForegroundColor Gray
           
           # URL de téléchargement
           $downloadUrl = "https://github.com/${{ github.repository }}/releases/download/v${version}/Formalyse_${version}_x64-setup.exe"
