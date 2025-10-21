@@ -9,6 +9,7 @@ jobs:
   release:
     permissions:
       contents: write
+    environment: TAURI_PRIVATE_KEY  # Utiliser l'environnement
     strategy:
       fail-fast: false
       matrix:
