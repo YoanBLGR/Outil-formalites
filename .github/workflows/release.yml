@@ -42,24 +42,65 @@ jobs:
       - name: Sign and generate latest.json
         shell: pwsh
         run: |
+          # Arrêter en cas d'erreur
+          $ErrorActionPreference = "Stop"
+          
           # Extraire la version depuis le tag
           $version = $env:GITHUB_REF -replace 'refs/tags/v', ''
+          Write-Host "Version détectée: $version" -ForegroundColor Cyan
           
           # Chemin de l'installateur
           $exePath = "src-tauri\target\release\bundle\nsis\Formalyse_${version}_x64-setup.exe"
           
-          # Créer un fichier temporaire pour la clé privée
+          # Vérifier que le fichier existe
+          if (-not (Test-Path $exePath)) {
+            Write-Error "Fichier introuvable: $exePath"
+            exit 1
+          }
+          Write-Host "Installateur trouvé: $exePath" -ForegroundColor Green
+          
+          # Créer un fichier temporaire pour la clé privée (sans BOM)
           $keyPath = ".tauri-key-temp"
-          $env:TAURI_PRIVATE_KEY | Out-File -FilePath $keyPath -Encoding UTF8
+          $env:TAURI_PRIVATE_KEY | Out-File -FilePath $keyPath -Encoding utf8NoBOM -NoNewline
+          
+          Write-Host "Signature de l'installateur en cours..." -ForegroundColor Yellow
           
           # Signer l'installateur
-          $signatureOutput = npx --yes @tauri-apps/cli signer sign `
-            "$exePath" `
-            --private-key "$keyPath" `
-            --password "$env:TAURI_KEY_PASSWORD" 2>&1
+          try {
+            $signatureOutput = npx --yes @tauri-apps/cli signer sign `
+              "$exePath" `
+              --private-key "$keyPath" `
+              --password "$env:TAURI_KEY_PASSWORD" 2>&1 | Out-String
+            
+            if ($LASTEXITCODE -ne 0) {
+              Write-Error "Échec de la signature. Code de sortie: $LASTEXITCODE"
+              Write-Host "Sortie: $signatureOutput"
+              exit 1
+            }
+            
+            Write-Host "Sortie complète de la signature:" -ForegroundColor Cyan
+            Write-Host $signatureOutput
+          }
+          catch {
+            Write-Error "Erreur lors de la signature: $_"
+            exit 1
+          }
+          finally {
+            # Nettoyer la clé temporaire
+            if (Test-Path $keyPath) {
+              Remove-Item $keyPath -Force
+            }
+          }
           
-          # Extraire la signature
-          $signature = ($signatureOutput -split "`n")[-1].Trim()
+          # Extraire la signature (dernière ligne non vide)
+          $signature = ($signatureOutput -split "`n" | Where-Object { $_.Trim() -ne "" })[-1].Trim()
+          
+          if ([string]::IsNullOrWhiteSpace($signature)) {
+            Write-Error "Signature vide ou invalide"
+            exit 1
+          }
+          
+          Write-Host "Signature extraite: $signature" -ForegroundColor Green
           
           # URL de téléchargement
           $downloadUrl = "https://github.com/${{ github.repository }}/releases/download/v${version}/Formalyse_${version}_x64-setup.exe"
@@ -68,7 +109,7 @@ jobs:
           $pubDate = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
           
           # Créer latest.json
-          @{
+          $latestJson = @{
             version = $version
             notes = "Release version $version"
             pub_date = $pubDate
@@ -78,12 +119,17 @@ jobs:
                 url = $downloadUrl
               }
             }
-          } | ConvertTo-Json -Depth 10 | Out-File -FilePath "latest.json" -Encoding UTF8
+          } | ConvertTo-Json -Depth 10
           
-          # Nettoyer
-          Remove-Item $keyPath -Force
+          # Sauvegarder sans BOM
+          $latestJson | Out-File -FilePath "latest.json" -Encoding utf8NoBOM -NoNewline
           
-          Write-Host "latest.json créé avec succès"
+          Write-Host "========================================" -ForegroundColor Green
+          Write-Host "latest.json créé avec succès !" -ForegroundColor Green
+          Write-Host "========================================" -ForegroundColor Green
+          Write-Host ""
+          Write-Host "Contenu de latest.json:" -ForegroundColor Cyan
+          Get-Content "latest.json" | Write-Host
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1

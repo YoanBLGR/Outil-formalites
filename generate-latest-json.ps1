@@ -33,23 +33,39 @@ if (-not (Test-Path $keyPath)) {
     exit 1
 }
 
-Write-Host "[INFO] Signature de l'installateur..." -ForegroundColor Yellow
+Write-Host "[INFO] Signature de l'installateur en cours..." -ForegroundColor Yellow
 Write-Host ""
 
 # Signer l'installateur
-$signatureOutput = npx --yes @tauri-apps/cli signer sign `
-    "$exePath" `
-    --private-key "$keyPath" `
-    --password "$KeyPassword" 2>&1
+try {
+    $signatureOutput = npx --yes @tauri-apps/cli signer sign `
+        "$exePath" `
+        --private-key "$keyPath" `
+        --password "$KeyPassword" 2>&1 | Out-String
 
-if ($LASTEXITCODE -ne 0) {
-    Write-Host "[ERREUR] Échec de la signature!" -ForegroundColor Red
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "[ERREUR] Échec de la signature! Code de sortie: $LASTEXITCODE" -ForegroundColor Red
+        Write-Host "Sortie:" -ForegroundColor Yellow
+        Write-Host $signatureOutput
+        exit 1
+    }
+    
+    Write-Host "Sortie de la signature:" -ForegroundColor Gray
     Write-Host $signatureOutput
+}
+catch {
+    Write-Host "[ERREUR] Exception lors de la signature: $_" -ForegroundColor Red
     exit 1
 }
 
-# Extraire la signature (dernière ligne de la sortie)
-$signature = ($signatureOutput -split "`n")[-1].Trim()
+# Extraire la signature (dernière ligne non vide)
+$signature = ($signatureOutput -split "`n" | Where-Object { $_.Trim() -ne "" })[-1].Trim()
+
+# Vérifier que la signature n'est pas vide
+if ([string]::IsNullOrWhiteSpace($signature)) {
+    Write-Host "[ERREUR] Signature vide ou invalide!" -ForegroundColor Red
+    exit 1
+}
 
 Write-Host "[OK] Signature générée!" -ForegroundColor Green
 Write-Host ""
@@ -73,8 +89,8 @@ $latestJson = @{
     }
 } | ConvertTo-Json -Depth 10
 
-# Sauvegarder
-$latestJson | Out-File -FilePath $outputPath -Encoding UTF8
+# Sauvegarder sans BOM
+$latestJson | Out-File -FilePath $outputPath -Encoding utf8NoBOM
 
 Write-Host "========================================" -ForegroundColor Green
 Write-Host "   latest.json généré avec succès!" -ForegroundColor Green
