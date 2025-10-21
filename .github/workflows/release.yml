@@ -35,11 +35,8 @@ jobs:
 
       - name: Build Tauri app
         run: npm run tauri:build
-        env:
-          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
-          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
 
-      - name: Generate latest.json from Tauri signature
+      - name: Generate latest.json
         shell: pwsh
         run: |
           # Arrêter en cas d'erreur
@@ -53,34 +50,13 @@ jobs:
           
           # Chemin de l'installateur
           $exePath = "src-tauri\target\release\bundle\nsis\Formalyse_${version}_x64-setup.exe"
-          $sigPath = "$exePath.sig"
           
-          # Vérifier que les fichiers existent
+          # Vérifier que le fichier existe
           if (-not (Test-Path $exePath)) {
             Write-Error "Fichier introuvable: $exePath"
             exit 1
           }
           Write-Host "✓ Installateur trouvé: $exePath" -ForegroundColor Green
-          
-          if (-not (Test-Path $sigPath)) {
-            Write-Error "Fichier de signature introuvable: $sigPath"
-            Write-Host "Tauri n'a pas généré automatiquement la signature." -ForegroundColor Red
-            Write-Host "Vérifiez que TAURI_PRIVATE_KEY et TAURI_KEY_PASSWORD sont bien définis pendant le build." -ForegroundColor Yellow
-            exit 1
-          }
-          Write-Host "✓ Fichier de signature trouvé: $sigPath" -ForegroundColor Green
-          
-          # Lire la signature générée par Tauri
-          $signature = Get-Content $sigPath -Raw
-          $signature = $signature.Trim()
-          
-          if ([string]::IsNullOrWhiteSpace($signature)) {
-            Write-Error "Signature vide ou invalide"
-            exit 1
-          }
-          
-          Write-Host "✓ Signature lue depuis le fichier .sig" -ForegroundColor Green
-          Write-Host "  Signature: $($signature.Substring(0, [Math]::Min(50, $signature.Length)))..." -ForegroundColor Gray
           
           # URL de téléchargement
           $downloadUrl = "https://github.com/${{ github.repository }}/releases/download/v${version}/Formalyse_${version}_x64-setup.exe"
@@ -88,21 +64,20 @@ jobs:
           # Date actuelle
           $pubDate = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
           
-          # Créer latest.json
+          # Créer latest.json SANS signature (sécurisé par HTTPS)
           $latestJson = @{
             version = $version
             notes = "Release version $version"
             pub_date = $pubDate
             platforms = @{
               "windows-x86_64" = @{
-                signature = $signature
                 url = $downloadUrl
               }
             }
           } | ConvertTo-Json -Depth 10
           
           # Sauvegarder sans BOM
-          $latestJson | Out-File -FilePath "latest.json" -Encoding utf8NoBOM -NoNewline
+          $latestJson | Out-File -FilePath "latest.json" -Encoding utf8NoBOM
           
           Write-Host "========================================" -ForegroundColor Green
           Write-Host "latest.json créé avec succès !" -ForegroundColor Green

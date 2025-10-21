@@ -70,7 +70,6 @@
     "plugins":  {
                     "updater":  {
                                     "active":  true,
-                                    "pubkey":  "RWRM06K8orq61u+S/awyxqYE0g8Y8Dr36imSRcwL9MCxFO0NRHnv8NJR",
                                     "endpoints":  [
                                                       "https://github.com/yoyoboul/formalyse/releases/latest/download/latest.json"
                                                   ],

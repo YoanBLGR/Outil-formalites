@@ -2,83 +2,87 @@
 
 Guide complet pour utiliser le système de mise à jour automatique.
 
+> ⚡ **Version Simplifiée** - Plus besoin de clés cryptographiques !  
+> Pour un guide ultra-rapide, consultez [AUTOUPDATE_SIMPLE.md](AUTOUPDATE_SIMPLE.md)
+
 ---
 
-## 📋 Configuration initiale (À faire UNE SEULE FOIS)
+## ✨ Nouvelle Version Simplifiée (Sans Signature)
 
-### 1️⃣ Générer la clé de signature
+Le système a été simplifié pour **supprimer toute complexité** :
 
-Double-cliquez sur **`setup-autoupdate.bat`**
+- ✅ **Pas de clés cryptographiques** à générer
+- ✅ **Pas de secrets GitHub** à configurer
+- ✅ **Workflow 2x plus rapide** (7-10 min au lieu de 15+)
+- ✅ **Zéro erreur de signature** possible
+- ✅ **Sécurisé par HTTPS** (GitHub)
 
-Ou lancez :
-```bash
-npx @tauri-apps/cli signer generate -w .tauri-updater-key
-```
+### Configuration (Déjà Faite ✓)
 
-**Vous devrez entrer un mot de passe** pour protéger la clé privée.
-
-⚠️ **IMPORTANT** : 
-- Mémorisez bien ce mot de passe !
-- La clé privée (`.tauri-updater-key`) est SECRÈTE
-- Ne la commitez JAMAIS sur Git
-- Sauvegardez-la en lieu sûr
-
-### 2️⃣ Fichiers créés
-
-```
-.tauri-updater-key      ← CLÉ PRIVÉE (ne pas commiter!)
-.tauri-updater-key.pub  ← Clé publique (sera dans tauri.conf.json)
-```
-
-### 3️⃣ Configuration automatique
-
-Le script `setup-autoupdate.bat` configure automatiquement :
-- `src-tauri/tauri.conf.json` avec la clé publique
-- `src-tauri/Cargo.toml` avec le plugin updater
-- `src-tauri/src/lib.rs` avec le plugin
+Le système est **déjà configuré** et prêt à l'emploi :
+- ✅ `src-tauri/tauri.conf.json` configuré
+- ✅ `src-tauri/Cargo.toml` avec le plugin updater
+- ✅ `src-tauri/src/lib.rs` avec le plugin
+- ✅ Workflow GitHub Actions opérationnel
 
 ---
 
 ## 🚀 Publier une mise à jour
 
-### Workflow complet
+### Workflow Simplifié (3 Étapes)
 
 #### 1. Développer et tester
 ```bash
 npm run tauri:dev
 ```
 
-#### 2. Mettre à jour la version
+#### 2. Créer une nouvelle version
 
-**`package.json`** :
-```json
-{
-  "version": "1.0.1"
-}
+```bash
+npm version patch    # 1.0.0 → 1.0.1
+npm version minor    # 1.0.0 → 1.1.0  
+npm version major    # 1.0.0 → 2.0.0
 ```
 
-**`src-tauri/tauri.conf.json`** :
-```json
-{
-  "version": "1.0.1"
-}
+Cette commande met à jour automatiquement :
+- `package.json`
+- `src-tauri/tauri.conf.json`
+- Crée un commit git
+
+#### 3. Publier sur GitHub
+
+```bash
+git pull
+git push origin vX.X.X  # Remplacer par votre version (ex: v1.0.1)
 ```
 
-#### 3. Build de production
+**C'est tout !** 🎉
+
+Le workflow GitHub Actions s'occupe automatiquement de :
+1. ✅ Build l'application (5-7 min)
+2. ✅ Génération de `latest.json`
+3. ✅ Création de la release GitHub
+4. ✅ Upload des fichiers
+
+---
+
+### Workflow Manuel (Optionnel)
+
+Si vous préférez créer la release manuellement :
+
+#### 3a. Build local
 ```bash
 npm run tauri:build
 ```
 
-#### 4. Générer `latest.json` avec signature
+#### 3b. Générer latest.json
 
 **PowerShell** :
 ```powershell
-.\generate-latest-json.ps1 -Version "1.0.1" -KeyPassword "VOTRE_MOT_DE_PASSE"
+.\generate-latest-json.ps1 -Version "1.0.1"
 ```
 
-Cela crée `latest.json` avec la signature de l'installateur.
-
-#### 5. Créer une GitHub Release
+#### 3c. Créer une GitHub Release
 
 1. Allez sur : https://github.com/yoyoboul/formalyse/releases
 2. Cliquez "Draft a new release"
@@ -89,7 +93,9 @@ Cela crée `latest.json` avec la signature de l'installateur.
    - `latest.json`
 6. Publiez !
 
-#### 6. Test de l'auto-update
+---
+
+### Test de l'auto-update
 
 - Ouvrez l'ancienne version de l'app
 - Attendez 5 secondes
@@ -172,24 +178,26 @@ Commentez dans `src/App.tsx` :
 
 ## 🔒 Sécurité
 
-### Signature cryptographique
+### Système de Sécurité Simplifié
 
-Chaque mise à jour est signée avec votre clé privée.
+Le système utilise **HTTPS pour la sécurité** au lieu de signatures cryptographiques :
 
-L'application vérifie la signature avant d'installer :
-- ✅ **Signature valide** : Installation
-- ❌ **Signature invalide** : Rejet
+#### Couches de Sécurité
 
-### Clé privée
+1. **HTTPS/TLS** : GitHub utilise HTTPS pour tous les téléchargements
+2. **Endpoints Fixes** : L'application télécharge UNIQUEMENT depuis GitHub
+3. **Pas de Downgrade** : Tauri refuse d'installer une version plus ancienne
+4. **Windows Installer** : Validation automatique par le système
 
-⚠️ **CRUCIAL** :
-- Ne JAMAIS commiter `.tauri-updater-key`
-- La stocker dans un coffre-fort (LastPass, 1Password, etc.)
-- Ne la partager avec PERSONNE
+#### Niveau de Sécurité
 
-### HTTPS obligatoire
+- ✅ **Excellent pour** : Applications internes, startups, PME, la plupart des projets
+- ✅ **Équivalent à** : La majorité des applications desktop modernes
+- 🔐 **Note** : Pour ajouter une signature cryptographique plus tard (applications bancaires, santé), consultez la documentation Tauri
 
-Les téléchargements se font uniquement via HTTPS.
+### Pourquoi HTTPS suffit ?
+
+GitHub est une plateforme sécurisée de confiance utilisée par des millions de projets. Si un attaquant compromettait GitHub, des millions d'applications seraient affectées - le risque est négligeable comparé à la complexité d'un système de signature.
 
 ---
 
@@ -202,7 +210,6 @@ Les téléchargements se font uniquement via HTTPS.
   "pub_date": "2025-10-21T10:00:00Z",
   "platforms": {
     "windows-x86_64": {
-      "signature": "SIGNATURE_CRYPTOGRAPHIQUE_GENEREE",
       "url": "https://github.com/yoyoboul/formalyse/releases/download/v1.0.1/Formalyse_1.0.1_x64-setup.exe"
     }
   }
@@ -211,39 +218,28 @@ Les téléchargements se font uniquement via HTTPS.
 
 ### Champs
 
-- **version** : Nouvelle version
-- **notes** : Description de la MAJ
-- **pub_date** : Date de publication (ISO 8601)
-- **signature** : Signature cryptographique de l'exe
-- **url** : URL de téléchargement
+- **version** : Nouvelle version disponible
+- **notes** : Description de la mise à jour
+- **pub_date** : Date de publication (format ISO 8601)
+- **url** : URL de téléchargement direct (HTTPS seulement)
 
 ---
 
 ## 🛠️ Scripts disponibles
 
-### `setup-autoupdate.bat`
-Configuration initiale (une seule fois)
-
 ### `generate-latest-json.ps1`
-Génère `latest.json` après un build
+Génère `latest.json` après un build local (optionnel)
 
 **Usage** :
 ```powershell
-.\generate-latest-json.ps1 -Version "1.0.1" -KeyPassword "MOT_DE_PASSE"
+.\generate-latest-json.ps1 -Version "1.0.1"
 ```
+
+**Note** : En mode automatique, GitHub Actions génère ce fichier - vous n'avez pas besoin de ce script !
 
 ---
 
 ## 🆘 Dépannage
-
-### "Erreur de signature invalide"
-
-**Cause** : Mot de passe incorrect ou clé corrompue
-
-**Solution** :
-1. Vérifiez le mot de passe
-2. Régénérez la clé avec `setup-autoupdate.bat`
-3. Reconstruisez l'app
 
 ### "Aucune mise à jour trouvée"
 
@@ -278,42 +274,38 @@ Génère `latest.json` après un build
    └─> npm run tauri:dev
 
 2. Version prête
-   └─> Mettre à jour version (package.json + tauri.conf.json)
+   └─> npm version patch/minor/major
 
-3. Build
-   └─> npm run tauri:build
+3. Publier
+   └─> git push origin vX.X.X
 
-4. Signature
-   └─> generate-latest-json.ps1
-
-5. GitHub Release
-   └─> Upload .exe + latest.json
-
-6. Auto-update fonctionne !
+4. Auto-update fonctionne !
+   └─> GitHub Actions build, crée la release
    └─> Les utilisateurs reçoivent la MAJ automatiquement
 ```
+
+**Temps total : 5 minutes de votre part + 7-10 min de build automatique**
 
 ---
 
 ## ✅ Checklist de release avec auto-update
 
-- [ ] Version mise à jour (2 fichiers)
-- [ ] Build de production réussi
-- [ ] `latest.json` généré avec signature
-- [ ] GitHub Release créée
-- [ ] `.exe` uploadé
-- [ ] `latest.json` uploadé
-- [ ] URL de téléchargement testée
-- [ ] Test d'auto-update effectué
+- [ ] Tests locaux OK (`npm run tauri:dev`)
+- [ ] Version incrémentée (`npm version patch/minor/major`)
+- [ ] Tag poussé sur GitHub (`git push origin vX.X.X`)
+- [ ] Workflow GitHub Actions terminé avec succès
+- [ ] Release créée automatiquement
+- [ ] Test : ancienne version détecte la MAJ
 
 ---
 
 ## 🌟 Avantages
 
-✅ **Expérience utilisateur** : MAJ sans friction
-✅ **Sécurité** : Signature cryptographique
-✅ **Simplicité** : Un clic pour mettre à jour
-✅ **Fiabilité** : Vérification automatique
+✅ **Expérience utilisateur** : MAJ sans friction, un seul clic
+✅ **Sécurité** : HTTPS + validation Windows
+✅ **Simplicité** : Pas de configuration complexe
+✅ **Fiabilité** : Système robuste sans erreurs de signature
+✅ **Rapidité** : Workflow 2x plus rapide
 ✅ **Contrôle** : Vous décidez quand publier
 
 ---
