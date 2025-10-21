@@ -1,75 +1,82 @@
 {
-  "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Formalyse",
-  "version": "1.0.2",
-  "identifier": "com.formalyse.desktop",
-  "build": {
-    "beforeDevCommand": "npm run dev",
-    "devUrl": "http://localhost:5173",
-    "beforeBuildCommand": "npm run build",
-    "frontendDist": "../dist"
-  },
-  "bundle": {
-    "active": true,
-    "targets": "all",
-    "icon": [
-      "icons/32x32.png",
-      "icons/128x128.png",
-      "icons/128x128@2x.png",
-      "icons/icon.icns",
-      "icons/icon.ico"
-    ],
-    "windows": {
-      "certificateThumbprint": null,
-      "digestAlgorithm": "sha256",
-      "timestampUrl": ""
-    },
-    "longDescription": "Application de gestion et génération de statuts juridiques pour entreprises (EURL, SARL, SASU)",
-    "macOS": {
-      "entitlements": null,
-      "exceptionDomain": "",
-      "frameworks": [],
-      "providerShortName": null,
-      "signingIdentity": null
-    },
-    "resources": [],
-    "shortDescription": "Gestion de statuts juridiques",
-    "linux": {
-      "deb": {
-        "depends": []
-      }
-    },
-    "externalBin": []
-  },
-  "app": {
-    "windows": [
-      {
-        "title": "Formalyse",
-        "width": 1400,
-        "height": 900,
-        "resizable": true,
-        "fullscreen": false,
-        "decorations": true,
-        "transparent": false
-      }
-    ],
-    "security": {
-      "csp": null
-    },
-    "trayIcon": null,
-    "macOSPrivateApi": false
-  },
-  "plugins": {
-    "updater": {
-      "active": true,
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEVENDZBMjA4N0Y3MTNBQ0UKUldUT09uRi9DS0pHN1h3WHJGQkFISWtyM1cycS96UlVaVSt4dzBZTDFDOGQyVHhjTXovT3c1Z2EK",
-      "endpoints": [
-        "https://github.com/yoyoboul/formalyse/releases/latest/download/latest.json"
-      ],
-      "windows": {
-        "installMode": "passive"
-      }
-    }
-  }
-}
+    "$schema":  "https://schema.tauri.app/config/2",
+    "productName":  "Formalyse",
+    "version":  "1.0.2",
+    "identifier":  "com.formalyse.desktop",
+    "build":  {
+                  "beforeDevCommand":  "npm run dev",
+                  "devUrl":  "http://localhost:5173",
+                  "beforeBuildCommand":  "npm run build",
+                  "frontendDist":  "../dist"
+              },
+    "bundle":  {
+                   "active":  true,
+                   "targets":  "all",
+                   "icon":  [
+                                "icons/32x32.png",
+                                "icons/128x128.png",
+                                "icons/128x128@2x.png",
+                                "icons/icon.icns",
+                                "icons/icon.ico"
+                            ],
+                   "windows":  {
+                                   "certificateThumbprint":  null,
+                                   "digestAlgorithm":  "sha256",
+                                   "timestampUrl":  ""
+                               },
+                   "longDescription":  "Application de gestion et génération de statuts juridiques pour entreprises (EURL, SARL, SASU)",
+                   "macOS":  {
+                                 "entitlements":  null,
+                                 "exceptionDomain":  "",
+                                 "frameworks":  [
 
+                                                ],
+                                 "providerShortName":  null,
+                                 "signingIdentity":  null
+                             },
+                   "resources":  [
+
+                                 ],
+                   "shortDescription":  "Gestion de statuts juridiques",
+                   "linux":  {
+                                 "deb":  {
+                                             "depends":  [
+
+                                                         ]
+                                         }
+                             },
+                   "externalBin":  [
+
+                                   ]
+               },
+    "app":  {
+                "windows":  [
+                                {
+                                    "title":  "Formalyse",
+                                    "width":  1400,
+                                    "height":  900,
+                                    "resizable":  true,
+                                    "fullscreen":  false,
+                                    "decorations":  true,
+                                    "transparent":  false
+                                }
+                            ],
+                "security":  {
+                                 "csp":  null
+                             },
+                "trayIcon":  null,
+                "macOSPrivateApi":  false
+            },
+    "plugins":  {
+                    "updater":  {
+                                    "active":  true,
+                                    "pubkey":  "RWRM06K8orq61u+S/awyxqYE0g8Y8Dr36imSRcwL9MCxFO0NRHnv8NJR",
+                                    "endpoints":  [
+                                                      "https://github.com/yoyoboul/formalyse/releases/latest/download/latest.json"
+                                                  ],
+                                    "windows":  {
+                                                    "installMode":  "passive"
+                                                }
+                                }
+                }
+}
