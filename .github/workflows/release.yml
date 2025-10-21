@@ -63,6 +63,9 @@ jobs:
           $keyPath = ".tauri-key-temp"
           $env:TAURI_PRIVATE_KEY | Out-File -FilePath $keyPath -Encoding utf8NoBOM -NoNewline
           
+          Write-Host "Clé privée créée. Longueur: $($env:TAURI_PRIVATE_KEY.Length) caractères" -ForegroundColor Gray
+          Write-Host "Première ligne de la clé: $((Get-Content $keyPath -First 1))" -ForegroundColor Gray
+          
           Write-Host "Signature de l'installateur en cours..." -ForegroundColor Yellow
           
           # Signer l'installateur
@@ -72,18 +75,19 @@ jobs:
               --private-key "$keyPath" `
               --password "$env:TAURI_KEY_PASSWORD" 2>&1 | Out-String
             
-            if ($LASTEXITCODE -ne 0) {
-              Write-Error "Échec de la signature. Code de sortie: $LASTEXITCODE"
-              Write-Host "Sortie: $signatureOutput"
-              exit 1
-            }
-            
             Write-Host "Sortie complète de la signature:" -ForegroundColor Cyan
             Write-Host $signatureOutput
+            
+            if ($LASTEXITCODE -ne 0) {
+              Write-Host "ERREUR: Code de sortie: $LASTEXITCODE" -ForegroundColor Red
+              throw "Échec de la signature. Code de sortie: $LASTEXITCODE"
+            }
+            
+            Write-Host "Signature réussie !" -ForegroundColor Green
           }
           catch {
-            Write-Error "Erreur lors de la signature: $_"
-            exit 1
+            Write-Host "ERREUR CATCH: $_" -ForegroundColor Red
+            throw "Erreur lors de la signature: $_"
           }
           finally {
             # Nettoyer la clé temporaire
