@@ -42,6 +42,9 @@ jobs:
 
       - name: Sign and generate latest.json
         shell: pwsh
+        env:
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
         run: |
           # Arrêter en cas d'erreur
           $ErrorActionPreference = "Stop"
