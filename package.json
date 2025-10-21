@@ -1,7 +1,7 @@
 {
   "name": "formalyse-app",
   "private": true,
-  "version": "1.0.2-test",
+  "version": "1.0.2",
   "type": "module",
   "scripts": {
     "dev": "vite",
