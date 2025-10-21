@@ -1,0 +1,99 @@
+name: Release Desktop App
+
+on:
+  push:
+    tags:
+      - 'v*' # Déclenché quand vous poussez un tag comme v1.0.1
+
+jobs:
+  release:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [windows-latest]
+
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install dependencies (Windows)
+        if: matrix.platform == 'windows-latest'
+        run: |
+          npm ci
+
+      - name: Build Tauri app
+        run: npm run tauri:build
+        env:
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+
+      - name: Sign and generate latest.json
+        shell: pwsh
+        run: |
+          # Extraire la version depuis le tag
+          $version = $env:GITHUB_REF -replace 'refs/tags/v', ''
+          
+          # Chemin de l'installateur
+          $exePath = "src-tauri\target\release\bundle\nsis\Formalyse_${version}_x64-setup.exe"
+          
+          # Créer un fichier temporaire pour la clé privée
+          $keyPath = ".tauri-key-temp"
+          $env:TAURI_PRIVATE_KEY | Out-File -FilePath $keyPath -Encoding UTF8
+          
+          # Signer l'installateur
+          $signatureOutput = npx --yes @tauri-apps/cli signer sign `
+            "$exePath" `
+            --private-key "$keyPath" `
+            --password "$env:TAURI_KEY_PASSWORD" 2>&1
+          
+          # Extraire la signature
+          $signature = ($signatureOutput -split "`n")[-1].Trim()
+          
+          # URL de téléchargement
+          $downloadUrl = "https://github.com/${{ github.repository }}/releases/download/v${version}/Formalyse_${version}_x64-setup.exe"
+          
+          # Date actuelle
+          $pubDate = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
+          
+          # Créer latest.json
+          @{
+            version = $version
+            notes = "Release version $version"
+            pub_date = $pubDate
+            platforms = @{
+              "windows-x86_64" = @{
+                signature = $signature
+                url = $downloadUrl
+              }
+            }
+          } | ConvertTo-Json -Depth 10 | Out-File -FilePath "latest.json" -Encoding UTF8
+          
+          # Nettoyer
+          Remove-Item $keyPath -Force
+          
+          Write-Host "latest.json créé avec succès"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            src-tauri/target/release/bundle/nsis/Formalyse_*_x64-setup.exe
+            latest.json
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
