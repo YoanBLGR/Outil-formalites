@@ -193,7 +193,7 @@ export function fillAvisConstitution(
   const siegeSocial = societe.siege || '[SIEGE SOCIAL]'
   const objetSocial = societe.objetSocial || statutsData?.objetSocial || '[OBJET SOCIAL]'
   const villeRCS = extractVilleFromAdresse(siegeSocial)
-  const montantCapital = societe.capitalSocial || statutsData?.capitalSocial?.montantTotal || 0
+  const montantCapital = societe.capitalSocial || (statutsData?.capitalSocial && typeof statutsData.capitalSocial === 'object' ? (statutsData.capitalSocial as any).montantTotal : 0) || 0
 
   // Date et lieu de signature
   const dateSignature = statutsData?.dateSignature
@@ -202,7 +202,7 @@ export function fillAvisConstitution(
   const lieuSignature = statutsData?.lieuSignature || extractVilleFromAdresse(siegeSocial)
 
   // Durée (pour EURL)
-  const dureeSociete = statutsData?.dureeSociete || 99
+  const dureeSociete = (statutsData as any)?.dureeSociete || 99
 
   // Remplacement des placeholders
   template = template

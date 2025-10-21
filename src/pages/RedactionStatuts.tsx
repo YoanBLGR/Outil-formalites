@@ -392,9 +392,9 @@ export function RedactionStatuts() {
         
         // Vérifier si on a les infos nécessaires pour remplir le mandat
         const hasDirigeantInfo = 
-          (statutsData.gerant && (statutsData.gerant.isAssocieUnique || (statutsData.gerant.nom && statutsData.gerant.prenom))) ||
-          (statutsData.president && (statutsData.president.isAssocieUnique || (statutsData.president.nom && statutsData.president.prenom))) ||
-          (statutsData.associeUnique && statutsData.associeUnique.nom && statutsData.associeUnique.prenom)
+          (statutsData.gerant && (statutsData.gerant.isAssocieUnique || ((statutsData.gerant as any).nom && (statutsData.gerant as any).prenom))) ||
+          (statutsData.president && (statutsData.president.isAssocieUnique || ((statutsData.president as any).nom && (statutsData.president as any).prenom))) ||
+          (statutsData.associeUnique && (statutsData.associeUnique.type === 'PERSONNE_PHYSIQUE' ? (statutsData.associeUnique.nom && statutsData.associeUnique.prenom) : true))
         
         if (mandatCCI && hasDirigeantInfo) {
           const updatedMandat = fillMandatCCI(dossier.societe, statutsData)
@@ -1437,8 +1437,9 @@ export function RedactionStatuts() {
                               montantLibere: montant,
                               pourcentageLibere: 100,
                               montantRestant: 0,
+                              nombreParts: nombreTitres,
                               [titresField]: nombreTitres,
-                            },
+                            } as any,
                           })
                           break
                         case 'NUMERAIRE_PARTIEL':
@@ -1449,8 +1450,9 @@ export function RedactionStatuts() {
                               montantLibere: montant * 0.2,
                               pourcentageLibere: 20,
                               montantRestant: montant * 0.8,
+                              nombreParts: nombreTitres,
                               [titresField]: nombreTitres,
-                            },
+                            } as any,
                           })
                           break
                         case 'NATURE_SEUL':
@@ -1459,9 +1461,10 @@ export function RedactionStatuts() {
                               type: 'NATURE_SEUL',
                               description: '',
                               valeur: montant,
+                              nombreParts: nombreTitres,
                               [titresField]: nombreTitres,
                               commissaireAuxApports: { requis: false },
-                            },
+                            } as any,
                           })
                           break
                         case 'MIXTE_NUMERAIRE_NATURE':
@@ -1470,9 +1473,10 @@ export function RedactionStatuts() {
                               type: 'MIXTE_NUMERAIRE_NATURE',
                               numeraire: { montant: montant / 2, montantLibere: montant / 2 },
                               nature: { description: '', valeur: montant / 2 },
+                              nombreParts: nombreTitres,
                               [titresField]: nombreTitres,
                               commissaireAuxApports: { requis: false },
-                            },
+                            } as any,
                           })
                           break
                         case 'FONDS_COMMERCE':
@@ -1485,9 +1489,10 @@ export function RedactionStatuts() {
                               materiel: 0,
                               marchandises: 0,
                               valeurTotale: montant,
+                              nombreParts: nombreTitres,
                               [titresField]: nombreTitres,
                               commissaireAuxApports: { requis: false },
-                            },
+                            } as any,
                           })
                           break
                         case 'BIEN_COMMUN':
@@ -1500,8 +1505,9 @@ export function RedactionStatuts() {
                               conjointNom: '',
                               conjointPrenom: '',
                               conjointRenonciation: true,
+                              nombreParts: nombreTitres,
                               [titresField]: nombreTitres,
-                            },
+                            } as any,
                           })
                           break
                         case 'PACS_INDIVISION':
@@ -1514,8 +1520,9 @@ export function RedactionStatuts() {
                               partenairePrenom: '',
                               partenaireAccord: true,
                               partenaireRenonciation: true,
+                              nombreParts: nombreTitres,
                               [titresField]: nombreTitres,
-                            },
+                            } as any,
                           })
                           break
                       }

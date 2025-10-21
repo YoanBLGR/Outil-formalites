@@ -830,7 +830,7 @@ export function mapCapital(statutsData: Partial<StatutsData>): GUCapital {
 export async function mapEtablissement(
   dossier: Dossier,
   statutsData: Partial<StatutsData>,
-  dateCreation: string,
+  _dateCreation: string, // Préfixé par _ pour indiquer qu'il n'est pas utilisé
   rolePourEntreprise: GURolePourEntreprise = '2'
 ): Promise<GUEtablissement> {
   // Parser l'adresse au format BlocAdresse

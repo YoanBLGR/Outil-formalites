@@ -3,14 +3,14 @@ import { Input } from './input'
 import { Textarea } from './textarea'
 
 interface TrackedInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  fieldName: string
+  fieldName?: string
   onFieldChange?: (fieldName: string, value: string) => void
   onFieldFocus?: (fieldName: string, value: string) => void
   onFieldBlur?: () => void
 }
 
 interface TrackedTextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  fieldName: string
+  fieldName?: string
   onFieldChange?: (fieldName: string, value: string) => void
   onFieldFocus?: (fieldName: string, value: string) => void
   onFieldBlur?: () => void
@@ -20,12 +20,12 @@ export const TrackedInput = React.forwardRef<HTMLInputElement, TrackedInputProps
   ({ fieldName, onFieldChange, onFieldFocus, onFieldBlur, onChange, onFocus, onBlur, ...props }, ref) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       onChange?.(e)
-      onFieldChange?.(fieldName, e.target.value)
+      if (fieldName) onFieldChange?.(fieldName, e.target.value)
     }
 
     const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
       onFocus?.(e)
-      onFieldFocus?.(fieldName, e.target.value)
+      if (fieldName) onFieldFocus?.(fieldName, e.target.value)
     }
 
     const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -51,12 +51,12 @@ export const TrackedTextarea = React.forwardRef<HTMLTextAreaElement, TrackedText
   ({ fieldName, onFieldChange, onFieldFocus, onFieldBlur, onChange, onFocus, onBlur, ...props }, ref) => {
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       onChange?.(e)
-      onFieldChange?.(fieldName, e.target.value)
+      if (fieldName) onFieldChange?.(fieldName, e.target.value)
     }
 
     const handleFocus = (e: React.FocusEvent<HTMLTextAreaElement>) => {
       onFocus?.(e)
-      onFieldFocus?.(fieldName, e.target.value)
+      if (fieldName) onFieldFocus?.(fieldName, e.target.value)
     }
 
     const handleBlur = (e: React.FocusEvent<HTMLTextAreaElement>) => {

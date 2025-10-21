@@ -368,7 +368,7 @@ function generateTexteApportBiensCommunsOuPACS(
     
     // Consentement article 1424 si nécessaire
     if (conjointApport.consentementArticle1424) {
-      const dateConsentement = conjointApport.dateNotification || '[Date]'
+      // const dateConsentement = conjointApport.dateNotification || '[Date]' // Non utilisé pour le moment
       texte += `\n\nEn application des dispositions de l'article 1424 du code civil, ${conjointPrenom} ${conjointNom}, ${conjointDe} de ${associePrenom} ${associeNom}, régulièrement ${averti} de l'apport envisagé déclare consentir expressément à l'apport en nature effectué par ${sonSa2} conjoint.`
     }
   }
@@ -399,7 +399,7 @@ function calculerInformationsAssocies(
   capitalSocial: number,
   nombreTotalParts: number
 ): AssocieAvecParts[] {
-  const valeurNominale = capitalSocial / nombreTotalParts
+  // const valeurNominale = capitalSocial / nombreTotalParts // Non utilisé pour le moment
 
   return associes.map(item => {
     // Utiliser le pourcentageCapital de l'associé (nouvelle approche simplifiée)
@@ -960,12 +960,12 @@ export function buildVariables(dossier: Dossier, statutsData: Partial<StatutsDat
     
     // Générer le texte pour un ou plusieurs gérants
     if (gerants.length === 1) {
-      variables.nomPrenomGerantPremier = gerants[0].nom
-      variables.adresseGerantPremier = gerants[0].adresse
+      variables.nomPrenomGerantPremier = gerants[0]?.nom || '[Nom Prénom]'
+      variables.adresseGerantPremier = gerants[0]?.adresse || '[Adresse]'
     } else if (gerants.length > 1) {
       // Pour plusieurs gérants, utiliser une liste
       variables.nomPrenomGerantPremier = gerants.map((g, i) => 
-        `${i + 1}° ${g.nom}, demeurant ${g.adresse}`
+        `${i + 1}° ${g?.nom || '[Nom]'}, demeurant ${g?.adresse || '[Adresse]'}`
       ).join('\n\n')
       variables.adresseGerantPremier = '' // Déjà inclus dans nomPrenomGerantPremier
     } else {
@@ -1040,9 +1040,9 @@ export function buildVariables(dossier: Dossier, statutsData: Partial<StatutsDat
     variables.apportsIndustrie = false // À implémenter si nécessaire
 
     // Variables pour commissaire aux apports
-    if (apport.commissaireAuxApports && apport.commissaireAuxApports.requis) {
-      variables.commissaireAuxApportsUnanime = apport.commissaireAuxApports.modeDesignation === 'UNANIME'
-      variables.commissaireAuxApportsOrdonnance = apport.commissaireAuxApports.modeDesignation === 'ORDONNANCE'
+    if (apport.type !== 'NUMERAIRE_TOTAL' && apport.type !== 'NUMERAIRE_PARTIEL' && 'commissaireAuxApports' in apport && apport.commissaireAuxApports?.requis) {
+      variables.commissaireAuxApportsUnanime = apport.commissaireAuxApports.designation === 'UNANIME'
+      variables.commissaireAuxApportsOrdonnance = apport.commissaireAuxApports.designation === 'ORDONNANCE'
     } else {
       variables.commissaireAuxApportsUnanime = false
       variables.commissaireAuxApportsOrdonnance = false
@@ -1091,19 +1091,29 @@ export function buildVariables(dossier: Dossier, statutsData: Partial<StatutsDat
 
       // Liste des apporteurs en nature (à adapter selon les besoins)
       variables.listeApporteursNature = '[Liste des apporteurs en nature]'
-      variables.identiteApporteurNature = associesAvecCalculsApports[0] && associesAvecCalculsApports[0].associe.type === 'PERSONNE_PHYSIQUE'
-        ? `${associesAvecCalculsApports[0].associe.civilite} ${associesAvecCalculsApports[0].associe.prenom} ${associesAvecCalculsApports[0].associe.nom}`
-        : associesAvecCalculsApports[0]?.associe.societeNom || '[Identité]'
+      const premierAssocie = associesAvecCalculsApports[0]
+      if (premierAssocie) {
+        if (premierAssocie.associe.type === 'PERSONNE_PHYSIQUE') {
+          variables.identiteApporteurNature = `${premierAssocie.associe.civilite} ${premierAssocie.associe.prenom} ${premierAssocie.associe.nom}`
+        } else {
+          variables.identiteApporteurNature = premierAssocie.associe.societeNom || '[Identité]'
+        }
+      } else {
+        variables.identiteApporteurNature = '[Identité]'
+      }
 
       // Montants totaux
       variables.montantTotalNumeraire = associesAvecCalculsApports.reduce((sum, item) => sum + (item.montantApport || 0), 0).toLocaleString('fr-FR')
       variables.montantTotalNature = '0'
     } else {
       // Associé unique
-      variables.listeApporteursNumeraire = `1° ${variables.associeDesignation} apporte à la Société une somme totale de ${apport.montant?.toLocaleString('fr-FR') || '0'} euros correspondant à ${variables.nombreParts} parts sociales de ${variables.valeurNominale} euro(s) de valeur nominale chacune, entièrement souscrites et intégralement libérées.`
+      const montantApport = (apport.type === 'NUMERAIRE_TOTAL' || apport.type === 'NUMERAIRE_PARTIEL') 
+        ? apport.montant 
+        : (apport.type === 'MIXTE_NUMERAIRE_NATURE' ? apport.numeraire?.montant : 0)
+      variables.listeApporteursNumeraire = `1° ${variables.associeDesignation} apporte à la Société une somme totale de ${montantApport?.toLocaleString('fr-FR') || '0'} euros correspondant à ${variables.nombreParts} parts sociales de ${variables.valeurNominale} euro(s) de valeur nominale chacune, entièrement souscrites et intégralement libérées.`
       variables.listeApporteursNature = `1° ${variables.associeDesignation}`
       variables.identiteApporteurNature = variables.associeDesignation
-      variables.montantTotalNumeraire = apport.montant?.toLocaleString('fr-FR') || '0'
+      variables.montantTotalNumeraire = montantApport?.toLocaleString('fr-FR') || '0'
       variables.montantTotalNature = apport.type === 'NATURE_SEUL' ? apport.valeur?.toLocaleString('fr-FR') || '0' : '0'
     }
 
