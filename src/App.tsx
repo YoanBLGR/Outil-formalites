@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from 'sonner'
 import { AuthProvider } from './contexts/AuthContext'
 import { ProtectedRoute } from './components/auth/ProtectedRoute'
+import { UpdateNotification } from './components/UpdateNotification'
 import { Login } from './pages/Login'
 import { Dashboard } from './pages/Dashboard'
 import { DossierCreate } from './pages/DossierCreate'
@@ -14,6 +15,7 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <Toaster position="top-right" richColors />
+        <UpdateNotification />
         <Routes>
           {/* Route publique de connexion */}
           <Route path="/login" element={<Login />} />
