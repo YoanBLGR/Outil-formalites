@@ -223,7 +223,44 @@ Consultez la sortie complète de la signature dans les logs pour voir l'erreur e
 
 ---
 
-### Erreur 4 : "Permission denied" (GitHub Release)
+### Erreur 4 : "optional pre-release identifier must be numeric-only" (MSI)
+
+**Message :**
+```
+failed to bundle project `optional pre-release identifier in app version must be numeric-only and cannot be greater than 65535 for msi target`
+```
+
+**Cause :** Le bundler MSI Windows n'accepte PAS les versions avec suffixe non-numérique
+
+**Exemples :**
+- ❌ `1.0.2-test` → INVALIDE (contient des lettres)
+- ❌ `1.0.2-beta` → INVALIDE (contient des lettres)
+- ❌ `1.0.2-rc1` → INVALIDE (mélange)
+- ✅ `1.0.2` → VALIDE (pas de suffixe)
+- ✅ `1.0.2-1` → VALIDE (numérique uniquement)
+
+**Solution :**
+1. Changez la version dans `package.json` et `tauri.conf.json`
+2. Utilisez soit une version sans suffixe, soit un suffixe numérique
+3. Recommit et recréez le tag
+
+```bash
+# Supprimer l'ancien tag
+git tag -d v1.0.2-test
+git push origin :refs/tags/v1.0.2-test
+
+# Corriger la version → 1.0.2 ou 1.0.2-1
+# Puis recreate le tag
+git add package.json src-tauri/tauri.conf.json
+git commit -m "fix: version compatible MSI"
+git tag v1.0.2
+git push origin main
+git push origin v1.0.2
+```
+
+---
+
+### Erreur 5 : "Permission denied" (GitHub Release)
 
 **Message :**
 ```
