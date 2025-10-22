@@ -8,6 +8,8 @@ export interface UpdateInfo {
   latestVersion?: string
   downloading: boolean
   downloaded: boolean
+  downloadProgress?: number
+  downloadSize?: number
   error?: string
 }
 
@@ -35,9 +37,12 @@ export function useAutoUpdate() {
       return null
     } catch (error) {
       console.error('Erreur lors de la vérification des mises à jour:', error)
+      const errorMessage = error instanceof Error 
+        ? error.message 
+        : 'Impossible de vérifier les mises à jour. Vérifiez votre connexion internet.'
       setUpdateInfo(prev => ({
         ...prev,
-        error: error instanceof Error ? error.message : 'Erreur inconnue',
+        error: errorMessage,
       }))
       return null
     }
@@ -45,7 +50,7 @@ export function useAutoUpdate() {
 
   const downloadAndInstall = async () => {
     try {
-      setUpdateInfo(prev => ({ ...prev, downloading: true, error: undefined }))
+      setUpdateInfo(prev => ({ ...prev, downloading: true, error: undefined, downloadProgress: 0 }))
 
       const update = await check()
 
@@ -58,14 +63,33 @@ export function useAutoUpdate() {
         return false
       }
 
+      let totalSize = 0
+      let downloadedSize = 0
+
       // Télécharger et installer la mise à jour
       await update.downloadAndInstall((event) => {
         if (event.event === 'Started') {
-          console.log(`Téléchargement démarré - Taille: ${event.data.contentLength || '?'} octets`)
+          totalSize = event.data.contentLength || 0
+          console.log(`Téléchargement démarré - Taille: ${totalSize} octets`)
+          setUpdateInfo(prev => ({
+            ...prev,
+            downloadSize: totalSize,
+            downloadProgress: 0
+          }))
         } else if (event.event === 'Progress') {
-          console.log(`Téléchargement en cours: ${event.data.chunkLength} octets`)
+          downloadedSize += event.data.chunkLength
+          const progress = totalSize > 0 ? Math.round((downloadedSize / totalSize) * 100) : 0
+          console.log(`Téléchargement: ${downloadedSize}/${totalSize} octets (${progress}%)`)
+          setUpdateInfo(prev => ({
+            ...prev,
+            downloadProgress: progress
+          }))
         } else if (event.event === 'Finished') {
           console.log('Téléchargement terminé !')
+          setUpdateInfo(prev => ({
+            ...prev,
+            downloadProgress: 100
+          }))
         }
       })
 

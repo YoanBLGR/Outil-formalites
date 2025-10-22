@@ -43,8 +43,14 @@ $latestJson = @{
     }
 } | ConvertTo-Json -Depth 10
 
-# Sauvegarder sans BOM
-$latestJson | Out-File -FilePath $outputPath -Encoding utf8NoBOM
+# Sauvegarder sans BOM (compatible PowerShell 5.1 et 7+)
+if ($PSVersionTable.PSVersion.Major -ge 6) {
+    $latestJson | Out-File -FilePath $outputPath -Encoding utf8NoBOM
+} else {
+    # PowerShell 5.1 : Utiliser UTF8 sans BOM manuellement
+    $utf8NoBom = New-Object System.Text.UTF8Encoding $false
+    [System.IO.File]::WriteAllText((Join-Path $PWD $outputPath), $latestJson, $utf8NoBom)
+}
 
 Write-Host "========================================" -ForegroundColor Green
 Write-Host "   latest.json généré avec succès!" -ForegroundColor Green
