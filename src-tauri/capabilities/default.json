@@ -7,7 +7,22 @@
     "core:default",
     "dialog:default",
     "fs:default",
-    "shell:default"
+    "shell:default",
+    "shell:allow-open",
+    "http:default",
+    "updater:default",
+    "process:default",
+    {
+      "identifier": "http:default",
+      "allow": [
+        {
+          "url": "https://api.github.com/repos/yoyoboul/formalyse/*"
+        },
+        {
+          "url": "https://github.com/yoyoboul/formalyse/releases/*"
+        }
+      ]
+    }
   ]
 }
 

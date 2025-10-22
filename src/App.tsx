@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from 'sonner'
 import { AuthProvider } from './contexts/AuthContext'
 import { ProtectedRoute } from './components/auth/ProtectedRoute'
-import { UpdatePanel } from './components/UpdatePanel'
+import { TauriUpdatePanel } from './components/TauriUpdatePanel'
 import { Login } from './pages/Login'
 import { Dashboard } from './pages/Dashboard'
 import { DossierCreate } from './pages/DossierCreate'
@@ -15,7 +15,7 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <Toaster position="top-right" richColors />
-        <UpdatePanel />
+        <TauriUpdatePanel />
         <Routes>
           {/* Route publique de connexion */}
           <Route path="/login" element={<Login />} />

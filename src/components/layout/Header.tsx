@@ -1,8 +1,11 @@
 import { Search, LogOut, User } from 'lucide-react'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
+import { Badge } from '../ui/badge'
 import { useAuth } from '../../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
+
+const APP_VERSION = '2.0.3'
 
 interface HeaderProps {
   title: string
@@ -21,9 +24,14 @@ export function Header({ title, subtitle }: HeaderProps) {
   return (
     <header className="border-b bg-card">
       <div className="flex h-16 items-center justify-between px-8">
-        <div>
-          <h2 className="text-2xl font-semibold">{title}</h2>
-          {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
+        <div className="flex items-center gap-3">
+          <div>
+            <h2 className="text-2xl font-semibold">{title}</h2>
+            {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
+          </div>
+          <Badge variant="outline" className="text-xs">
+            v{APP_VERSION}
+          </Badge>
         </div>
 
         <div className="flex items-center gap-4">

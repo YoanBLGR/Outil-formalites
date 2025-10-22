@@ -145,15 +145,15 @@ if "%versionType%"=="manual" (
     echo ✅ package.json mis à jour : %version%
 )
 
-REM Mettre à jour tauri.conf.json (commun aux deux modes)
-powershell -NoProfile -Command "$config = Get-Content 'src-tauri/tauri.conf.json' -Raw | ConvertFrom-Json; $config.version = '%version%'; $config | ConvertTo-Json -Depth 100 | Set-Content 'src-tauri/tauri.conf.json'"
+REM Synchroniser toutes les versions (package.json, tauri.conf.json, useTauriUpdater.ts)
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0sync-versions.ps1" -Version "%version%"
 if errorlevel 1 (
-    echo ❌ Erreur lors de la mise à jour de tauri.conf.json
+    echo ❌ Erreur lors de la synchronisation des versions
     pause
     exit /b 1
 )
 
-echo ✅ tauri.conf.json mis à jour : %version%
+echo ✅ Toutes les versions synchronisées : %version%
 echo.
 
 REM ============================================================
@@ -177,10 +177,10 @@ echo ✅ Build terminé avec succès !
 echo.
 
 REM ============================================================
-REM Étape 4 : Vérifier les fichiers
+REM Étape 4 : Vérifier que le build existe
 REM ============================================================
 
-echo 📦 Vérification des fichiers...
+echo 📦 Vérification du build...
 
 set "exePath=src-tauri\target\release\bundle\nsis\Formalyse_%version%_x64-setup.exe"
 set "msiPath=src-tauri\target\release\bundle\msi\Formalyse_%version%_x64_en-US.msi"
@@ -191,26 +191,42 @@ if not exist "%exePath%" (
     exit /b 1
 )
 
-echo ✅ Installateur : %exePath%
+echo ✅ Installateur trouvé : %exePath%
 if exist "%msiPath%" (
-    echo ✅ MSI : %msiPath%
+    echo ✅ MSI trouvé : %msiPath%
 )
 echo.
 
 REM ============================================================
-REM Étape 5 : Générer latest.json
+REM Étape 5 : Signer et générer latest.json
 REM ============================================================
 
-echo 📝 Génération de latest.json...
+echo 🔐 Signature du build et génération de latest.json...
+echo    ⚠️  Vous devrez entrer le mot de passe de votre clé privée
+echo.
 
-powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0generate-latest-json.ps1" -Version "%version%"
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0sign-and-generate-json.ps1" -Version "%version%"
 if errorlevel 1 (
-    echo ❌ Erreur lors de la génération de latest.json
+    echo ❌ Erreur lors de la signature ou génération de latest.json
     pause
     exit /b 1
 )
 
-echo ✅ latest.json créé !
+echo ✅ Build signé et latest.json créé avec signature !
+echo.
+
+REM Vérifier que latest.json a bien été créé
+if not exist "latest.json" (
+    echo ❌ Fichier latest.json introuvable !
+    echo    La signature a échoué.
+    pause
+    exit /b 1
+)
+
+echo ✅ Fichiers prêts pour publication :
+echo    • %exePath% (signé)
+echo    • latest.json (avec signature)
+if exist "%msiPath%" echo    • %msiPath%
 echo.
 
 REM ============================================================

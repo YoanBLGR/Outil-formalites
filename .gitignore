@@ -35,4 +35,6 @@ src-tauri/Cargo.lock
 
 # Auto-update (IMPORTANT: NE JAMAIS COMMITER LA CLÉ PRIVÉE!)
 .tauri-updater-key
+*.key
+*.private
 latest.json
