@@ -20,6 +20,7 @@
                          "@hookform/resolvers":  "^5.2.2",
                          "@radix-ui/react-dropdown-menu":  "^2.1.16",
                          "@radix-ui/react-scroll-area":  "^1.2.10",
+                         "@tauri-apps/plugin-http":  "^2.5.2",
                          "@tauri-apps/plugin-process":  "^2.3.0",
                          "@tauri-apps/plugin-updater":  "^2.9.0",
                          "ai":  "^5.0.65",
