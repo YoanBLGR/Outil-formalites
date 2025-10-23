@@ -16,10 +16,19 @@
       "identifier": "http:default",
       "allow": [
         {
-          "url": "https://api.github.com/repos/yoyoboul/formalyse/*"
+          "url": "https://api.github.com/repos/YoanBLGR/Outil-formalites/*"
         },
         {
-          "url": "https://github.com/yoyoboul/formalyse/releases/*"
+          "url": "https://github.com/YoanBLGR/Outil-formalites/releases/*"
+        },
+        {
+          "url": "https://guichet-unique-demo.inpi.fr/*"
+        },
+        {
+          "url": "https://api.guichet-unique.inpi.fr/*"
+        },
+        {
+          "url": "https://procedures.inpi.fr/*"
         }
       ]
     }

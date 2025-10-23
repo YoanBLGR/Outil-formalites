@@ -10,8 +10,8 @@ param(
 $ErrorActionPreference = "Stop"
 
 # Configuration
-$REPO_OWNER = "yoyoboul"
-$REPO_NAME = "formalyse"
+$REPO_OWNER = "YoanBLGR"
+$REPO_NAME = "Outil-formalites"
 
 # Utiliser le token passé en paramètre ou la variable d'environnement
 if (-not $Token) {

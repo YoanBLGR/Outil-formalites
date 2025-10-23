@@ -19,8 +19,9 @@ import { v4 as uuidv4 } from 'uuid'
 
 export function DossierCreate() {
   const navigate = useNavigate()
-  const [step, setStep] = useState(1)
-  const totalSteps = 3
+  const [step, setStep] = useState(0) // Start at 0 for type selection
+  const totalSteps = 4 // Now includes type selection step
+  const [dossierType, setDossierType] = useState<'SOCIETE' | 'EI' | null>(null)
 
   const [clientData, setClientData] = useState<Client>({
     civilite: 'M',
@@ -125,6 +126,7 @@ export function DossierCreate() {
         numero,
         createdAt: now,
         updatedAt: now,
+        typeDossier: 'SOCIETE' as const,
         client: clientData,
         societe,
         statut: 'NOUVEAU' as const,
@@ -160,6 +162,16 @@ export function DossierCreate() {
     }
   }
 
+  // Redirect to EI workflow if EI is selected
+  const handleTypeSelection = (type: 'SOCIETE' | 'EI') => {
+    setDossierType(type)
+    if (type === 'EI') {
+      navigate('/dossiers/nouveau-ei')
+    } else {
+      setStep(1)
+    }
+  }
+
   return (
     <Layout title="Nouveau dossier" subtitle="Création d'un nouveau dossier client">
       <div className="max-w-3xl mx-auto">
@@ -169,6 +181,48 @@ export function DossierCreate() {
             Étape {step} sur {totalSteps}
           </p>
         </div>
+
+        {step === 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Type de dossier</CardTitle>
+              <CardDescription>
+                Choisissez le type de dossier à créer
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid gap-4 md:grid-cols-2">
+                <button
+                  onClick={() => handleTypeSelection('SOCIETE')}
+                  className="p-6 border-2 rounded-lg hover:border-primary hover:bg-accent transition-all text-left group"
+                >
+                  <div className="text-4xl mb-3">🏢</div>
+                  <h3 className="font-semibold text-lg mb-2 group-hover:text-primary">Société</h3>
+                  <p className="text-sm text-muted-foreground">
+                    EURL, SARL, SASU, SAS - Création avec rédaction des statuts
+                  </p>
+                </button>
+
+                <button
+                  onClick={() => handleTypeSelection('EI')}
+                  className="p-6 border-2 rounded-lg hover:border-primary hover:bg-accent transition-all text-left group"
+                >
+                  <div className="text-4xl mb-3">👤</div>
+                  <h3 className="font-semibold text-lg mb-2 group-hover:text-primary">Entrepreneur Individuel</h3>
+                  <p className="text-sm text-muted-foreground">
+                    EI - Saisie directe pour le Guichet Unique
+                  </p>
+                </button>
+              </div>
+
+              <div className="flex justify-between pt-4">
+                <Button variant="outline" onClick={() => navigate('/dossiers')}>
+                  Annuler
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {step === 1 && (
           <>
@@ -282,8 +336,11 @@ export function DossierCreate() {
                   <option value="EURL">EURL</option>
                   <option value="SARL">SARL</option>
                   <option value="SASU">SASU</option>
-                  <option value="SAS">SAS</option>
+                  <option value="SAS" disabled>SAS (en cours d'implémentation)</option>
                 </Select>
+                <p className="text-xs text-muted-foreground">
+                  Note : Le template SAS est en cours d'implémentation
+                </p>
               </div>
 
               <div className="space-y-2">

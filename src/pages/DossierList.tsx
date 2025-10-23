@@ -24,7 +24,7 @@ import { StatusBadge } from '../components/workflow/StatusBadge'
 import { DossierListSkeleton } from '../components/ui/loading-states'
 import { getDatabase } from '../db/database'
 import type { Dossier, WorkflowStatus } from '../types'
-import { WORKFLOW_STATUS_LABELS, FORME_JURIDIQUE_LABELS } from '../types'
+import { WORKFLOW_STATUS_LABELS, FORME_JURIDIQUE_LABELS, DOSSIER_TYPE_LABELS } from '../types'
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import { LayoutGrid, List, Search, Filter, X, MoreVertical, Eye, Trash2 } from 'lucide-react'
@@ -42,6 +42,7 @@ type ViewMode = 'kanban' | 'list'
 type Filters = {
   status: WorkflowStatus[]
   formeJuridique: string[]
+  typeDossier: string[]
   dateFrom: string
   dateTo: string
 }
@@ -111,6 +112,7 @@ export function DossierList() {
   const [filters, setFilters] = useState<Filters>({
     status: [],
     formeJuridique: [],
+    typeDossier: [],
     dateFrom: '',
     dateTo: '',
   })
@@ -174,9 +176,14 @@ export function DossierList() {
       result = result.filter((d) => filters.status.includes(d.statut))
     }
 
-    // Apply forme juridique filter
+    // Apply forme juridique filter (only for societe dossiers)
     if (filters.formeJuridique.length > 0) {
-      result = result.filter((d) => filters.formeJuridique.includes(d.societe.formeJuridique))
+      result = result.filter((d) => d.societe && filters.formeJuridique.includes(d.societe.formeJuridique))
+    }
+
+    // Apply type dossier filter
+    if (filters.typeDossier.length > 0) {
+      result = result.filter((d) => filters.typeDossier.includes(d.typeDossier))
     }
 
     // Apply date range filter
@@ -258,6 +265,7 @@ export function DossierList() {
   const hasActiveFilters =
     filters.status.length > 0 ||
     filters.formeJuridique.length > 0 ||
+    filters.typeDossier.length > 0 ||
     filters.dateFrom ||
     filters.dateTo
 
@@ -265,6 +273,7 @@ export function DossierList() {
     setFilters({
       status: [],
       formeJuridique: [],
+      typeDossier: [],
       dateFrom: '',
       dateTo: '',
     })
@@ -285,6 +294,15 @@ export function DossierList() {
       formeJuridique: prev.formeJuridique.includes(forme)
         ? prev.formeJuridique.filter((f) => f !== forme)
         : [...prev.formeJuridique, forme],
+    }))
+  }
+
+  const toggleTypeFilter = (type: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      typeDossier: prev.typeDossier.includes(type)
+        ? prev.typeDossier.filter((t) => t !== type)
+        : [...prev.typeDossier, type],
     }))
   }
 
@@ -396,7 +414,7 @@ export function DossierList() {
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="grid gap-6 md:grid-cols-3">
+                <CardContent className="grid gap-6 md:grid-cols-4">
                   <div className="space-y-2">
                     <Label className="text-sm font-medium">Statut</Label>
                     <div className="space-y-2 max-h-48 overflow-y-auto">
@@ -409,6 +427,23 @@ export function DossierList() {
                             className="rounded"
                           />
                           <span className="text-sm">{WORKFLOW_STATUS_LABELS[status]}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium">Type de dossier</Label>
+                    <div className="space-y-2">
+                      {Object.entries(DOSSIER_TYPE_LABELS).map(([key, label]) => (
+                        <label key={key} className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={filters.typeDossier.includes(key)}
+                            onChange={() => toggleTypeFilter(key)}
+                            className="rounded"
+                          />
+                          <span className="text-sm">{label}</span>
                         </label>
                       ))}
                     </div>
@@ -557,7 +592,10 @@ export function DossierList() {
                                               {dossier.numero}
                                             </p>
                                             <p className="font-medium text-sm truncate mt-1">
-                                              {dossier.societe.denomination}
+                                              {dossier.typeDossier === 'EI' && dossier.entrepreneurIndividuel
+                                                ? (dossier.entrepreneurIndividuel.nomCommercial || 
+                                                   `${dossier.entrepreneurIndividuel.prenoms} ${dossier.entrepreneurIndividuel.nomNaissance}`)
+                                                : dossier.societe?.denomination || 'N/A'}
                                             </p>
                                             <p className="text-xs text-muted-foreground truncate mt-0.5">
                                               {dossier.client.prenom} {dossier.client.nom}
@@ -567,7 +605,9 @@ export function DossierList() {
                                           {/* Badges */}
                                           <div className="flex items-center justify-between gap-2">
                                             <Badge variant="outline" className="text-xs font-medium">
-                                              {FORME_JURIDIQUE_LABELS[dossier.societe.formeJuridique]}
+                                              {dossier.typeDossier === 'EI' 
+                                                ? DOSSIER_TYPE_LABELS[dossier.typeDossier]
+                                                : (dossier.societe ? FORME_JURIDIQUE_LABELS[dossier.societe.formeJuridique] : 'N/A')}
                                             </Badge>
                                             <p className="text-xs text-muted-foreground">
                                               {format(new Date(dossier.createdAt), 'dd MMM', {
@@ -666,7 +706,10 @@ export function DossierList() {
                           {activeDossier.numero}
                         </p>
                         <p className="font-medium text-sm truncate mt-1">
-                          {activeDossier.societe.denomination}
+                          {activeDossier.typeDossier === 'EI' && activeDossier.entrepreneurIndividuel
+                            ? (activeDossier.entrepreneurIndividuel.nomCommercial || 
+                               `${activeDossier.entrepreneurIndividuel.prenoms} ${activeDossier.entrepreneurIndividuel.nomNaissance}`)
+                            : activeDossier.societe?.denomination || 'N/A'}
                         </p>
                         <p className="text-xs text-muted-foreground truncate mt-0.5">
                           {activeDossier.client.prenom} {activeDossier.client.nom}
@@ -674,7 +717,9 @@ export function DossierList() {
                       </div>
                       <div className="flex items-center gap-2">
                         <Badge variant="outline" className="text-xs font-medium">
-                          {FORME_JURIDIQUE_LABELS[activeDossier.societe.formeJuridique]}
+                          {activeDossier.typeDossier === 'EI' 
+                            ? DOSSIER_TYPE_LABELS[activeDossier.typeDossier]
+                            : (activeDossier.societe ? FORME_JURIDIQUE_LABELS[activeDossier.societe.formeJuridique] : 'N/A')}
                         </Badge>
                       </div>
                       <div className="text-center py-2 bg-primary/10 rounded-md">
@@ -725,7 +770,9 @@ export function DossierList() {
                                 <div className="flex items-center gap-3">
                                   <p className="font-medium">{dossier.numero}</p>
                                   <Badge variant="outline">
-                                    {FORME_JURIDIQUE_LABELS[dossier.societe.formeJuridique]}
+                                    {dossier.typeDossier === 'EI' 
+                                      ? DOSSIER_TYPE_LABELS[dossier.typeDossier]
+                                      : (dossier.societe ? FORME_JURIDIQUE_LABELS[dossier.societe.formeJuridique] : 'N/A')}
                                   </Badge>
                                   <StatusBadge status={dossier.statut} />
                                 </div>

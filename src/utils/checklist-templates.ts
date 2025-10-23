@@ -190,6 +190,83 @@ export function generateChecklist(formeJuridique: FormeJuridique): ChecklistItem
   }))
 }
 
+export function generateChecklistEI(): ChecklistItem[] {
+  const eiChecklist: Omit<ChecklistItem, 'id'>[] = [
+    // PREPARATION
+    {
+      label: 'Informations entrepreneur collectées',
+      description: 'État civil, adresse, activités',
+      completed: false,
+      required: true,
+      category: 'PREPARATION',
+      icon: '👤',
+    },
+    {
+      label: 'Devis signé reçu',
+      description: 'Devis accepté et retourné signé',
+      completed: false,
+      required: true,
+      category: 'PREPARATION',
+      icon: '💰',
+    },
+    // DOCUMENTS
+    {
+      label: 'CNI entrepreneur reçue',
+      description: 'Copie recto-verso de la carte d\'identité',
+      completed: false,
+      required: true,
+      category: 'DOCUMENTS',
+      icon: '🪪',
+    },
+    {
+      label: 'Déclaration de non condamnation reçue',
+      description: 'Déclaration sur l\'honneur signée',
+      completed: false,
+      required: true,
+      category: 'DOCUMENTS',
+      icon: '📋',
+    },
+    {
+      label: 'Justificatif de domicile reçu',
+      description: 'Facture, bail ou attestation',
+      completed: false,
+      required: true,
+      category: 'DOCUMENTS',
+      icon: '🏠',
+    },
+    // FORMALITES
+    {
+      label: 'Saisie des informations Guichet Unique',
+      description: 'Toutes les informations EI complétées',
+      completed: false,
+      required: true,
+      category: 'FORMALITES',
+      icon: '📝',
+    },
+    {
+      label: 'Formalité saisie sur le Guichet Unique',
+      description: 'Dossier déposé en ligne sur le guichet unique',
+      completed: false,
+      required: true,
+      category: 'FORMALITES',
+      icon: '💻',
+    },
+    {
+      label: 'Dossier transmis au CFE',
+      description: 'Confirmation de transmission au CFE compétent',
+      completed: false,
+      required: true,
+      category: 'FORMALITES',
+      icon: '⚖️',
+    },
+  ]
+
+  return eiChecklist.map((item) => ({
+    ...item,
+    id: uuidv4(),
+  }))
+}
+
 export function getChecklistProgress(items: ChecklistItem[]): {
   total: number
   completed: number

@@ -6,6 +6,7 @@ import { TauriUpdatePanel } from './components/TauriUpdatePanel'
 import { Login } from './pages/Login'
 import { Dashboard } from './pages/Dashboard'
 import { DossierCreate } from './pages/DossierCreate'
+import { DossierCreateEI } from './pages/DossierCreateEI'
 import { DossierList } from './pages/DossierList'
 import { DossierDetail } from './pages/DossierDetail'
 import { RedactionStatuts } from './pages/RedactionStatuts'
@@ -26,6 +27,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/dossiers" element={<DossierList />} />
             <Route path="/dossiers/nouveau" element={<DossierCreate />} />
+            <Route path="/dossiers/nouveau-ei" element={<DossierCreateEI />} />
             <Route path="/dossiers/:id" element={<DossierDetail />} />
             <Route path="/dossiers/:id/redaction" element={<RedactionStatuts />} />
           </Route>

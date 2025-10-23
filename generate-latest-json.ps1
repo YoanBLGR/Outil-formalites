@@ -26,7 +26,7 @@ Write-Host "[OK] Installateur trouvé: $exePath" -ForegroundColor Green
 Write-Host ""
 
 # URL de téléchargement GitHub
-$downloadUrl = "https://github.com/yoyoboul/formalyse/releases/download/v${Version}/Formalyse_${Version}_x64-setup.exe"
+$downloadUrl = "https://github.com/YoanBLGR/Outil-formalites/releases/download/v${Version}/Formalyse_${Version}_x64-setup.exe"
 
 # Date actuelle en format ISO 8601
 $pubDate = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
@@ -62,7 +62,7 @@ Write-Host "Contenu:" -ForegroundColor Yellow
 Get-Content $outputPath | Write-Host
 Write-Host ""
 Write-Host "Prochaines étapes:" -ForegroundColor Yellow
-Write-Host "1. Créez une release sur GitHub: https://github.com/yoyoboul/formalyse/releases" -ForegroundColor White
+Write-Host "1. Créez une release sur GitHub: https://github.com/YoanBLGR/Outil-formalites/releases" -ForegroundColor White
 Write-Host "2. Uploadez:" -ForegroundColor White
 Write-Host "   - Formalyse_${Version}_x64-setup.exe" -ForegroundColor Gray
 Write-Host "   - latest.json" -ForegroundColor Gray

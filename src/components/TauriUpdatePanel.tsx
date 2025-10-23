@@ -4,11 +4,12 @@ import { type Update } from '@tauri-apps/plugin-updater'
 import { Button } from './ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card'
 import { ScrollArea } from './ui/scroll-area'
-import { Download, RefreshCw, X, ChevronDown, ChevronUp, Loader2 } from 'lucide-react'
+import { Download, RefreshCw, X, ChevronDown, ChevronUp, Loader2, Maximize2, Minimize2 } from 'lucide-react'
 
 export function TauriUpdatePanel() {
   const { updateInfo, checkForUpdates, downloadAndInstall } = useTauriUpdater()
   const [isExpanded, setIsExpanded] = useState(false)
+  const [isMinimized, setIsMinimized] = useState(true)
   const [dismissed, setDismissed] = useState(false)
   const [pendingUpdate, setPendingUpdate] = useState<Update | null>(null)
 
@@ -29,8 +30,40 @@ export function TauriUpdatePanel() {
     return null
   }
 
+  // Version minimisée - petit badge discret
+  if (isMinimized) {
+    return (
+      <div className="fixed bottom-4 right-4 z-40">
+        <Button
+          variant={updateInfo.available ? "default" : "ghost"}
+          size="sm"
+          onClick={() => setIsMinimized(false)}
+          className={`gap-1.5 shadow-sm text-xs px-2.5 py-1.5 h-auto ${
+            updateInfo.available ? 'bg-blue-600 hover:bg-blue-700 animate-pulse' : 'opacity-60 hover:opacity-100'
+          }`}
+          title={updateInfo.available ? "Mise à jour disponible - Cliquez pour plus d'infos" : "Système de mise à jour"}
+        >
+          {updateInfo.checking || updateInfo.downloading ? (
+            <Loader2 className="h-3 w-3 animate-spin" />
+          ) : updateInfo.available ? (
+            <Download className="h-3 w-3" />
+          ) : (
+            <RefreshCw className="h-3 w-3" />
+          )}
+          <span className="text-[10px] leading-none">
+            {updateInfo.available 
+              ? `v${updateInfo.latestVersion}`
+              : `v${updateInfo.currentVersion}`
+            }
+          </span>
+        </Button>
+      </div>
+    )
+  }
+
+  // Version étendue - panneau complet
   return (
-    <div className="fixed bottom-4 right-4 z-50 max-w-2xl">
+    <div className="fixed bottom-4 right-4 z-50 max-w-md">
       <Card className="shadow-lg border-2 border-blue-300">
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between">
@@ -74,7 +107,17 @@ export function TauriUpdatePanel() {
                 variant="ghost"
                 size="icon"
                 className="h-6 w-6"
+                onClick={() => setIsMinimized(true)}
+                title="Minimiser"
+              >
+                <Minimize2 className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-6 w-6"
                 onClick={() => setDismissed(true)}
+                title="Fermer"
               >
                 <X className="h-4 w-4" />
               </Button>

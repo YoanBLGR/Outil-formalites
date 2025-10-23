@@ -5,8 +5,8 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$REPO_OWNER = "yoyoboul"
-$REPO_NAME = "formalyse"
+$REPO_OWNER = "YoanBLGR"
+$REPO_NAME = "Outil-formalites"
 $Token = $env:GITHUB_TOKEN
 
 if (-not $Token) {

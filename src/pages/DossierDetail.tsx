@@ -31,6 +31,11 @@ import { exportMandat } from '../utils/mandat-export'
 import { fillAvisConstitution } from '../utils/avis-constitution-generator'
 import { exportAvis } from '../utils/avis-constitution-export'
 import { encodeBase64, decodeBase64 } from '../utils/encoding-helpers'
+import { SaisieGuichetUniqueEI } from '../components/ei/SaisieGuichetUniqueEI'
+import { GuichetUniqueButton } from '../components/guichet-unique/GuichetUniqueButton'
+import { GuichetUniqueButtonEI } from '../components/guichet-unique/GuichetUniqueButtonEI'
+import { GUDebugLogs } from '../components/guichet-unique/GUDebugLogs'
+import type { EntrepreneurIndividuel } from '../types'
 
 export function DossierDetail() {
   const { id } = useParams<{ id: string }>()
@@ -43,6 +48,7 @@ export function DossierDetail() {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
   const [showRedactionSuggestion, setShowRedactionSuggestion] = useState(true)
+  const [editingEI, setEditingEI] = useState(false)
 
   useEffect(() => {
     if (id) {
@@ -87,6 +93,40 @@ export function DossierDetail() {
       }
 
       setIsEditing(false)
+      loadDossier(id)
+    } catch (error) {
+      toast.error('Erreur lors de l\'enregistrement')
+      console.error(error)
+    }
+  }
+
+  const handleEIChange = (field: keyof EntrepreneurIndividuel, value: any) => {
+    if (!dossier || !dossier.entrepreneurIndividuel) return
+    setDossier({
+      ...dossier,
+      entrepreneurIndividuel: {
+        ...dossier.entrepreneurIndividuel,
+        [field]: value,
+      },
+    })
+  }
+
+  const handleSaveEI = async () => {
+    if (!id || !dossier) return
+
+    try {
+      const db = await getDatabase()
+      const doc = await db.dossiers.findOne(id).exec()
+
+      if (doc) {
+        await doc.patch({
+          entrepreneurIndividuel: dossier.entrepreneurIndividuel,
+          updatedAt: new Date().toISOString(),
+        })
+        toast.success('Informations entrepreneur enregistrées avec succès')
+      }
+
+      setEditingEI(false)
       loadDossier(id)
     } catch (error) {
       toast.error('Erreur lors de l\'enregistrement')
@@ -175,7 +215,7 @@ export function DossierDetail() {
   }
 
   const toggleDocumentGUItem = async (itemId: string) => {
-    if (!id || !dossier) return
+    if (!id || !dossier || dossier.typeDossier !== 'SOCIETE' || !dossier.societe) return
 
     try {
       const db = await getDatabase()
@@ -218,7 +258,7 @@ export function DossierDetail() {
   }
 
   const addDocumentGUNote = async (itemId: string, note: string) => {
-    if (!id || !dossier) return
+    if (!id || !dossier || dossier.typeDossier !== 'SOCIETE' || !dossier.societe) return
 
     try {
       const db = await getDatabase()
@@ -451,9 +491,14 @@ export function DossierDetail() {
   const progress = totalItems > 0 ? (completedItems / totalItems) * 100 : 0
 
   const suggestedStatus = dossier ? calculateSuggestedStatus(dossier.checklist) : null
+  
+  const dossierSubtitle = dossier.typeDossier === 'EI' && dossier.entrepreneurIndividuel
+    ? (dossier.entrepreneurIndividuel.nomCommercial || 
+       `${dossier.entrepreneurIndividuel.prenoms} ${dossier.entrepreneurIndividuel.nomNaissance}`)
+    : dossier.societe?.denomination || 'N/A'
 
   return (
-    <Layout title={dossier.numero} subtitle={dossier.societe.denomination}>
+    <Layout title={dossier.numero} subtitle={dossierSubtitle}>
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <Button variant="ghost" onClick={() => navigate('/dossiers')}>
@@ -500,8 +545,8 @@ export function DossierDetail() {
           </div>
         </div>
 
-        {/* Suggestion pour commencer la rédaction des statuts (nouveaux dossiers) */}
-        {showRedactionSuggestion && dossier.statut === 'NOUVEAU' && !dossier.statutsDraft && (
+        {/* Suggestion pour commencer la rédaction des statuts (nouveaux dossiers société uniquement) */}
+        {showRedactionSuggestion && dossier.typeDossier === 'SOCIETE' && dossier.statut === 'NOUVEAU' && !dossier.statutsDraft && (
           <Alert className="bg-gradient-to-r from-purple-50 to-indigo-50 border-purple-200 relative">
             <Pencil className="h-4 w-4 text-purple-600" />
             <button
@@ -590,15 +635,24 @@ export function DossierDetail() {
             <TabsTrigger value="informations" active={activeTab === 'informations'}>
               Informations
             </TabsTrigger>
+            {dossier.typeDossier === 'EI' && (
+              <TabsTrigger value="saisie-gu" active={activeTab === 'saisie-gu'}>
+                📝 Saisie Guichet Unique
+              </TabsTrigger>
+            )}
             <TabsTrigger value="checklist" active={activeTab === 'checklist'}>
               Checklist
             </TabsTrigger>
-            <TabsTrigger value="documents-gu" active={activeTab === 'documents-gu'}>
-              📋 Documents à fournir
-            </TabsTrigger>
-            <TabsTrigger value="documents" active={activeTab === 'documents'}>
-              ✍️ Rédaction & Documents
-            </TabsTrigger>
+            {dossier.typeDossier === 'SOCIETE' && (
+              <>
+                <TabsTrigger value="documents-gu" active={activeTab === 'documents-gu'}>
+                  📋 Documents à fournir
+                </TabsTrigger>
+                <TabsTrigger value="documents" active={activeTab === 'documents'}>
+                  ✍️ Rédaction & Documents
+                </TabsTrigger>
+              </>
+            )}
             <TabsTrigger value="timeline" active={activeTab === 'timeline'}>
               Historique
             </TabsTrigger>
@@ -706,102 +760,197 @@ export function DossierDetail() {
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Société</CardTitle>
+                  <CardTitle>{dossier.typeDossier === 'EI' ? 'Entrepreneur Individuel' : 'Société'}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {isEditing ? (
-                    <>
-                      <div className="space-y-2">
-                        <Label>Dénomination sociale</Label>
-                        <Input
-                          value={dossier.societe.denomination}
-                          onChange={(e) =>
-                            setDossier({
-                              ...dossier,
-                              societe: {
-                                ...dossier.societe,
-                                denomination: e.target.value,
-                              },
-                            })
-                          }
-                        />
+                  {dossier.typeDossier === 'SOCIETE' && dossier.societe ? (
+                    isEditing ? (
+                      <>
+                        <div className="space-y-2">
+                          <Label>Dénomination sociale</Label>
+                          <Input
+                            value={dossier.societe.denomination}
+                            onChange={(e) =>
+                              setDossier({
+                                ...dossier,
+                                societe: {
+                                  ...dossier.societe!,
+                                  denomination: e.target.value,
+                                },
+                              })
+                            }
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label>Siège social</Label>
+                          <Input
+                            value={dossier.societe.siege}
+                            onChange={(e) =>
+                              setDossier({
+                                ...dossier,
+                                societe: { ...dossier.societe!, siege: e.target.value },
+                              })
+                            }
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label>Capital social (€)</Label>
+                          <Input
+                            type="number"
+                            value={dossier.societe.capitalSocial || ''}
+                            onChange={(e) =>
+                              setDossier({
+                                ...dossier,
+                                societe: {
+                                  ...dossier.societe!,
+                                  capitalSocial: parseFloat(e.target.value),
+                                },
+                              })
+                            }
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label>Objet social</Label>
+                          <Input
+                            value={dossier.societe.objetSocial || ''}
+                            onChange={(e) =>
+                              setDossier({
+                                ...dossier,
+                                societe: {
+                                  ...dossier.societe!,
+                                  objetSocial: e.target.value,
+                                },
+                              })
+                            }
+                          />
+                        </div>
+                      </>
+                    ) : (
+                      <div className="space-y-3">
+                        <div>
+                          <p className="text-sm text-muted-foreground">Forme juridique</p>
+                          <p className="font-medium">{dossier.societe.formeJuridique}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-muted-foreground">Dénomination</p>
+                          <p className="font-medium">{dossier.societe.denomination}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-muted-foreground">Siège social</p>
+                          <p className="font-medium">{dossier.societe.siege}</p>
+                        </div>
+                        {dossier.societe.capitalSocial && (
+                          <div>
+                            <p className="text-sm text-muted-foreground">Capital social</p>
+                            <p className="font-medium">{dossier.societe.capitalSocial} €</p>
+                          </div>
+                        )}
+                        {dossier.societe.objetSocial && (
+                          <div>
+                            <p className="text-sm text-muted-foreground">Objet social</p>
+                            <p className="font-medium">{dossier.societe.objetSocial}</p>
+                          </div>
+                        )}
                       </div>
-                      <div className="space-y-2">
-                        <Label>Siège social</Label>
-                        <Input
-                          value={dossier.societe.siege}
-                          onChange={(e) =>
-                            setDossier({
-                              ...dossier,
-                              societe: { ...dossier.societe, siege: e.target.value },
-                            })
-                          }
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Capital social (€)</Label>
-                        <Input
-                          type="number"
-                          value={dossier.societe.capitalSocial || ''}
-                          onChange={(e) =>
-                            setDossier({
-                              ...dossier,
-                              societe: {
-                                ...dossier.societe,
-                                capitalSocial: parseFloat(e.target.value),
-                              },
-                            })
-                          }
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Objet social</Label>
-                        <Input
-                          value={dossier.societe.objetSocial || ''}
-                          onChange={(e) =>
-                            setDossier({
-                              ...dossier,
-                              societe: {
-                                ...dossier.societe,
-                                objetSocial: e.target.value,
-                              },
-                            })
-                          }
-                        />
-                      </div>
-                    </>
-                  ) : (
+                    )
+                  ) : dossier.entrepreneurIndividuel ? (
                     <div className="space-y-3">
                       <div>
-                        <p className="text-sm text-muted-foreground">Forme juridique</p>
-                        <p className="font-medium">{dossier.societe.formeJuridique}</p>
+                        <p className="text-sm text-muted-foreground">Nom complet</p>
+                        <p className="font-medium">
+                          {dossier.entrepreneurIndividuel.prenoms} {dossier.entrepreneurIndividuel.nomNaissance}
+                          {dossier.entrepreneurIndividuel.nomUsage && ` (usage: ${dossier.entrepreneurIndividuel.nomUsage})`}
+                        </p>
                       </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground">Dénomination</p>
-                        <p className="font-medium">{dossier.societe.denomination}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground">Siège social</p>
-                        <p className="font-medium">{dossier.societe.siege}</p>
-                      </div>
-                      {dossier.societe.capitalSocial && (
+                      {dossier.entrepreneurIndividuel.nomCommercial && (
                         <div>
-                          <p className="text-sm text-muted-foreground">Capital social</p>
-                          <p className="font-medium">{dossier.societe.capitalSocial} €</p>
+                          <p className="text-sm text-muted-foreground">Nom commercial</p>
+                          <p className="font-medium">{dossier.entrepreneurIndividuel.nomCommercial}</p>
                         </div>
                       )}
-                      {dossier.societe.objetSocial && (
-                        <div>
-                          <p className="text-sm text-muted-foreground">Objet social</p>
-                          <p className="font-medium">{dossier.societe.objetSocial}</p>
-                        </div>
-                      )}
+                      <div>
+                        <p className="text-sm text-muted-foreground">Date de naissance</p>
+                        <p className="font-medium">{dossier.entrepreneurIndividuel.dateNaissance}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-muted-foreground">Adresse</p>
+                        <p className="font-medium">{dossier.entrepreneurIndividuel.adresseEntrepreneur}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-muted-foreground">Activité(s)</p>
+                        <p className="font-medium">{dossier.entrepreneurIndividuel.descriptionActivites}</p>
+                      </div>
                     </div>
-                  )}
+                  ) : null}
                 </CardContent>
               </Card>
             </div>
           </TabsContent>
+
+          {dossier.typeDossier === 'EI' && dossier.entrepreneurIndividuel && (
+            <TabsContent value="saisie-gu" active={activeTab === 'saisie-gu'}>
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle>Saisie Guichet Unique</CardTitle>
+                      <CardDescription className="mt-1">
+                        Informations complètes pour la déclaration au Guichet Unique
+                      </CardDescription>
+                    </div>
+                    {editingEI ? (
+                      <div className="flex gap-2">
+                        <Button variant="outline" onClick={() => setEditingEI(false)}>
+                          Annuler
+                        </Button>
+                        <Button onClick={handleSaveEI}>
+                          <Save className="mr-2 h-4 w-4" />
+                          Enregistrer
+                        </Button>
+                      </div>
+                    ) : (
+                      <Button variant="outline" onClick={() => setEditingEI(true)}>
+                        Modifier
+                      </Button>
+                    )}
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <SaisieGuichetUniqueEI
+                    data={dossier.entrepreneurIndividuel}
+                    onChange={handleEIChange}
+                    readOnly={!editingEI}
+                  />
+
+                  {/* Bouton Guichet Unique pour EI */}
+                  {!editingEI && (
+                    <div className="mt-6 pt-6 border-t">
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h3 className="text-lg font-semibold">Transmission au Guichet Unique</h3>
+                          <p className="text-sm text-muted-foreground">
+                            Créez automatiquement une formalité en brouillon sur le Guichet Unique INPI
+                          </p>
+                        </div>
+                      </div>
+                      <GuichetUniqueButtonEI
+                        dossier={dossier}
+                        onSuccess={async (formalityId, url) => {
+                          console.log('Formalité EI créée:', formalityId, url)
+                          toast.success('Formalité créée avec succès sur le Guichet Unique')
+                          // Recharger le dossier pour voir les données GU
+                          await loadDossier(dossier.id)
+                        }}
+                      />
+                      
+                      {/* Logs de débogage Guichet Unique */}
+                      <GUDebugLogs />
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+          )}
 
           <TabsContent value="checklist" active={activeTab === 'checklist'}>
             <EnhancedChecklist
@@ -811,18 +960,25 @@ export function DossierDetail() {
           </TabsContent>
 
           <TabsContent value="documents-gu" active={activeTab === 'documents-gu'}>
-            <DocumentsChecklistGU
-              items={dossier.checklistDocumentsGU || generateDocumentsGUChecklist(dossier.societe.formeJuridique)}
-              formeJuridique={dossier.societe.formeJuridique}
-              onToggle={toggleDocumentGUItem}
-              onAddNote={addDocumentGUNote}
-              onViewDocument={viewDocument}
-              onUploadDocument={handleUploadForDocumentType}
-            />
+            {dossier.typeDossier === 'SOCIETE' && dossier.societe ? (
+              <DocumentsChecklistGU
+                items={dossier.checklistDocumentsGU || generateDocumentsGUChecklist(dossier.societe.formeJuridique)}
+                formeJuridique={dossier.societe.formeJuridique}
+                onToggle={toggleDocumentGUItem}
+                onAddNote={addDocumentGUNote}
+                onViewDocument={viewDocument}
+                onUploadDocument={handleUploadForDocumentType}
+              />
+            ) : (
+              <div className="text-center py-8 text-muted-foreground">
+                La checklist des documents GU est disponible uniquement pour les dossiers société.
+              </div>
+            )}
           </TabsContent>
 
           <TabsContent value="documents" active={activeTab === 'documents'}>
-            {/* Section Rédaction des Statuts - Mise en avant */}
+            {/* Section Rédaction des Statuts - Mise en avant - Uniquement pour les sociétés */}
+            {dossier.typeDossier === 'SOCIETE' && dossier.societe && (
             <Card className="mb-6 border-2 border-purple-200 shadow-lg">
               <CardHeader className="bg-gradient-to-r from-purple-50 to-indigo-50">
                 <div className="flex items-center justify-between">
@@ -931,6 +1087,7 @@ export function DossierDetail() {
                 )}
               </CardContent>
             </Card>
+            )}
 
             {/* Section Mandat CCI */}
             {mandatCCI && (

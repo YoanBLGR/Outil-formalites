@@ -24,8 +24,8 @@ $ErrorActionPreference = "Stop"
 # Configuration
 # ============================================================
 
-$REPO_OWNER = "yoyoboul"
-$REPO_NAME = "formalyse"
+$REPO_OWNER = "YoanBLGR"
+$REPO_NAME = "Outil-formalites"
 
 # ============================================================
 # Fonctions utilitaires

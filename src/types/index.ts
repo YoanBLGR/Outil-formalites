@@ -1,5 +1,7 @@
 import type { StatutsDraft } from './statuts'
 
+export type DossierType = 'SOCIETE' | 'EI'
+
 export type FormeJuridique = 'EURL' | 'SARL' | 'SASU' | 'SAS'
 
 export type WorkflowStatus =
@@ -51,6 +53,33 @@ export interface Societe {
   siege: string
   capitalSocial?: number
   objetSocial?: string
+}
+
+export interface EntrepreneurIndividuel {
+  genre: 'M' | 'Mme'
+  prenoms: string
+  nomNaissance: string
+  nomUsage?: string
+  dateNaissance: string
+  paysNaissance: string
+  villeNaissance?: string // Ville de naissance (séparée du pays)
+  lieuNaissance?: string // Lieu de naissance complet pour le GU
+  nationalite: string
+  situationMatrimoniale: 'Célibataire' | 'Divorcé' | 'Concubinage' | 'Marié' | 'Pacsé' | 'Veuf'
+  commercantAmbulant: boolean
+  declarationType: 'mensuelle' | 'trimestrielle'
+  adresseEntrepreneur: string
+  adresseEtablissement?: string // Adresse de l'établissement (distincte du domicile)
+  email: string
+  telephone: string
+  numeroSecuriteSociale: string
+  nomCommercial?: string
+  domiciliationDomicile: boolean
+  adresseDomicile: string
+  nombreActivites: number
+  descriptionActivites: string
+  optionVersementLiberatoire: boolean
+  codeInseeNaissance?: string // Code INSEE de la ville de naissance (calculé auto)
 }
 
 export interface Document {
@@ -122,8 +151,10 @@ export interface Dossier {
   numero: string
   createdAt: string
   updatedAt: string
+  typeDossier: DossierType
   client: Client
-  societe: Societe
+  societe?: Societe
+  entrepreneurIndividuel?: EntrepreneurIndividuel
   statut: WorkflowStatus
   documents: Document[]
   checklist: ChecklistItem[]
@@ -178,6 +209,11 @@ export const FORME_JURIDIQUE_LABELS: Record<FormeJuridique, string> = {
   SARL: 'SARL',
   SASU: 'SASU',
   SAS: 'SAS',
+}
+
+export const DOSSIER_TYPE_LABELS: Record<DossierType, string> = {
+  SOCIETE: 'Société',
+  EI: 'Entrepreneur Individuel',
 }
 
 // Types pour l'OCR et extraction de données CNI

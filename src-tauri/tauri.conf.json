@@ -71,7 +71,7 @@
                     "updater":  {
                                     "pubkey":  "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEI2QkY2NEU5NEU0QjQwMEQKUldRTlFFdE82V1MvdGhaTldBVUlhT0ZnNE1sTnFTeHFLOVArWjhSNisxRkwxTm5GRU56Qm1zUTcK",
                                     "endpoints":  [
-                                                      "https://github.com/yoyoboul/formalyse/releases/latest/download/latest.json"
+                                                      "https://github.com/YoanBLGR/Outil-formalites/releases/latest/download/latest.json"
                                                   ],
                                     "windows":  {
                                                     "installMode":  "passive"

@@ -32,6 +32,7 @@ async function createDatabase(): Promise<RxDatabase<DatabaseCollections>> {
     storage: wrappedValidateAjvStorage({
       storage: getRxStorageDexie()
     }),
+    ignoreDuplicate: import.meta.env.DEV,
   })
 
   await db.addCollections({
@@ -55,6 +56,14 @@ async function createDatabase(): Promise<RxDatabase<DatabaseCollections>> {
           // Il sera ajouté lors de la création d'une formalité sur le GU
           return oldDoc
         },
+        // Migration de la version 3 à 4 : ajout du champ typeDossier et entrepreneurIndividuel
+        4: function (oldDoc: any) {
+          // Tous les dossiers existants sont des dossiers société
+          return {
+            ...oldDoc,
+            typeDossier: 'SOCIETE',
+          }
+        },
       },
     },
   })
@@ -62,15 +71,16 @@ async function createDatabase(): Promise<RxDatabase<DatabaseCollections>> {
   return db
 }
 
-export async function generateDossierNumero(denomination: string): Promise<string> {
+export async function generateDossierNumero(denomination: string, type: 'SOCIETE' | 'EI' = 'SOCIETE'): Promise<string> {
   const db = await getDatabase()
   const year = new Date().getFullYear()
+  const prefix = type === 'EI' ? 'EI' : 'DOS'
 
   const existingDossiers = await db.dossiers
     .find({
       selector: {
         numero: {
-          $regex: `^DOS-${year}-`,
+          $regex: `^${prefix}-${year}-`,
         },
       },
     })
@@ -79,5 +89,5 @@ export async function generateDossierNumero(denomination: string): Promise<strin
   const nextNumber = existingDossiers.length + 1
   const formattedNumber = String(nextNumber).padStart(3, '0')
 
-  return `DOS-${year}-${formattedNumber}-${denomination}`
+  return `${prefix}-${year}-${formattedNumber}-${denomination}`
 }

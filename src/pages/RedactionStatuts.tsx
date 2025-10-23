@@ -26,6 +26,7 @@ import { AIChat, AIChatButton } from '../components/ai/AIChat'
 import { ObjetSocialSuggestions, AIStatusIndicator } from '../components/ai/InlineSuggestions'
 import { REDACTION_STEPS, STEP_SECTIONS, isStepComplete, getStepValidationErrors, getSectionTitle } from '../config/redaction-steps'
 import { GuichetUniqueButton } from '../components/guichet-unique/GuichetUniqueButton'
+import { GUDebugLogs } from '../components/guichet-unique/GUDebugLogs'
 
 export function RedactionStatuts() {
   const { id } = useParams<{ id: string }>()
@@ -4556,6 +4557,11 @@ export function RedactionStatuts() {
         onClick={() => setIsAIChatOpen(!isAIChatOpen)}
         isOpen={isAIChatOpen}
       />
+      
+      {/* Logs de débogage Guichet Unique - affiché uniquement en bas de page */}
+      <div className="container mx-auto px-6 pb-8">
+        <GUDebugLogs />
+      </div>
     </Layout>
   )
 }

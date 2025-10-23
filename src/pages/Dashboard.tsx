@@ -12,6 +12,7 @@ import { WORKFLOW_STATUS_LABELS, FORME_JURIDIQUE_LABELS } from '../types'
 import { FileText, Clock, CheckCircle2, TrendingUp } from 'lucide-react'
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
+import { GUConfigDebug } from '../components/guichet-unique/GUConfigDebug'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -83,8 +84,12 @@ export function Dashboard() {
   const formeJuridiqueChartData = useMemo(() => {
     const formeCount: Record<string, number> = {}
     dossiers.forEach((d) => {
-      const label = FORME_JURIDIQUE_LABELS[d.societe.formeJuridique as FormeJuridique]
-      formeCount[label] = (formeCount[label] || 0) + 1
+      if (d.typeDossier === 'SOCIETE' && d.societe) {
+        const label = FORME_JURIDIQUE_LABELS[d.societe.formeJuridique as FormeJuridique]
+        formeCount[label] = (formeCount[label] || 0) + 1
+      } else if (d.typeDossier === 'EI') {
+        formeCount['Entrepreneur Individuel'] = (formeCount['Entrepreneur Individuel'] || 0) + 1
+      }
     })
     return Object.entries(formeCount).map(([name, value]) => ({ name, value }))
   }, [dossiers])
@@ -245,7 +250,9 @@ export function Dashboard() {
                           <div className="flex items-center gap-2">
                             <p className="font-medium">{dossier.numero}</p>
                             <Badge variant="outline" className="text-xs">
-                              {FORME_JURIDIQUE_LABELS[dossier.societe.formeJuridique]}
+                              {dossier.typeDossier === 'SOCIETE' && dossier.societe
+                                ? FORME_JURIDIQUE_LABELS[dossier.societe.formeJuridique]
+                                : 'Entrepreneur Individuel'}
                             </Badge>
                           </div>
                           <p className="text-sm text-muted-foreground mt-1">
@@ -272,6 +279,9 @@ export function Dashboard() {
             )}
           </CardContent>
         </Card>
+
+        {/* Composant de diagnostic temporaire - À SUPPRIMER une fois le problème résolu */}
+        <GUConfigDebug />
       </div>
     </Layout>
   )

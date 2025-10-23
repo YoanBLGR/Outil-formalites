@@ -12,8 +12,8 @@ REM ============================================================
 REM Configuration
 REM ============================================================
 
-set REPO_OWNER=yoyoboul
-set REPO_NAME=formalyse
+set REPO_OWNER=YoanBLGR
+set REPO_NAME=Outil-formalites
 
 REM ============================================================
 REM Étape 0 : Vérifier le token GitHub
@@ -271,72 +271,21 @@ REM Étape 8 : Créer la release GitHub (Auto ou Manuel)
 REM ============================================================
 
 if "%AUTO_UPLOAD%"=="yes" (
+    echo.
     echo 🎁 Création de la release GitHub automatique...
     echo.
     
-    REM Appeler le script PowerShell pour créer la release
-    powershell -NoProfile -ExecutionPolicy Bypass -Command ^
-    "$token = '%GITHUB_TOKEN%'; ^
-    $version = '%version%'; ^
-    $exePath = '%exePath%'; ^
-    $msiPath = '%msiPath%'; ^
-    $owner = '%REPO_OWNER%'; ^
-    $repo = '%REPO_NAME%'; ^
-    ^
-    $headers = @{ ^
-        'Authorization' = \"Bearer $token\"; ^
-        'Accept' = 'application/vnd.github+json'; ^
-        'X-GitHub-Api-Version' = '2022-11-28' ^
-    }; ^
-    ^
-    Write-Host 'Création de la release...' -ForegroundColor Cyan; ^
-    $releaseBody = @{ ^
-        tag_name = \"v$version\"; ^
-        name = \"Formalyse v$version\"; ^
-        body = \"## 🚀 Release v$version`n`nMise à jour vers la version $version.`n`n### 📥 Installation`n`nTéléchargez l'installateur Windows ci-dessous.`n`n### 🔄 Mise à jour automatique`n`nSi vous avez déjà Formalyse installé, l'application détectera automatiquement cette mise à jour.\"; ^
-        draft = $false; ^
-        prerelease = $false ^
-    } ^| ConvertTo-Json; ^
-    ^
-    try { ^
-        $release = Invoke-RestMethod -Uri \"https://api.github.com/repos/$owner/$repo/releases\" -Method POST -Headers $headers -Body $releaseBody -ContentType 'application/json'; ^
-        Write-Host \"✅ Release créée: $($release.html_url)\" -ForegroundColor Green; ^
-        ^
-        $uploadUrl = $release.upload_url -replace '\{\?name,label\}', ''; ^
-        ^
-        Write-Host \"`nUpload de l'installateur...\" -ForegroundColor Cyan; ^
-        $exeBytes = [System.IO.File]::ReadAllBytes((Resolve-Path $exePath)); ^
-        $exeName = Split-Path $exePath -Leaf; ^
-        Invoke-RestMethod -Uri \"$uploadUrl?name=$exeName\" -Method POST -Headers $headers -Body $exeBytes -ContentType 'application/octet-stream' ^| Out-Null; ^
-        Write-Host \"✅ $exeName uploadé\" -ForegroundColor Green; ^
-        ^
-        Write-Host \"`nUpload de latest.json...\" -ForegroundColor Cyan; ^
-        $jsonBytes = [System.IO.File]::ReadAllBytes((Resolve-Path 'latest.json')); ^
-        Invoke-RestMethod -Uri \"$uploadUrl?name=latest.json\" -Method POST -Headers $headers -Body $jsonBytes -ContentType 'application/json' ^| Out-Null; ^
-        Write-Host \"✅ latest.json uploadé\" -ForegroundColor Green; ^
-        ^
-        if (Test-Path $msiPath) { ^
-            Write-Host \"`nUpload du MSI...\" -ForegroundColor Cyan; ^
-            $msiBytes = [System.IO.File]::ReadAllBytes((Resolve-Path $msiPath)); ^
-            $msiName = Split-Path $msiPath -Leaf; ^
-            Invoke-RestMethod -Uri \"$uploadUrl?name=$msiName\" -Method POST -Headers $headers -Body $msiBytes -ContentType 'application/octet-stream' ^| Out-Null; ^
-            Write-Host \"✅ $msiName uploadé\" -ForegroundColor Green; ^
-        }; ^
-        ^
-        Write-Host \"`n✅ Release complète !\" -ForegroundColor Green; ^
-        Write-Host \"🌐 Voir: $($release.html_url)\" -ForegroundColor Blue; ^
-        exit 0; ^
-    } catch { ^
-        Write-Host \"`n❌ Erreur: $($_.Exception.Message)\" -ForegroundColor Red; ^
-        Write-Host \"Passez en mode manuel...\" -ForegroundColor Yellow; ^
-        exit 1; ^
-    }"
+    REM Appeler le script PowerShell dédié pour créer la release
+    powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0create-release-github.ps1" -Version "%version%" -GithubToken "%GITHUB_TOKEN%" -Owner "%REPO_OWNER%" -Repo "%REPO_NAME%"
     
     if errorlevel 1 (
         echo.
         echo ⚠️  L'upload automatique a échoué
         echo ℹ️  Passage en mode manuel
         set AUTO_UPLOAD=no
+    ) else (
+        echo.
+        echo ✅ Release GitHub créée avec succès !
     )
 )
 

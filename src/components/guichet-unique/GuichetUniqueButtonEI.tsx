@@ -1,9 +1,9 @@
 /**
- * Composant bouton pour créer une formalité sur le Guichet Unique INPI
+ * Composant bouton pour créer une formalité EI sur le Guichet Unique INPI
  *
  * Permet de :
  * - Vérifier la configuration du GU
- * - Créer une formalité en brouillon
+ * - Créer une formalité EI en brouillon
  * - Afficher la progression
  * - Rediriger vers le portail GU
  */
@@ -13,28 +13,25 @@ import { Button } from '../ui/button'
 import { Progress } from '../ui/progress'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../ui/dialog'
 import { Alert, AlertDescription } from '../ui/alert'
-import { Building2, ExternalLink, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react'
+import { User, ExternalLink, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react'
 import { useGuichetUnique } from '../../hooks/useGuichetUnique'
 import { isTauriApp } from '../../lib/utils'
 import type { Dossier } from '../../types'
-import type { StatutsData } from '../../types/statuts'
 
-export interface GuichetUniqueButtonProps {
+export interface GuichetUniqueButtonEIProps {
   dossier: Dossier
-  statutsData: Partial<StatutsData>
   disabled?: boolean
   onSuccess?: (formalityId: string, url?: string) => void
 }
 
 /**
- * Composant bouton Guichet Unique
+ * Composant bouton Guichet Unique pour EI
  */
-export function GuichetUniqueButton({
+export function GuichetUniqueButtonEI({
   dossier,
-  statutsData,
   disabled,
   onSuccess,
-}: GuichetUniqueButtonProps) {
+}: GuichetUniqueButtonEIProps) {
   const gu = useGuichetUnique()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [progressStep, setProgressStep] = useState('')
@@ -42,6 +39,7 @@ export function GuichetUniqueButton({
 
   // Vérifier si une formalité existe déjà
   const hasFormalite = !!dossier.guichetUnique?.formalityId
+  const ei = dossier.entrepreneurIndividuel
 
   /**
    * Ouvre la modal de confirmation
@@ -57,7 +55,7 @@ export function GuichetUniqueButton({
    * Crée la formalité
    */
   const handleCreateFormality = async () => {
-    const response = await gu.createFormality(dossier, statutsData, {
+    const response = await gu.createFormality(dossier, {}, {
       onProgress: (step, progress) => {
         setProgressStep(step)
         setProgressValue(progress)
@@ -153,7 +151,7 @@ export function GuichetUniqueButton({
           </>
         ) : (
           <>
-            <Building2 className="mr-2 h-4 w-4" />
+            <User className="mr-2 h-4 w-4" />
             Saisir au Guichet Unique
           </>
         )}
@@ -163,12 +161,12 @@ export function GuichetUniqueButton({
         <DialogContent className="sm:max-w-[600px]">
           <DialogHeader>
             <DialogTitle>
-              {gu.formalityId ? 'Formalité créée !' : 'Créer une formalité sur le Guichet Unique'}
+              {gu.formalityId ? 'Formalité créée !' : 'Créer une formalité EI sur le Guichet Unique'}
             </DialogTitle>
             <DialogDescription>
               {gu.formalityId
-                ? 'Votre formalité a été créée avec succès sur le Guichet Unique.'
-                : 'Les données de votre dossier seront transmises au Guichet Unique de l\'INPI pour créer une formalité en brouillon.'}
+                ? 'Votre formalité EI a été créée avec succès sur le Guichet Unique.'
+                : 'Les données de votre dossier entrepreneur individuel seront transmises au Guichet Unique de l\'INPI pour créer une formalité en brouillon.'}
             </DialogDescription>
           </DialogHeader>
 
@@ -233,19 +231,22 @@ export function GuichetUniqueButton({
             )}
 
             {/* État : Initial */}
-            {!gu.isLoading && !gu.formalityId && !gu.error && (
+            {!gu.isLoading && !gu.formalityId && !gu.error && ei && (
               <div className="space-y-3">
-                {dossier.typeDossier === 'SOCIETE' && dossier.societe && (
                 <Alert>
-                  <Building2 className="h-4 w-4" />
+                  <User className="h-4 w-4" />
                   <AlertDescription>
-                    <strong>Société :</strong> {dossier.societe.denomination} ({dossier.societe.formeJuridique})
+                    <strong>Entrepreneur :</strong> {ei.prenoms} {ei.nomNaissance}
+                    {ei.nomCommercial && (
+                      <>
+                        <br />
+                        <strong>Nom commercial :</strong> {ei.nomCommercial}
+                      </>
+                    )}
                     <br />
-                    <strong>Capital :</strong>{' '}
-                    {(dossier.societe.capitalSocial || statutsData.capitalSocial || 0).toLocaleString('fr-FR')} €
+                    <strong>Activité :</strong> {ei.descriptionActivites}
                   </AlertDescription>
                 </Alert>
-                )}
 
                 <p className="text-sm text-gray-600">
                   Une formalité en brouillon sera créée. Vous pourrez la compléter et la déposer depuis
@@ -287,3 +288,4 @@ export function GuichetUniqueButton({
     </>
   )
 }
+

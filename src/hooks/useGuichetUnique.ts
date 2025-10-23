@@ -22,6 +22,10 @@ import {
   mapDossierToGUFormality,
   validateDossierForGU,
 } from '../utils/gu-mapper'
+import {
+  mapDossierEIToGUFormality,
+  validateDossierEIForGU,
+} from '../utils/gu-mapper-ei'
 import { getDatabase } from '../db/database'
 
 // ==============================================
@@ -117,7 +121,14 @@ export function useGuichetUnique() {
 
       try {
         // Étape 1 : Validation des données
-        const validation = validateDossierForGU(dossier, statutsData)
+        let validation: { valid: boolean; errors: string[] }
+        
+        if (dossier.typeDossier === 'EI') {
+          validation = validateDossierEIForGU(dossier)
+        } else {
+          validation = validateDossierForGU(dossier, statutsData)
+        }
+        
         if (!validation.valid) {
           const errorMessage = `Données incomplètes :\n${validation.errors.join('\n')}`
           toast.error(errorMessage, { duration: 8000 })
@@ -127,8 +138,14 @@ export function useGuichetUnique() {
 
         options?.onProgress?.('Préparation des données', 30)
 
-        // Étape 2 : Mapper les données (avec récupération des catégories d'activités)
-        const formalityData = await mapDossierToGUFormality(dossier, statutsData)
+        // Étape 2 : Mapper les données
+        let formalityData
+        
+        if (dossier.typeDossier === 'EI') {
+          formalityData = await mapDossierEIToGUFormality(dossier)
+        } else {
+          formalityData = await mapDossierToGUFormality(dossier, statutsData)
+        }
 
         options?.onProgress?.('Connexion au Guichet Unique', 50)
 

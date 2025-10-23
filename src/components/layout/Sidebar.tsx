@@ -60,9 +60,6 @@ export function Sidebar() {
 
       <div className="p-6 border-t">
         <p className="text-xs text-muted-foreground">CCI - Pack Rédaction d'actes</p>
-        <div className="mt-3 p-2 bg-green-50 border border-green-200 rounded">
-          <p className="text-xs font-semibold text-green-700">✨ VERSION 1.0.8 - AUTO-UPDATE OK!</p>
-        </div>
       </div>
     </div>
   )

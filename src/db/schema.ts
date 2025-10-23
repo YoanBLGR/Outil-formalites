@@ -2,7 +2,7 @@ import type { RxJsonSchema } from 'rxdb'
 import type { Dossier } from '../types'
 
 export const dossierSchema: RxJsonSchema<Dossier> = {
-  version: 3,
+  version: 4,
   primaryKey: 'id',
   type: 'object',
   properties: {
@@ -23,6 +23,11 @@ export const dossierSchema: RxJsonSchema<Dossier> = {
       type: 'string',
       format: 'date-time',
       maxLength: 50,
+    },
+    typeDossier: {
+      type: 'string',
+      maxLength: 20,
+      enum: ['SOCIETE', 'EI'],
     },
     client: {
       type: 'object',
@@ -68,6 +73,76 @@ export const dossierSchema: RxJsonSchema<Dossier> = {
         },
       },
       required: ['formeJuridique', 'denomination', 'siege'],
+    },
+    entrepreneurIndividuel: {
+      type: 'object',
+      properties: {
+        genre: {
+          type: 'string',
+          enum: ['M', 'Mme'],
+        },
+        prenoms: {
+          type: 'string',
+        },
+        nomNaissance: {
+          type: 'string',
+        },
+        nomUsage: {
+          type: 'string',
+        },
+        dateNaissance: {
+          type: 'string',
+        },
+        paysNaissance: {
+          type: 'string',
+        },
+        nationalite: {
+          type: 'string',
+        },
+        situationMatrimoniale: {
+          type: 'string',
+          enum: ['Célibataire', 'Divorcé', 'Concubinage', 'Marié', 'Pacsé', 'Veuf'],
+        },
+        commercantAmbulant: {
+          type: 'boolean',
+        },
+        declarationType: {
+          type: 'string',
+          enum: ['mensuelle', 'trimestrielle'],
+        },
+        adresseEntrepreneur: {
+          type: 'string',
+        },
+        email: {
+          type: 'string',
+          format: 'email',
+        },
+        telephone: {
+          type: 'string',
+        },
+        numeroSecuriteSociale: {
+          type: 'string',
+        },
+        nomCommercial: {
+          type: 'string',
+        },
+        domiciliationDomicile: {
+          type: 'boolean',
+        },
+        adresseDomicile: {
+          type: 'string',
+        },
+        nombreActivites: {
+          type: 'number',
+        },
+        descriptionActivites: {
+          type: 'string',
+        },
+        optionVersementLiberatoire: {
+          type: 'boolean',
+        },
+      },
+      required: ['genre', 'prenoms', 'nomNaissance', 'dateNaissance', 'paysNaissance', 'nationalite', 'situationMatrimoniale', 'commercantAmbulant', 'declarationType', 'adresseEntrepreneur', 'email', 'telephone', 'numeroSecuriteSociale', 'domiciliationDomicile', 'adresseDomicile', 'nombreActivites', 'descriptionActivites', 'optionVersementLiberatoire'],
     },
     statut: {
       type: 'string',
@@ -290,6 +365,6 @@ export const dossierSchema: RxJsonSchema<Dossier> = {
       required: ['formalityId', 'status', 'createdAt'],
     },
   },
-  required: ['id', 'numero', 'createdAt', 'updatedAt', 'client', 'societe', 'statut'],
-  indexes: ['numero', 'statut', 'createdAt'],
+  required: ['id', 'numero', 'createdAt', 'updatedAt', 'typeDossier', 'client', 'statut'],
+  indexes: ['numero', 'statut', 'createdAt', 'typeDossier'],
 }

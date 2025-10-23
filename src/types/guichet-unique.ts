@@ -420,6 +420,8 @@ export interface GUCaracteristiquesAdresse {
   ambulant?: boolean
   domiciliataire?: boolean
   indicateurDomicileEntrepreneur?: boolean
+  indicateurDomicileEntrepreneurValidation?: boolean // OBLIGATOIRE pour EI : validation de la domiciliation
+  indicateurAdresseEtablissement?: boolean // OBLIGATOIRE pour EI : true si adresse différente du domicile
 }
 
 /**
@@ -446,7 +448,7 @@ export interface GUDescriptionPersonne {
   paysNaissance?: string // Nom complet du pays (ex: "FRANCE", "ALLEMAGNE")
   codeNationalite?: string // Code ISO 3 lettres (ex: "FRA", "DEU")
   numeroSecu?: string // Numéro de sécurité sociale (15 chiffres, OBLIGATOIRE pour nationalité française)
-  codeInseeGeographique?: string // Code INSEE de la commune de naissance (5 chiffres)
+  codeInseeGeographique?: string // Code INSEE de la commune de naissance (5 chiffres, OBLIGATOIRE pour entrepreneur)
   lieuDeNaissance?: string // Lieu de naissance complet
   formeSociale?: string // "0" = Non applicable, "1" = sans affiliation, "2" = affiliation entrepreneur, "3" = affiliation dirigeant (REQUIS pour individu dans pouvoir)
   /**
@@ -459,6 +461,8 @@ export interface GUDescriptionPersonne {
    * - "6" : En concubinage
    */
   situationMatrimoniale?: '1' | '2' | '3' | '4' | '5' | '6'
+  indicateurDeNonSedentarite?: boolean // OBLIGATOIRE pour entrepreneur : false = sédentaire
+  statutVisAVisFormalite?: string // OBLIGATOIRE pour entrepreneur : "1" = Nouveau
 }
 
 /**
@@ -609,6 +613,7 @@ export interface GUOptionsFiscales {
   regimeImpositionBenefices?: string // Codes valides : "110" à "121" (voir ci-dessus)
   regimeTVA?: string // Ex: "TVA_REEL_NORMAL"
   dateClotureExerciceComptable?: string // Format: JJMM
+  optionVersementLiberatoire?: boolean // OBLIGATOIRE si régime micro-social
 }
 
 /**
@@ -645,6 +650,66 @@ export interface GUBlocVoletSocial {
 }
 
 /**
+ * Régime micro-social pour les EI
+ */
+export interface GURegimeMicroSocial {
+  optionMicroSocial?: boolean // Option pour le régime micro-social
+  periodiciteVersement?: 'M' | 'T' // M = Mensuel, T = Trimestriel
+}
+
+/**
+ * Entrepreneur (informations spécifiques à l'EI)
+ * Documentation: entrepreneur bloc du SHEMA.txt
+ */
+export interface GUEntrepreneur {
+  indicateurActifAgricole?: boolean
+  dateActifAgricole?: string
+  roleConjoint?: string
+  nouveauRoleConjoint?: string
+  voletSocial?: GUVoletSocialIndividu
+  regimeMicroSocial?: GURegimeMicroSocial
+  greffeImmatriculation?: string
+  noUniqueIdentification?: string
+  descriptionPersonne?: GUDescriptionPersonne
+  descriptionEntrepreneur?: GUDescriptionPersonne
+  adresseDomicile?: GUAdresseDomicile
+  contact?: {
+    email?: string
+    telephone?: string
+    telecopie?: string
+  }
+}
+
+/**
+ * Destinataire de correspondance
+ */
+export interface GUDestinataireCorrespondanceEI {
+  typeDestinataireCorrespondance?: string // "1" = Entrepreneur
+}
+
+/**
+ * Identité de la personne physique (entrepreneur)
+ */
+export interface GUIdentitePersonnePhysique {
+  entreprise?: any // Référence circulaire possible
+  entrepreneur?: GUEntrepreneur
+  destinataireCorrespondance?: GUDestinataireCorrespondanceEI
+}
+
+/**
+ * Personne physique complète (EI)
+ * Structure équivalente à GUPersonneMoraleComplete pour les EI
+ */
+export interface GUPersonnePhysiqueComplete {
+  identite?: GUIdentitePersonnePhysique
+  adresseEntreprise?: GUAdresseEntreprise // OBLIGATOIRE pour non-cessation
+  etablissementPrincipal?: GUEtablissement
+  autresEtablissements?: GUEtablissement[]
+  optionsFiscales?: GUOptionsFiscales
+  observationsCorrespondance?: GUObservationsCorrespondance
+}
+
+/**
  * Personne morale complète
  * Documentation: PersonneMorale-0
  */
@@ -675,8 +740,11 @@ export interface GUFormaliteContent {
   // Nature de création (REQUIS pour création)
   natureCreation: GUNatureCreation
 
-  // Personne morale (REQUIS pour personne morale)
+  // Personne morale (REQUIS pour personne morale, typePersonne = 'M')
   personneMorale?: GUPersonneMoraleComplete
+
+  // Personne physique (REQUIS pour EI, typePersonne = 'P')
+  personnePhysique?: GUPersonnePhysiqueComplete
 
   // Déclarant (optionnel)
   declarant?: any

@@ -14,8 +14,8 @@ Write-Host "   SIGNATURE DU BUILD ET LATEST.JSON" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 
-$REPO_OWNER = "yoyoboul"
-$REPO_NAME = "formalyse"
+$REPO_OWNER = "YoanBLGR"
+$REPO_NAME = "Outil-formalites"
 
 # Chemin vers le fichier a signer
 $exePath = "src-tauri\target\release\bundle\nsis\Formalyse_${Version}_x64-setup.exe"

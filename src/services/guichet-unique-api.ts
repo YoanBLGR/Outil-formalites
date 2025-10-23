@@ -18,19 +18,64 @@ import type {
   GUGetFormalityResponse,
   GUError,
 } from '../types/guichet-unique'
+import { guLogger } from '../lib/gu-logger'
+import { isTauriApp } from '../lib/utils'
+
+/**
+ * Récupère la fonction fetch appropriée selon l'environnement
+ * En production Tauri, utilise l'API HTTP de Tauri pour éviter les problèmes CORS
+ * En dev ou sur le web, utilise fetch natif
+ */
+async function getFetchFunction(): Promise<typeof fetch> {
+  // Si on est dans Tauri, utiliser l'API HTTP de Tauri
+  if (isTauriApp()) {
+    try {
+      guLogger.debug('FETCH', 'Utilisation de Tauri HTTP fetch')
+      const { fetch: tauriFetch } = await import('@tauri-apps/plugin-http')
+      return tauriFetch
+    } catch (error) {
+      guLogger.warn('FETCH', 'Impossible d\'importer Tauri HTTP, fallback vers fetch natif', { error })
+      return fetch
+    }
+  }
+  
+  // Sinon, utiliser fetch natif
+  guLogger.debug('FETCH', 'Utilisation de fetch natif')
+  return fetch
+}
 
 // ==============================================
 // CONFIGURATION
 // ==============================================
 
 /**
+ * Stockage des cookies de session (pour environnement Node.js)
+ */
+let sessionCookies: string[] = []
+
+/**
+ * Récupère une variable d'environnement (compatible navigateur et Node.js)
+ */
+function getEnvVar(name: string): string | undefined {
+  // En mode navigateur (Vite)
+  if (typeof import.meta !== 'undefined' && import.meta.env) {
+    return import.meta.env[name]
+  }
+  // En mode Node.js
+  if (typeof process !== 'undefined' && process.env) {
+    return process.env[name]
+  }
+  return undefined
+}
+
+/**
  * Récupère la configuration depuis les variables d'environnement
  */
 function getConfigFromEnv(): GUConfig | null {
-  const apiUrl = import.meta.env.VITE_GU_API_URL
-  const username = import.meta.env.VITE_GU_USERNAME
-  const password = import.meta.env.VITE_GU_PASSWORD
-  const apiKey = import.meta.env.VITE_GU_API_KEY
+  const apiUrl = getEnvVar('VITE_GU_API_URL')
+  const username = getEnvVar('VITE_GU_USERNAME')
+  const password = getEnvVar('VITE_GU_PASSWORD')
+  const apiKey = getEnvVar('VITE_GU_API_KEY')
 
   if (!apiUrl) {
     return null
@@ -149,20 +194,37 @@ export class GUValidationError extends GUApiError {
  */
 async function authenticate(credentials: GUCredentials, apiUrl: string): Promise<GUAuthToken> {
   try {
+    guLogger.info('AUTH', 'Début de l\'authentification au Guichet Unique')
+    
     if (!credentials.username || !credentials.password) {
+      guLogger.error('AUTH', 'Username et password requis')
       throw new GUAuthenticationError('Username et password requis')
     }
 
     // En développement, utiliser le proxy Vite pour éviter CORS
     // En production, utiliser l'URL directe
-    const isDev = import.meta.env.DEV
+    const isDev = typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.DEV
     const endpoint = isDev
       ? '/gu-api/user/login/sso'  // Via proxy Vite
       : `${apiUrl}/api/user/login/sso`  // URL directe
 
+    guLogger.debug('AUTH', 'Configuration de l\'authentification', {
+      endpoint,
+      isDev,
+      username: credentials.username,
+      apiUrl,
+      mode: import.meta.env.MODE,
+      prod: import.meta.env.PROD,
+    })
+
     console.log('🔐 Authentification au GU:', { endpoint, isDev, username: credentials.username })
 
-    const response = await fetch(endpoint, {
+    const requestBody = {
+      username: credentials.username,
+      password: '***' // Ne pas logger le password
+    }
+    
+    const requestOptions: RequestInit = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -171,10 +233,35 @@ async function authenticate(credentials: GUCredentials, apiUrl: string): Promise
         username: credentials.username,
         password: credentials.password,
       }),
-      credentials: isDev ? 'same-origin' : 'include', // same-origin pour proxy, include sinon
+      credentials: (isDev ? 'same-origin' : 'include') as RequestCredentials, // same-origin pour proxy, include sinon
+    }
+    
+    guLogger.debug('AUTH', 'Envoi de la requête d\'authentification', {
+      endpoint,
+      method: 'POST',
+      headers: requestOptions.headers,
+      body: requestBody,
+      credentials: requestOptions.credentials,
+      isTauri: isTauriApp(),
     })
+    
+    // Utiliser la bonne fonction fetch selon l'environnement
+    const fetchFn = await getFetchFunction()
+    const response = await fetchFn(endpoint, requestOptions)
 
+    guLogger.debug('AUTH', 'Réponse reçue', {
+      status: response.status,
+      statusText: response.statusText,
+      ok: response.ok,
+      headers: Object.fromEntries(response.headers.entries()),
+    })
+    
     if (!response.ok) {
+      guLogger.error('AUTH', `Erreur HTTP ${response.status}: ${response.statusText}`, {
+        status: response.status,
+        statusText: response.statusText,
+      })
+      
       if (response.status === 401) {
         throw new GUAuthenticationError('Identifiants invalides')
       }
@@ -187,15 +274,35 @@ async function authenticate(credentials: GUCredentials, apiUrl: string): Promise
       )
     }
 
+    // Stocker les cookies de session (important pour Node.js)
+    const setCookieHeaders = response.headers.get('set-cookie')
+    if (setCookieHeaders) {
+      // En Node.js, les cookies viennent dans un seul header
+      sessionCookies = setCookieHeaders.split(',').map(c => c.trim().split(';')[0])
+      guLogger.debug('AUTH', `${sessionCookies.length} cookies de session stockés`, { count: sessionCookies.length })
+      console.log('🍪 Cookies de session stockés:', sessionCookies.length)
+    } else {
+      guLogger.debug('AUTH', 'Aucun cookie Set-Cookie dans la réponse')
+    }
+
     // Essayer de lire la réponse comme JSON (comme le script Python)
     let data: any = {}
     try {
       const text = await response.text()
+      guLogger.debug('AUTH', 'Corps de la réponse reçu', { 
+        length: text.length,
+        preview: text.substring(0, 200) 
+      })
+      
       if (text) {
         data = JSON.parse(text)
+        guLogger.debug('AUTH', 'Réponse JSON parsée', { data })
       }
     } catch (parseError) {
       // Si le parsing JSON échoue, on continue avec un objet vide
+      guLogger.warn('AUTH', 'Réponse non-JSON, utilisation des cookies', { 
+        error: parseError instanceof Error ? parseError.message : 'Unknown error' 
+      })
       console.log('⚠️ Réponse non-JSON, utilisation des cookies')
     }
 
@@ -203,6 +310,7 @@ async function authenticate(credentials: GUCredentials, apiUrl: string): Promise
     let accessToken = data.token
 
     if (accessToken) {
+      guLogger.success('AUTH', 'Token JSON reçu')
       console.log('✅ Token JSON reçu')
       // Créer un objet GUAuthResponse compatible
       const authResponse: GUAuthResponse = {
@@ -215,6 +323,7 @@ async function authenticate(credentials: GUCredentials, apiUrl: string): Promise
       // Pas de token JSON : l'authentification se fait par cookie HttpOnly
       // Les cookies HttpOnly ne sont pas accessibles via document.cookie en JavaScript
       // mais ils sont automatiquement envoyés dans les requêtes suivantes par le navigateur
+      guLogger.success('AUTH', 'Authentification par cookie (pas de token JSON)')
       console.log('✅ Authentification par cookie (pas de token JSON)')
 
       // Créer un token "virtuel" pour indiquer que l'auth est par cookie
@@ -227,10 +336,21 @@ async function authenticate(credentials: GUCredentials, apiUrl: string): Promise
     }
   } catch (error) {
     if (error instanceof GUApiError) {
+      guLogger.error('AUTH', 'Erreur API lors de l\'authentification', {}, error)
       throw error
     }
+    
+    const errorMessage = error instanceof Error ? error.message : 'Erreur inconnue'
+    guLogger.error('AUTH', `Erreur de connexion au Guichet Unique: ${errorMessage}`, {
+      error: error instanceof Error ? {
+        name: error.name,
+        message: error.message,
+        stack: error.stack,
+      } : error
+    }, error instanceof Error ? error : undefined)
+    
     throw new GUApiError(
-      `Erreur de connexion au Guichet Unique: ${error instanceof Error ? error.message : 'Erreur inconnue'}`
+      `Erreur de connexion au Guichet Unique: ${errorMessage}`
     )
   }
 }
@@ -248,7 +368,8 @@ async function refreshToken(token: GUAuthToken, apiUrl: string): Promise<GUAuthT
     // TODO: Adapter l'endpoint selon la documentation
     const endpoint = `${apiUrl}/auth/refresh`
 
-    const response = await fetch(endpoint, {
+    const fetchFn = await getFetchFunction()
+    const response = await fetchFn(endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -300,10 +421,13 @@ async function apiRequest<T>(
   // Ajouter l'Authorization header SEULEMENT si on a un vrai token (pas en mode cookie)
   if (token.accessToken !== '__COOKIE_AUTH__') {
     headers.Authorization = `${token.tokenType} ${token.accessToken}`
+  } else if (sessionCookies.length > 0) {
+    // En mode cookie, ajouter les cookies de session manuellement (pour Node.js)
+    headers.Cookie = sessionCookies.join('; ')
   }
 
   // En développement, utiliser le proxy Vite
-  const isDev = import.meta.env.DEV
+  const isDev = typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.DEV
   let url: string
   if (isDev) {
     // Via proxy Vite : /gu-api/... -> /api/...
@@ -315,27 +439,39 @@ async function apiRequest<T>(
   }
 
   try {
-    const response = await fetch(url, {
+    guLogger.debug('API', 'Requête API', {
+      url,
+      method: options.method || 'GET',
+      headers,
+      isTauri: isTauriApp(),
+    })
+    
+    const fetchFn = await getFetchFunction()
+    const response = await fetchFn(url, {
       ...options,
       headers,
-      credentials: isDev ? 'same-origin' : 'include', // Important pour envoyer les cookies
+      credentials: (isDev ? 'same-origin' : 'include') as RequestCredentials, // Important pour envoyer les cookies
       signal: AbortSignal.timeout(config.timeout || 30000),
     })
 
     // Si 401, essayer de rafraîchir le token une fois (seulement si on a un refresh token)
     if (response.status === 401 && token.refreshToken) {
+      guLogger.debug('API', 'Token expiré, tentative de rafraîchissement')
       token = await refreshToken(token, config.apiUrl)
 
       // Mettre à jour le header Authorization si on a un vrai token
       if (token.accessToken !== '__COOKIE_AUTH__') {
         headers.Authorization = `${token.tokenType} ${token.accessToken}`
+      } else if (sessionCookies.length > 0) {
+        headers.Cookie = sessionCookies.join('; ')
       }
 
       // Réessayer la requête
-      const retryResponse = await fetch(url, {
+      guLogger.debug('API', 'Retry de la requête avec nouveau token')
+      const retryResponse = await fetchFn(url, {
         ...options,
         headers,
-        credentials: isDev ? 'same-origin' : 'include',
+        credentials: (isDev ? 'same-origin' : 'include') as RequestCredentials,
         signal: AbortSignal.timeout(config.timeout || 30000),
       })
 
@@ -350,20 +486,37 @@ async function apiRequest<T>(
       throw await handleErrorResponse(response)
     }
 
+    guLogger.debug('API', 'Réponse API reçue', {
+      status: response.status,
+      statusText: response.statusText,
+      ok: response.ok,
+    })
+    
     // Retourner la réponse JSON
     return await response.json()
   } catch (error) {
     if (error instanceof GUApiError) {
+      guLogger.error('API', 'Erreur API', {}, error)
       throw error
     }
 
     if (error instanceof Error) {
       if (error.name === 'AbortError' || error.name === 'TimeoutError') {
+        guLogger.error('API', 'Timeout de la requête', {
+          name: error.name,
+          message: error.message,
+        }, error)
         throw new GUApiError('La requête a expiré. Vérifiez votre connexion.')
       }
+      guLogger.error('API', `Erreur réseau: ${error.message}`, {
+        name: error.name,
+        message: error.message,
+        stack: error.stack,
+      }, error)
       throw new GUApiError(`Erreur réseau: ${error.message}`)
     }
 
+    guLogger.error('API', 'Erreur inconnue lors de la requête', { error })
     throw new GUApiError('Erreur inconnue lors de la requête')
   }
 }
@@ -513,8 +666,8 @@ export async function createDraftFormality(
   }
 
   try {
-    // Endpoint officiel : POST /formalities
-    const endpoint = '/formalities'
+    // Endpoint officiel : POST /api/formalities
+    const endpoint = '/api/formalities'
 
     console.log('📤 Envoi de la formalité au GU:', {
       companyName: formalityData.companyName,
