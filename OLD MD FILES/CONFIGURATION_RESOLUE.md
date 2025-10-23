@@ -7,10 +7,10 @@ Le problème avec les fichiers `.env` étant bloqués, j'ai créé une solution 
 ### 📁 **Fichier de Configuration**
 La configuration IA se trouve maintenant dans : `src/config/ai-config.ts`
 
-### 🔑 **Votre Clé API est Déjà Configurée**
-J'ai déjà mis votre clé API dans le fichier de configuration :
+### 🔑 **Configuration de la Clé API**
+La clé API doit être configurée via variable d'environnement :
 ```typescript
-OPENAI_API_KEY: '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'
+OPENAI_API_KEY: import.meta.env.VITE_OPENAI_API_KEY
 AI_ENABLED: true
 ```
 

@@ -1,7 +1,7 @@
 // Configuration IA - À modifier selon vos besoins
 export const AI_CONFIG = {
-  // Remplacez par votre vraie clé API OpenAI
-  OPENAI_API_KEY: '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',
+  // Clé API OpenAI (utiliser variable d'environnement)
+  OPENAI_API_KEY: import.meta.env.VITE_OPENAI_API_KEY || '',
   
   // Activation de l'IA
   AI_ENABLED: true,
